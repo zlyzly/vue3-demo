@@ -1,10 +1,11 @@
 <template>
   <a-locale-provider :locale="zh_CN">
     <div id="app">
-      <a-button type="primary" @click="goto">按钮</a-button>
+      <LayoutMenus />
+      <!-- <a-button type="primary" @click="goto">按钮</a-button>
       <div class="box">
         <router-view></router-view>
-      </div>
+      </div> -->
       <!-- <img src="./assets/logo.png" />
       <div>
         <p>
@@ -42,12 +43,14 @@
 // import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 // import HelloWorld from './components/HelloWorld.vue'
 // import { SmileTwoTone, HeartTwoTone, CheckCircleTwoTone } from '@ant-design/icons-vue'
+import LayoutMenus from './components/layout/menus'
 export default {
   components: {
     // SmileTwoTone,
     // HeartTwoTone,
     // CheckCircleTwoTone,
     // HelloWorld
+    LayoutMenus
   },
   methods: {
     goto() {
@@ -68,9 +71,9 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 .ant-progress-circle-wrap,
 .ant-progress-line-wrap {

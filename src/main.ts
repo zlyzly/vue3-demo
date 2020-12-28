@@ -7,5 +7,5 @@ import store from './store'
 // import './plugins/ant-design-vue.js'
 import Antd from './plugins/ant'
 import 'ant-design-vue/dist/antd.css'
-
-createApp(App).use(store).use(router).use(Antd).mount('#app')
+import { Menu } from "ant-design-vue";
+createApp(App).use(store).use(router).use(Antd).use(Menu).mount('#app')

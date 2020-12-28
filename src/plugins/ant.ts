@@ -13,7 +13,8 @@ import {
   Switch,
   Layout,
   Pagination,
-  Progress
+  Progress,
+  Menu
 } from "ant-design-vue";
 const ant = {
   install(Vue: any) {
@@ -32,6 +33,7 @@ const ant = {
     Vue.component(Layout.name, Layout);
     Vue.component(Pagination.name, Pagination);
     Vue.component(Progress.name, Progress);
+    Vue.component(Menu.name, Menu);
   }
 };
 export default ant
