@@ -1,100 +1,168 @@
 <template>
-  <div style="width: 256px">
-    <a-button
-      type="primary"
-      @click="toggleCollapsed"
-      style="margin-bottom: 16px"
-    >
-      <MenuUnfoldOutlined v-if="collapsed" />
-      <MenuFoldOutlined v-else />
-    </a-button>
-    <a-menu
-      v-model:openKeys="openKeys"
-      v-model:selectedKeys="selectedKeys"
-      mode="inline"
-      theme="dark"
-      :inline-collapsed="collapsed"
-    >
-      <a-menu-item key="1">
-        <PieChartOutlined />
-        <span>Option 1</span>
-      </a-menu-item>
-      <a-menu-item key="2">
-        <DesktopOutlined />
-        <span>Option 2</span>
-      </a-menu-item>
-      <a-menu-item key="3">
-        <InboxOutlined />
-        <span>Option 3</span>
-      </a-menu-item>
-      <a-sub-menu key="sub1">
-        <template #title>
-          <span><MailOutlined /><span>Navigation One</span></span>
-        </template>
-        <a-menu-item key="5">Option 5</a-menu-item>
-        <a-menu-item key="6">Option 6</a-menu-item>
-        <a-menu-item key="7">Option 7</a-menu-item>
-        <a-menu-item key="8">Option 8</a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub2">
-        <template #title>
-          <span><AppstoreOutlined /><span>Navigation Two</span></span>
-        </template>
-        <a-menu-item key="9">Option 9</a-menu-item>
-        <a-menu-item key="10">Option 10</a-menu-item>
-        <a-sub-menu key="sub3" title="Submenu">
-          <a-menu-item key="11"> Option 11 </a-menu-item>
-          <a-menu-item key="12"> Option 12 </a-menu-item>
+  <a-layout-sider
+    v-model:collapsed="data.collapsed"
+    :trigger="null"
+    :theme="data.theme"
+    collapsible
+    breakpoint="lg"
+    :collapsed-width="80"
+  >
+    <!-- @collapse="onCollapse"
+    @breakpoint="onBreakpoint" -->
+  <!-- data.device === 'mobile'? '0px': '200px' -->
+    <div class="logo">
+      <h3 v-if="!data.collapsed">vue3-demo</h3>
+      <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
+    </div>
+    <template v-for="item in data.routes">
+      <a-menu
+        theme="dark"
+        mode="inline"
+        :key="item.name"
+        v-if="!item.hidden"
+        :inlineCollapsed="false"
+        v-model:selectedKeys="data.selectedKeys"
+        v-model:openKeys="data.openKeys"
+      >
+        <a-menu-item v-if="!item.children" :key="item.name">
+          <router-link :to="item.path">
+            <span>
+              <PieChartOutlined /><span>{{ item.meta.title }}</span>
+            </span>
+          </router-link>
+        </a-menu-item>
+        <a-sub-menu v-else :key="item.name">
+          <template v-slot:title>
+            <span>
+              <MailOutlined /><span>{{ item.meta.title }}</span>
+            </span>
+          </template>
+          <template v-for="subItem in item.children">
+            <a-menu-item v-if="!subItem.hidden" :key="subItem.name">
+              <router-link :to="subItem.path">
+                {{ subItem.meta.title }}
+              </router-link>
+            </a-menu-item>
+          </template>
         </a-sub-menu>
-      </a-sub-menu>
-    </a-menu>
-  </div>
+      </a-menu>
+    </template>
+  </a-layout-sider>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive, computed, onMounted } from 'vue'
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   PieChartOutlined,
   MailOutlined,
-  DesktopOutlined,
-  InboxOutlined,
-  AppstoreOutlined,
+  // DesktopOutlined,
+  // InboxOutlined,
+  // AppstoreOutlined
 } from '@ant-design/icons-vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+
 export default defineComponent({
   name: 'LayoutMenus',
   props: {},
   components: {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
     PieChartOutlined,
     MailOutlined,
-    DesktopOutlined,
-    InboxOutlined,
-    AppstoreOutlined,
+    // DesktopOutlined,
+    // InboxOutlined,
+    // AppstoreOutlined
   },
-  data() {
-    return {
-      collapsed: false,
-      selectedKeys: ['1'],
-      openKeys: ['sub1'],
-      preOpenKeys: ['sub1'],
-    };
-  },
-  watch: {
-    openKeys(val, oldVal) {
-      this.preOpenKeys = oldVal;
-    },
-  },
-  methods: {
-    toggleCollapsed() {
-      this.collapsed = !this.collapsed;
-      this.openKeys = this.collapsed ? [] : this.preOpenKeys;
-    },
+  setup() {
+    interface DataModal {
+      collapsed: boolean;
+      selectedKeys: any;
+      openKeys: any;
+      preOpenKeys: string[];
+      theme: string;
+      routes: any;
+      device: string;
+      onlyOneChild: null;
+      basePath: string;
+    }
+    const store = useStore()
+    const routers = useRouter()
+    const route = useRoute()
+    console.log('menus', store, routers, route)
+    const data: DataModal = reactive({
+      theme: 'dark',
+      routes: computed(() => store.state.permission.routers),
+      openKeys: [],
+      selectedKeys: [],
+      collapsed: false || computed(() => store.state.app.sidebar.opened),
+      preOpenKeys: computed(() => data.preOpenKeys),
+      device: store.state.app.device,
+      onlyOneChild: null,
+      basePath: ''
+    })
+    console.log('collapsed-menu', data.collapsed, data.device, store.state.isMobile)
+    /** 声明周期函数 */
+    onMounted(() => {
+      // 获取当前的全部路由
+      data.routes = store.state.permission.routers
+      console.log(data.routes)
+      // 获取当前地址栏对应的菜单情况
+      data.selectedKeys.push(route.name)
+      data.openKeys.push(route.matched[route.matched.length - 1].name)
+    })
+    function change(name: string, url: string, item: any) {
+      console.log('this.$route: ', route.path, url, item)
+      store.dispatch('ResetState', { name: name }).then(() => {
+        if (route.path === url || route.path === item.redirect) {
+          // window.location.reload() // 避免刷新之后丢失历史记录
+          window.location.reload()
+        }
+      })
+    }
+    function hasOneShowingChild(children = [], parent: any) {
+      const showingChildren = children.filter((item: any) => {
+        if (item.hidden) {
+          return false
+        } else {
+          data.onlyOneChild = item
+          return true
+        }
+      })
+      if (showingChildren.length === 1) {
+        return true
+      }
+      if (showingChildren.length === 0) {
+        data.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        return true
+      }
+      return false
+    }
+    function resolvePath(routePath: string) {
+      if (/^(https?:|mailto:|tel:)/.test(routePath)) {
+        return routePath
+      }
+      if (/^(https?:|mailto:|tel:)/.test(data.basePath)) {
+        return data.basePath
+      }
+    }
+    return { data, change, resolvePath, hasOneShowingChild }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  line-height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+  text-align: center;
+  h3 {
+    color: #fff;
+    font-weight: bold;
+  }
+  .logo_img {
+    width: 28px;
+    height: 28px;
+  }
+}
 </style>
