@@ -16,6 +16,7 @@ import {
   Progress,
   Menu
 } from "ant-design-vue";
+
 const ant = {
   install(Vue: any) {
     Vue.component(Button.name, Button);
@@ -37,3 +38,27 @@ const ant = {
   }
 };
 export default ant
+
+// const components: any = {
+//   Button,
+//   Input,
+//   Steps,
+//   Form,
+//   Select,
+//   Row,
+//   Radio,
+//   DatePicker,
+//   Col,
+//   Icon,
+//   Checkbox,
+//   Switch,
+//   Layout,
+//   Pagination,
+//   Progress,
+//   Menu
+// }
+// export function setupAntd(app: any) {
+//   components.forEach((component: any) => {
+//     app.use(component)
+//   })
+// }

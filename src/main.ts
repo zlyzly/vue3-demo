@@ -5,6 +5,8 @@ import store from './store/index'
 
 // import "ant-design-vue/dist/antd.css";
 // import './plugins/ant-design-vue.js'
+
+// import { setupAntd } from './plugins/ant'
 import Antd from './plugins/ant'
 import 'ant-design-vue/dist/antd.css'
 import '../permission'

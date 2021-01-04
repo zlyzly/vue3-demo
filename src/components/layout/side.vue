@@ -1,81 +1,61 @@
 <template>
-  <a-layout-sider
-    v-model:collapsed="data.collapsed"
-    :trigger="null"
-    :theme="data.theme"
-    collapsible
-    breakpoint="lg"
-    :collapsed-width="80"
-  >
-    <!-- @collapse="onCollapse"
-    @breakpoint="onBreakpoint" -->
-  <!-- data.device === 'mobile'? '0px': '200px' -->
-    <div class="logo">
-      <h3 v-if="!data.collapsed">vue3-demo</h3>
-      <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
-    </div>
-    <template v-for="item in data.routes">
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :key="item.name"
-        v-if="!item.hidden"
-        :inlineCollapsed="false"
-        v-model:selectedKeys="data.selectedKeys"
-        v-model:openKeys="data.openKeys"
+  <div v-if="!item.hidden">
+    <a-menu-item
+      v-if="
+        hasOneShowingChild(item.children, item) &&
+        (!data.onlyOneChild.children || data.onlyOneChild.noShowingChildren) &&
+        !item.alwaysShow
+      "
+      :key="item.key"
+    >
+      <router-link
+        v-if="data.onlyOneChild.meta"
+        :to="resolvePath(data.onlyOneChild.path)"
       >
-        <a-menu-item v-if="!item.children" :key="item.name">
-          <router-link v-if="item.meta" :to="resolvePath(item.path)">
-            <span>
-              <PieChartOutlined /><span>{{ item.meta.title }}</span>
-            </span>
-          </router-link>
-        </a-menu-item>
-        <a-sub-menu v-else :key="item.name">
-          <template v-slot:title>
-            <span>
-              <MailOutlined /><span>{{ item.meta.title }}</span>
-            </span>
-          </template>
-          <template v-for="subItem in item.children">
-            <a-menu-item v-if="!subItem.hidden" :key="subItem.name">
-              <router-link v-if="item.meta" :to="resolvePath(subItem.path)">
-                {{ subItem.meta.title }}
-              </router-link>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-      </a-menu>
-    </template>
-  </a-layout-sider>
+        <!-- <a-icon :type="item.meta.icon" /> -->
+        <span
+          @click="change(data.onlyOneChild.name,resolvePath(data.onlyOneChild.path),data.onlyOneChild)"
+          >{{ data.onlyOneChild.meta.title }}</span
+        >
+      </router-link>
+    </a-menu-item>
+    <a-sub-menu v-else>
+      <template v-slot:title>
+        <span v-if="item.meta" >
+          <span @click="change(item.name, resolvePath(item.path), item)"><PieChartOutlined />{{ item.meta.title }}</span>
+        </span>
+      </template>
+      <sidebar-item
+        v-for="child in item.children"
+        :key="child.path"
+        :item="child"
+        :base-path="resolvePath(child.path)"
+      />
+    </a-sub-menu>
+  </div>
 </template>
-
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from 'vue'
 import {
-  PieChartOutlined,
-  MailOutlined,
-  // DesktopOutlined,
-  // InboxOutlined,
-  // AppstoreOutlined
+  PieChartOutlined
 } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'LayoutMenus',
+  name: 'SidebarItem',
   props: {
+    item: {
+      type: Object,
+      required: true
+    },
     basePath: {
       type: String,
       default: ''
     }
   },
   components: {
-    PieChartOutlined,
-    MailOutlined,
-    // DesktopOutlined,
-    // InboxOutlined,
-    // AppstoreOutlined
+    PieChartOutlined
   },
   setup(props) {
     interface DataModal {
@@ -110,20 +90,20 @@ export default defineComponent({
       console.log(data.routes)
       // 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
-      data.openKeys.push(route.matched[route.matched.length - 1].name)// 获取当前地址栏对应的菜单情况
-      data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
     })
     function change(name: string, url: string, item: any) {
       console.log('this.$route: ', route.path, url, item)
-      store.dispatch('ResetState', { name: name }).then(() => {
-        if (route.path === url || route.path === item.redirect) {
-          // window.location.reload() // 避免刷新之后丢失历史记录
-          window.location.reload()
-        }
-      })
+      // store.dispatch('ResetState', { name: name }).then(() => {
+      //   // console.log('ResetState', route.path, url, item.redirect)
+      //   if (route.path === url || route.path === item.redirect) {
+      //     // window.location.reload() // 避免刷新之后丢失历史记录
+      //     window.location.reload()
+      //   }
+      // })
     }
     function hasOneShowingChild(children = [], parent: any) {
+      // console.log('parent', parent)
       const showingChildren = children.filter((item: any) => {
         if (item.hidden) {
           return false
@@ -132,11 +112,12 @@ export default defineComponent({
           return true
         }
       })
-      if (showingChildren.length === 1) {
-        return true
-      }
+      // console.log('index---', showingChildren)
+      // if (showingChildren.length === 1) {
+      //   return true
+      // }
       if (showingChildren.length === 0) {
-        data.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        data.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
         return true
       }
       return false
@@ -148,6 +129,7 @@ export default defineComponent({
       if (/^(https?:|mailto:|tel:)/.test(props.basePath)) {
         return props.basePath
       }
+      // console.log(props.basePath, '-------', routePath)
       return `${props.basePath}/${routePath}`
     }
     return { data, change, resolvePath, hasOneShowingChild }

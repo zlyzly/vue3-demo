@@ -1,60 +1,54 @@
 <template>
-  <a-layout-sider
-    v-model:collapsed="data.collapsed"
-    :trigger="null"
-    :theme="data.theme"
-    collapsible
-    breakpoint="lg"
-    :collapsed-width="80"
-  >
-    <!-- @collapse="onCollapse"
-    @breakpoint="onBreakpoint" -->
-  <!-- data.device === 'mobile'? '0px': '200px' -->
-    <div class="logo">
-      <h3 v-if="!data.collapsed">vue3-demo</h3>
-      <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
-    </div>
-    <template v-for="item in data.routes">
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :key="item.name"
-        v-if="!item.hidden"
-        :inlineCollapsed="false"
-        v-model:selectedKeys="data.selectedKeys"
-        v-model:openKeys="data.openKeys"
+  <div v-if="!item.hidden">
+    <template
+      v-if="
+        hasOneShowingChild(item.children, item) &&
+        (!data.onlyOneChild.children || data.onlyOneChild.noShowingChildren)
+      "
+    >
+    <template>
+      <router-link
+        v-if="data.onlyOneChild.meta"
+        :to="resolvePath(data.onlyOneChild.path)"
       >
-        <a-menu-item v-if="!item.children" :key="item.name">
-          <router-link v-if="item.meta" :to="resolvePath(item.path)">
-            <span>
-              <PieChartOutlined /><span>{{ item.meta.title }}</span>
-            </span>
-          </router-link>
+        <a-menu-item
+          :index="resolvePath(data.onlyOneChild.path)"
+          @click="
+            change(
+              data.onlyOneChild.name,
+              resolvePath(data.onlyOneChild.path),
+              data.onlyOneChild
+            )
+          "
+        >
+          <span>{{ data.onlyOneChild.meta.title }}</span>
         </a-menu-item>
-        <a-sub-menu v-else :key="item.name">
-          <template v-slot:title>
-            <span>
-              <MailOutlined /><span>{{ item.meta.title }}</span>
-            </span>
-          </template>
-          <template v-for="subItem in item.children">
-            <a-menu-item v-if="!subItem.hidden" :key="subItem.name">
-              <router-link v-if="item.meta" :to="resolvePath(subItem.path)">
-                {{ subItem.meta.title }}
-              </router-link>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-      </a-menu>
+      </router-link>
     </template>
-  </a-layout-sider>
+    <a-sub-menu
+      v-else
+      :index="resolvePath(item.path)"
+      @click="change(item.name, resolvePath(item.path), item)"
+    >
+      <template v-slot:title v-if="item.meta">
+        <span>
+          <span>{{ item.meta.title }}</span>
+        </span>
+      </template>
+      <sidebar-item
+        v-for="child in item.children"
+        :key="child.path"
+        :item="child"
+        :base-path="resolvePath(child.path)"
+      />
+    </a-sub-menu>
+  </div>
 </template>
-
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from 'vue'
 import {
-  PieChartOutlined,
-  MailOutlined,
+  // PieChartOutlined,
+  // MailOutlined,
   // DesktopOutlined,
   // InboxOutlined,
   // AppstoreOutlined
@@ -63,16 +57,20 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'LayoutMenus',
+  name: 'SidebarItem',
   props: {
+    item: {
+      type: Object,
+      required: true
+    },
     basePath: {
       type: String,
       default: ''
     }
   },
   components: {
-    PieChartOutlined,
-    MailOutlined,
+    // PieChartOutlined,
+    // MailOutlined,
     // DesktopOutlined,
     // InboxOutlined,
     // AppstoreOutlined
@@ -110,8 +108,6 @@ export default defineComponent({
       console.log(data.routes)
       // 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
-      data.openKeys.push(route.matched[route.matched.length - 1].name)// 获取当前地址栏对应的菜单情况
-      data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
     })
     function change(name: string, url: string, item: any) {
@@ -136,7 +132,7 @@ export default defineComponent({
         return true
       }
       if (showingChildren.length === 0) {
-        data.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        data.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
         return true
       }
       return false
@@ -148,6 +144,7 @@ export default defineComponent({
       if (/^(https?:|mailto:|tel:)/.test(props.basePath)) {
         return props.basePath
       }
+      console.log(props.basePath, '-------', routePath)
       return `${props.basePath}/${routePath}`
     }
     return { data, change, resolvePath, hasOneShowingChild }
