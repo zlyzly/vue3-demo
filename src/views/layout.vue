@@ -1,6 +1,6 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider
+    <!-- <a-layout-sider
       v-model:collapsed="data.collapsed"
       :trigger="null"
       :theme="data.theme"
@@ -8,27 +8,22 @@
       breakpoint="lg"
       :collapsed-width="80"
     >
-      <div class="logo">
-        <h3 v-if="!data.collapsed">vue3-demo</h3>
-        <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
-      </div>
-      <side-bar />
-      <!-- <a-menu
+      <a-menu
+        theme="dark"
         mode="inline"
-        :theme="data.theme"
-        :inlineCollapsed="data.collapsed"
+        :inlineCollapsed="false"
         v-model:selectedKeys="data.selectedKeys"
         v-model:openKeys="data.openKeys"
       >
         <SidebarItem
           v-for="route in data.routes"
-          :key="route.name"
+          :key="route.path"
           :item="route"
           :base-path="route.path"
         />
-      </a-menu> -->
-    </a-layout-sider>
-    <!-- <LayoutMenus /> -->
+      </a-menu>
+    </a-layout-sider> -->
+    <LayoutMenus />
     <a-layout>
       <LayoutHeader />
       <LayoutMain />
@@ -37,21 +32,20 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from 'vue'
-import SideBar from './sidebar.vue'
-// import LayoutMenus from './menus.vue'
-import LayoutHeader from './header.vue'
-import LayoutMain from './main.vue'
+import LayoutMenus from './menus.vue'
+// import SidebarItem from '../components/layout/side.vue'
+import LayoutHeader from '../components/layout/header.vue'
+import LayoutMain from '../components/layout/main.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 export default defineComponent({
   name: '',
   props: {},
   components: {
-    // LayoutMenus,
+    LayoutMenus,
     LayoutHeader,
     LayoutMain,
-    // SidebarItem,
-    SideBar
+    // SidebarItem
   },
   setup() {
     interface DataModal {
@@ -77,7 +71,7 @@ export default defineComponent({
     onMounted(() => {
       // 获取当前的全部路由
       data.routes = store.state.permission.routers
-      // console.log(data.routes)
+      console.log(data.routes)
       // 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
@@ -94,20 +88,5 @@ export default defineComponent({
 }
 #components-layout-demo-custom-trigger {
   height: 100% !important;
-}
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  line-height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
-  text-align: center;
-  h3 {
-    color: #fff;
-    font-weight: bold;
-  }
-  .logo_img {
-    width: 28px;
-    height: 28px;
-  }
 }
 </style>

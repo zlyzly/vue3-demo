@@ -1,81 +1,46 @@
 <template>
-  <div v-if="!item.hidden">
-    <template
-      v-if="
-        hasOneShowingChild(item.children, item) &&
-        (!data.onlyOneChild.children || data.onlyOneChild.noShowingChildren)
-      "
-    >
-    <template>
-      <router-link
-        v-if="data.onlyOneChild.meta"
-        :to="resolvePath(data.onlyOneChild.path)"
-      >
-        <a-menu-item
-          :index="resolvePath(data.onlyOneChild.path)"
-          @click="
-            change(
-              data.onlyOneChild.name,
-              resolvePath(data.onlyOneChild.path),
-              data.onlyOneChild
-            )
-          "
-        >
-          <span>{{ data.onlyOneChild.meta.title }}</span>
-        </a-menu-item>
-      </router-link>
-    </template>
-    <a-sub-menu
-      v-else
-      :index="resolvePath(item.path)"
-      @click="change(item.name, resolvePath(item.path), item)"
-    >
-      <template v-slot:title v-if="item.meta">
-        <span>
-          <span>{{ item.meta.title }}</span>
-        </span>
+  <a-menu
+    mode="inline"
+    :theme="theme"
+    :inline-collapsed="collapsed"
+    :default-open-keys="openKeys"
+    :default-selected-keys="selectedKeys"
+  >
+    <template v-for="item in routes" :key="item.path">
+      <template v-if="!item.hidden">
+        <template v-if="!item.children">
+          <a-menu-item :key="item.path">
+            <template v-if="item.meta">
+              <span>
+                <router-link :to="item.path">
+                  <span><a-icon :type="item.meta.icon" />{{ item.meta.title }}</span>
+                </router-link>
+              </span>
+            </template>
+          </a-menu-item>
+        </template>
+        <template v-else>
+          <sub-menu :menu-info="item" :key="item.path" :base-path="item.path" />
+        </template>
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-      />
-    </a-sub-menu>
-  </div>
+    </template>
+  </a-menu>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from 'vue'
-import {
-  // PieChartOutlined,
-  // MailOutlined,
-  // DesktopOutlined,
-  // InboxOutlined,
-  // AppstoreOutlined
-} from '@ant-design/icons-vue'
+// import {
+//   PieChartOutlined
+// } from '@ant-design/icons-vue';
+import SubMenu from './sub-menu.vue'
+import { defineComponent, reactive, computed, onMounted, toRefs } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-
+import { useRoute } from 'vue-router'
 export default defineComponent({
-  name: 'SidebarItem',
-  props: {
-    item: {
-      type: Object,
-      required: true
-    },
-    basePath: {
-      type: String,
-      default: ''
-    }
-  },
+  name: 'SideBar',
   components: {
-    // PieChartOutlined,
-    // MailOutlined,
-    // DesktopOutlined,
-    // InboxOutlined,
-    // AppstoreOutlined
+    SubMenu,
+    // PieChartOutlined
   },
-  setup(props) {
+  setup() {
     interface DataModal {
       collapsed: boolean;
       selectedKeys: any;
@@ -84,12 +49,10 @@ export default defineComponent({
       theme: string;
       routes: any;
       device: string;
-      onlyOneChild: null;
     }
     const store = useStore()
-    const routers = useRouter()
     const route = useRoute()
-    console.log('menus', store, routers, route)
+    // console.log('menus', store, route)
     const data: DataModal = reactive({
       theme: 'dark',
       routes: computed(() => store.state.permission.routers),
@@ -97,75 +60,22 @@ export default defineComponent({
       selectedKeys: [],
       collapsed: false || computed(() => store.state.app.sidebar.opened),
       preOpenKeys: computed(() => data.preOpenKeys),
-      device: store.state.app.device,
-      onlyOneChild: null
+      device: store.state.app.device
     })
-    console.log('collapsed-menu', data.collapsed, data.device, store.state.isMobile)
+    // console.log('collapsed-menu', data.collapsed, data.device, store.state.isMobile)
     /** 声明周期函数 */
     onMounted(() => {
       // 获取当前的全部路由
       data.routes = store.state.permission.routers
-      console.log(data.routes)
+      // console.log(data.routes)
       // 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
     })
-    function change(name: string, url: string, item: any) {
-      console.log('this.$route: ', route.path, url, item)
-      store.dispatch('ResetState', { name: name }).then(() => {
-        if (route.path === url || route.path === item.redirect) {
-          // window.location.reload() // 避免刷新之后丢失历史记录
-          window.location.reload()
-        }
-      })
-    }
-    function hasOneShowingChild(children = [], parent: any) {
-      const showingChildren = children.filter((item: any) => {
-        if (item.hidden) {
-          return false
-        } else {
-          data.onlyOneChild = item
-          return true
-        }
-      })
-      if (showingChildren.length === 1) {
-        return true
-      }
-      if (showingChildren.length === 0) {
-        data.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
-        return true
-      }
-      return false
-    }
-    function resolvePath(routePath: string) {
-      if (/^(https?:|mailto:|tel:)/.test(routePath)) {
-        return routePath
-      }
-      if (/^(https?:|mailto:|tel:)/.test(props.basePath)) {
-        return props.basePath
-      }
-      console.log(props.basePath, '-------', routePath)
-      return `${props.basePath}/${routePath}`
-    }
-    return { data, change, resolvePath, hasOneShowingChild }
+
+    // 此处如果直接用扩展运算符...data,则使用toRefs方法，将 data 上的每个属性，都转化为 ref 形式的响应式数据
+    // console.log({ ...data })
+    return { ...toRefs(data) }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  line-height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
-  text-align: center;
-  h3 {
-    color: #fff;
-    font-weight: bold;
-  }
-  .logo_img {
-    width: 28px;
-    height: 28px;
-  }
-}
-</style>

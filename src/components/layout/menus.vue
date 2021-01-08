@@ -25,7 +25,7 @@
         v-model:openKeys="data.openKeys"
       >
         <a-menu-item v-if="!item.children" :key="item.name">
-          <router-link v-if="item.meta" :to="resolvePath(item.path)">
+          <router-link :to="resolvePath(item.path)">
             <span>
               <PieChartOutlined /><span>{{ item.meta.title }}</span>
             </span>
@@ -39,7 +39,7 @@
           </template>
           <template v-for="subItem in item.children">
             <a-menu-item v-if="!subItem.hidden" :key="subItem.name">
-              <router-link v-if="item.meta" :to="resolvePath(subItem.path)">
+              <router-link :to="resolvePath(subItem.path)">
                 {{ subItem.meta.title }}
               </router-link>
             </a-menu-item>
@@ -60,16 +60,11 @@ import {
   // AppstoreOutlined
 } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'LayoutMenus',
-  props: {
-    basePath: {
-      type: String,
-      default: ''
-    }
-  },
+  props: {},
   components: {
     PieChartOutlined,
     MailOutlined,
@@ -77,7 +72,7 @@ export default defineComponent({
     // InboxOutlined,
     // AppstoreOutlined
   },
-  setup(props) {
+  setup() {
     interface DataModal {
       collapsed: boolean;
       selectedKeys: any;
@@ -87,11 +82,11 @@ export default defineComponent({
       routes: any;
       device: string;
       onlyOneChild: null;
+      basePath: string;
     }
     const store = useStore()
-    const routers = useRouter()
     const route = useRoute()
-    console.log('menus', store, routers, route)
+    // console.log('menus', store, route)
     const data: DataModal = reactive({
       theme: 'dark',
       routes: computed(() => store.state.permission.routers),
@@ -100,22 +95,21 @@ export default defineComponent({
       collapsed: false || computed(() => store.state.app.sidebar.opened),
       preOpenKeys: computed(() => data.preOpenKeys),
       device: store.state.app.device,
-      onlyOneChild: null
+      onlyOneChild: null,
+      basePath: ''
     })
-    console.log('collapsed-menu', data.collapsed, data.device, store.state.isMobile)
+    // console.log('collapsed-menu', data.collapsed, data.device, store.state.isMobile)
     /** 声明周期函数 */
     onMounted(() => {
       // 获取当前的全部路由
       data.routes = store.state.permission.routers
-      console.log(data.routes)
+      // console.log(data.routes)
       // 获取当前地址栏对应的菜单情况
-      data.selectedKeys.push(route.name)
-      data.openKeys.push(route.matched[route.matched.length - 1].name)// 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
     })
     function change(name: string, url: string, item: any) {
-      console.log('this.$route: ', route.path, url, item)
+      // console.log('this.$route: ', route.path, url, item)
       store.dispatch('ResetState', { name: name }).then(() => {
         if (route.path === url || route.path === item.redirect) {
           // window.location.reload() // 避免刷新之后丢失历史记录
@@ -145,10 +139,10 @@ export default defineComponent({
       if (/^(https?:|mailto:|tel:)/.test(routePath)) {
         return routePath
       }
-      if (/^(https?:|mailto:|tel:)/.test(props.basePath)) {
-        return props.basePath
+      if (/^(https?:|mailto:|tel:)/.test(data.basePath)) {
+        return data.basePath
       }
-      return `${props.basePath}/${routePath}`
+      return  `${data.basePath}/${routePath}`
     }
     return { data, change, resolvePath, hasOneShowingChild }
   }

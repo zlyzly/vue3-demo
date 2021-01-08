@@ -10,5 +10,5 @@ import store from './store/index'
 import Antd from './plugins/ant'
 import 'ant-design-vue/dist/antd.css'
 import '../permission'
-import { Menu, Layout, Form, Dropdown } from "ant-design-vue"
-createApp(App).use(store).use(router).use(Antd).use(Menu).use(Layout).use(Form).use(Dropdown).mount('#app')
+import { Menu, Layout, Form, Dropdown, List, Avatar, InputNumber, Select, Checkbox, Result, Table, Pagination } from "ant-design-vue"
+createApp(App).use(store).use(router).use(Antd).use(Menu).use(Layout).use(Form).use(Dropdown).use(List).use(Avatar).use(InputNumber).use(Select).use(Checkbox).use(Result).use(Table).use(Pagination).mount('#app')

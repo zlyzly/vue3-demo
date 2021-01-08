@@ -10,15 +10,15 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Welcome',
   components: {},
-  // watch: {
-  //   $route: {
-  //     handler: function (router) {
-  //       console.log(router)
-  //       // route.redirect = route.query && route.query.redirect
-  //     },
-  //     immediate: true
-  //   }
-  // }
+  watch: {
+    $route: {
+      handler: function (router) {
+        console.log(router)
+        router.redirect = router.query && router.query.redirect
+      },
+      immediate: true
+    }
+  }
 })
 </script>
 <style lang="scss" scoped>

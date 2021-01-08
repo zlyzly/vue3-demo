@@ -57,7 +57,7 @@ export default defineComponent({
     })
     const toggleCollapsed = () => {
       data.collapsed = !data.collapsed
-      console.log(data.collapsed)
+      // console.log(data.collapsed)
       store.dispatch('app/toggleSideBar')
     }
     async function logout(): Promise<void> {

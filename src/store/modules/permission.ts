@@ -1,7 +1,5 @@
-import { asyncRouterMap, constantRouterMap } from '../../router/index'
-import router from '../../router/index'
-import { reactive } from 'vue'
-console.log(router)
+import { asyncRouterMap, constantRouterMap } from '../../router'
+import { reactive, toRaw } from 'vue'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -28,19 +26,19 @@ function filterAsyncRouter(routes: any, roles: any): object {
     res: []
   })
   routes.forEach((route: any) => {
+    // console.log(route)
     const tmp = { ...route }
-    // console.log('storepermissiontmp=====', tmp)
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRouter(tmp.children, roles)
         if (!tmp.redirect && tmp.children.length > 0) {
-          tmp['redirect'] = tmp.path + '/' + tmp.children[0].path
+          tmp.redirect = tmp.path + '/' + tmp.children[0].path
         }
       }
       data.res.push(tmp)
     }
   })
-  return data.res
+  return toRaw(data.res)
 }
 
 const state = {
@@ -49,27 +47,27 @@ const state = {
 }
 const mutations = {
   SET_ROUTERS: (state: any, routers: any) => {
-    state.addRouters = routers
-    state.routers = constantRouterMap.concat(routers)
+    // console.log('routers', routers)
+    // state.addRouters = routers
+    state.addRouters = []
+    routers.forEach((ele: any) => {
+      state.addRouters.push(toRaw(ele))
+    })
+    state.routers = constantRouterMap.concat(state.addRouters)
+    // console.log(state.routers)
   }
 }
 const actions = {
   generateRoutes({ commit }: any, data: any) {
     return new Promise((resolve?: any) => {
       const { roles } = data
-
       let accessedRouters
       if (roles.includes('admin')) {
         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        console.log('asyncRouterMap', asyncRouterMap)
       } else {
-        console.log('storepermission======roles', roles)
-        // console.log('asyncRouterMap', asyncRouterMap)
         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
       }
       commit('SET_ROUTERS', accessedRouters)
-      console.log('accessedRouters', accessedRouters)
-      console.log('store', router)
       resolve()
     })
   }

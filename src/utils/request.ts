@@ -9,7 +9,7 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
 })
-console.log('service', service)
+// console.log('service', service)
 // request interceptor
 service.interceptors.request.use(
   (config: any) => {
@@ -22,7 +22,7 @@ service.interceptors.request.use(
   },
   (error: object) => {
     // do something with request error
-    console.log(error) // for debug
+    // console.log(error) // for debug
     return Promise.reject(error)
   }
 )
@@ -52,7 +52,7 @@ service.interceptors.response.use(
   },
   (error: any) => {
     const { response } = error
-    console.log('err', response) // for debug
+    // console.log('err', response) // for debug
     // console.log('response.config.url', response.config.url) // for debug
     // if (error.message && error.message.includes('timeout')) { // 判断请求异常信息中是否含有超时timeout字符串
     //   message({

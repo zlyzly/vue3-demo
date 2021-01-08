@@ -1,11 +1,11 @@
 import { reviewRules, configurationRules, statisticsRules, storeRules } from '@/utils/rules'
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Layouts from '../components/layout/index.vue'
-
+import Layout from '../components/layout/index.vue'
+// const Layout = () => import('../views/layout.vue')
 const reviewRoles = reviewRules.concat([{ id: 'admin' }]).map(item => item.id)
 const configurationRoles = configurationRules.concat([{ id: 'admin' }]).map(item => item.id)
-const statisticsRoles = statisticsRules.concat([{ id: 'admin' }]).map(item => item.id)
-const storeRoles = storeRules.concat([{ id: 'admin' }]).map(item => item.id)
+// const statisticsRoles = statisticsRules.concat([{ id: 'admin' }]).map(item => item.id)
+// const storeRoles = storeRules.concat([{ id: 'admin' }]).map(item => item.id)
 // console.log('reviewRoles: ', reviewRoles)
 // console.log('configurationRoles: ', configurationRoles)
 // console.log('statisticsRoles: ', statisticsRoles)
@@ -22,10 +22,14 @@ export const constantRouterMap = [
     component: () => import('../views/404.vue'),
     hidden: true
   },
-
+  {
+    path: '/home',
+    component: () => import('../views/Home.vue'),
+    hidden: true
+  },
   {
     path: '/',
-    component: Layouts,
+    component: Layout,
     redirect: '/welcome',
     hidden: true,
     children: [{
@@ -44,27 +48,23 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: '/review',
-    component: Layouts,
     name: 'Review',
-    meta: {
-      title: '审核',
-      mainMenu: true,
-      roles: reviewRoles,
-      icon: 'PieChartOutlined'
-    },
+    component: Layout,
+    meta: { title: '审核', mainMenu: true, roles: reviewRoles, icon: 'form' },
     children: [
       {
         path: 'about',
         name: 'About',
-        component: () => import('../views/About.vue'),
+        component: () => import('../views/hello.vue'),
         meta: { title: '新用户账户认证', roles: ['admin', 101], activeMenu: '/review/about' },
+        redirect: '/review/about/abouts',
         children: [
           {
             path: 'abouts',
             name: 'Abouts',
             hidden: true,
-            component: () => import('../views/About.vue'),
-            meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about' },
+            component: () => import('../views/404.vue'),
+            meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about/abouts' },
           }
         ]
       },
@@ -78,40 +78,60 @@ export const asyncRouterMap = [
   },
   {
     path: '/configuration',
-    component: Layouts,
     name: 'Configuration',
-    meta: { title: '综合配置', mainMenu: true, icon: 'MailOutlined', roles: configurationRoles },
+    component: Layout,
+    meta: { title: '综合配置', mainMenu: true, icon: 'form', roles: configurationRoles },
     children: [
       {
-        path: 'gift_set',
-        name: 'GiftSet',
-        component: () => import('../views/Home.vue'),
-        meta: { title: '礼物配置', roles: ['admin', 202] }
+        path: 'gifts',
+        name: 'Gifts',
+        component: () => import('../views/watch_computed.vue'),
+        meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
       },
       {
-        path: 'home',
-        name: 'Homes',
-        component: () => import('../views/Home.vue'),
-        meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home' }
+        path: 'hello',
+        name: 'Hello',
+        component: () => import('../views/hello.vue'),
+        meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/hello' }
       }
     ]
   },
   {
     path: '/config',
-    component: Layouts,
     name: 'Config',
-    meta: { title: '综合配置1', mainMenu: true, icon: 'example', roles: configurationRoles },
+    component: Layout,
+    meta: { title: '基础学习', mainMenu: true, icon: 'example', roles: configurationRoles },
+    redirect: '/config/component',
     children: [
       {
-        path: 'gift_set',
+        path: 'main',
         name: 'GiftSet',
-        component: () => import('../views/Home.vue'),
-        meta: { title: '礼物配置1', roles: ['admin', 202] }
+        component: () => import('../views/watch_computed.vue'),
+        meta: { title: 'watch_computed', roles: ['admin', 202] }
+      },
+      {
+        path: 'syntax',
+        name: 'Syntax',
+        component: () => import('../views/template_syntax.vue'),
+        meta: { title: '模板语法', roles: ['admin', 202] }
+      },
+      {
+        path: 'component',
+        name: 'Component',
+        component: () => import('../views/omponents_use.vue'),
+        meta: { title: '组件使用', roles: ['admin', 202] }
       }
     ]
   },
+  {
+    path: '/home',
+    name: 'Home',
+    // component: Layout,
+    component: () => import('../views/Home.vue'),
+    meta: { title: '组件式API', mainMenu: true, roles: configurationRoles },
+  },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 const router = createRouter({
   // history: createWebHistory(process.env.BASE_URL),

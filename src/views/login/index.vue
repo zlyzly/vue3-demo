@@ -58,7 +58,7 @@ export default defineComponent({
       password: ''
     })
     const validatePass = async (rule: object, value: string) => {
-      console.log(rule)
+      // console.log(rule)
       if (value === '') {
         return Promise.reject('密码必填')
       } else {
@@ -86,10 +86,10 @@ export default defineComponent({
     const { validateInfos, validate } = useForm(form, rules)
     const store = useStore()
     const router = useRouter()
-    const route = useRoute()
-    const path = ref('')
+    // const route = useRoute()
+    // const path = ref('')
     // path.value = route.query && route.query.redirect
-    console.log('login', path, store, route)
+    // console.log('login', path, store, route)
     const onSubmit = () => {
       validate().then(() => {
         store.dispatch('user/login', form).then(() => {

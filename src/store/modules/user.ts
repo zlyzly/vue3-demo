@@ -1,6 +1,6 @@
 import { login, logout, getRoles } from '../../api/login'
 import { getToken, setToken, removeToken, getAdminName, removeAdminName, permissionMap, setloginRoles, removeloginRoles } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import { resetRouter } from '../../router/index'
 
 const state = {
   token: getToken(),
@@ -30,7 +30,7 @@ const actions = {
     const { account, password } = userInfo
     return new Promise((resolve: any, reject: any) => {
       login({ account: account.trim(), password: password }).then((response: any) => {
-        console.log(response)
+        // console.log(response)
         commit('SET_TOKEN', response.token)
         setToken(response.token)
         setloginRoles(response.rule)

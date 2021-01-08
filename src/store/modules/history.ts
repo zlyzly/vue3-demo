@@ -23,7 +23,7 @@ const history = {
     },
     // 点击侧边栏触发
     RESET_STATE: (state: any, params: any) => {
-      console.log('params.name', params.name)
+      // console.log('params.name', params.name)
       // state.historyParams = {}
       if (state.historyParams.hasOwnProperty(params.name)) {
         Object.keys(state.historyParams[params.name]).forEach(key => {
