@@ -104,6 +104,12 @@ export const asyncRouterMap = [
     redirect: '/config/component',
     children: [
       {
+        path: 'new_features',
+        name: 'NewFeatures',
+        component: () => import('../views/new_features.vue'),
+        meta: { title: '新特性', roles: ['admin', 202] }
+      },
+      {
         path: 'main',
         name: 'GiftSet',
         component: () => import('../views/watch_computed.vue'),
