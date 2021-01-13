@@ -21,7 +21,6 @@
   </a-layout-header>
 </template>
 <script lang="ts">
-// , onMounted, onUpdated
 import { defineComponent, reactive } from 'vue'
 import {
   MenuFoldOutlined,
@@ -32,7 +31,7 @@ import { useStore, mapGetters } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'LayoutHeader',
+  name: 'Navbar',
   props: {},
   components: {
     MenuFoldOutlined,
@@ -48,28 +47,19 @@ export default defineComponent({
     interface Data {
       collapsed: boolean;
       device: string;
-      // name: string;
     }
     const data: Data = reactive({
       collapsed: false || store.state.app.opened,
       device: store.state.app.device
-      // name: store.state.user.name
     })
     const toggleCollapsed = () => {
       data.collapsed = !data.collapsed
-      // console.log(data.collapsed)
       store.dispatch('app/toggleSideBar')
     }
     async function logout(): Promise<void> {
       await store.dispatch('user/logout')
       router.push(`/login`)
     }
-    // onMounted(() => {
-    //   console.log(data.name)
-    // })
-    // onUpdated(() => {
-    //   console.log(data.name)
-    // })
     return { data, toggleCollapsed, logout }
   }
 })

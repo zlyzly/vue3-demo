@@ -1,63 +1,60 @@
 <template>
-  <a-table :columns="columns" :data-source="data" bordered>
-    <template #name="{ text }">
+  <a-table
+    bordered
+    :columns="columns"
+    :data-source="list"
+    :pagination="pagination"
+    :rowKey="(row) => row[dataIndex]"
+    @change="handleTableChange"
+  >
+    <!-- <template #name="{ text }">
       <a>{{ text }}</a>
+    </template> -->
+    <template #avatar="{ text }">
+      <a-avatar :src="text" />
     </template>
   </a-table>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, toRaw } from 'vue'
 export default defineComponent({
   name: 'TableList',
-  setup() {
-    const columns = [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        slots: { customRender: 'name' },
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        width: 80,
-      },
-      {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address 1',
-        ellipsis: true,
-      },
-    ]
-
-    const data = [
-      {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park, New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-      },
-      {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 2 Lake Park, London No. 2 Lake Park',
-        tags: ['loser'],
-      },
-      {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park, Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-      },
-    ]
-    return {
-      data,
-      columns
+  props: {
+    columns: {
+      type: Object,
+      default: []
+    },
+    list: {
+      type: Object,
+      default: []
+    },
+    pagination: {
+      type: Object,
+      default: () => ({})
+    },
+    dataIndex: {
+      type: String,
+      default: 'key'
+    },
+    pageSize: {
+      type: Number,
+      default: () => 1
     }
+  },
+  setup(props) {
+    const paginations = {
+      defaultPageSize: 1,
+      pageSizeOptions: ['10', '30', '50', '90'],
+      current: 1,
+      showQuickJumper: true,
+      showSizeChanger: true
+    }
+    const { pagination } = toRaw(props)
+    const handleTableChange = async (page: number) => {
+      console.log('page', page)
+      pagination.current = page
+    }
+    return { paginations, handleTableChange }
   }
 })
 </script>

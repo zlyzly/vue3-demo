@@ -1,4 +1,4 @@
-import { asyncRouterMap, constantRouterMap } from '../../router'
+import { asyncRouterMap, constantRouterMap } from '@/router'
 import { reactive, toRaw } from 'vue'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
@@ -7,7 +7,7 @@ import { reactive, toRaw } from 'vue'
  */
 function hasPermission(roles: any, route: any): boolean {
   if (route.meta && route.meta.roles) {
-    return roles.some((role: string) => route.meta.roles.includes(role))
+    return roles.some((role: number | string) => route.meta.roles.includes(role))
   } else {
     return true
   }
@@ -18,7 +18,7 @@ function hasPermission(roles: any, route: any): boolean {
  * @param routes asyncRouterMap
  * @param roles
  */
-function filterAsyncRouter(routes: any, roles: any): object {
+function filterAsyncRouter(routes: any, roles: any): object[] {
   interface Res {
     res: object[];
   }
@@ -26,9 +26,9 @@ function filterAsyncRouter(routes: any, roles: any): object {
     res: []
   })
   routes.forEach((route: any) => {
-    // console.log(route)
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
+      // 如果有子路由，则采用递归的方式
       if (tmp.children) {
         tmp.children = filterAsyncRouter(tmp.children, roles)
         if (!tmp.redirect && tmp.children.length > 0) {
@@ -38,6 +38,7 @@ function filterAsyncRouter(routes: any, roles: any): object {
       data.res.push(tmp)
     }
   })
+  // console.log(data.res, toRaw(data.res))
   return toRaw(data.res)
 }
 
@@ -47,19 +48,15 @@ const state = {
 }
 const mutations = {
   SET_ROUTERS: (state: any, routers: any) => {
-    // console.log('routers', routers)
-    // state.addRouters = routers
-    state.addRouters = []
-    routers.forEach((ele: any) => {
-      state.addRouters.push(toRaw(ele))
-    })
-    state.routers = constantRouterMap.concat(state.addRouters)
+    // console.log('routers', routers, state.addRouters)
+    state.addRouters = routers
+    state.routers = constantRouterMap.concat(toRaw(state.addRouters))
     // console.log(state.routers)
   }
 }
 const actions = {
   generateRoutes({ commit }: any, data: any) {
-    return new Promise((resolve?: any) => {
+    return new Promise((resolve: any) => {
       const { roles } = data
       let accessedRouters
       if (roles.includes('admin')) {
@@ -67,6 +64,7 @@ const actions = {
       } else {
         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
       }
+      // console.log('accessedRouters', accessedRouters)
       commit('SET_ROUTERS', accessedRouters)
       resolve()
     })

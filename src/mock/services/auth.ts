@@ -1,4 +1,4 @@
-import Mock from 'mockjs2'
+import Mock from 'mockjs'
 import { builder, getBody } from '../util'
 
 const username = ['admin', 'super']
@@ -6,7 +6,7 @@ const username = ['admin', 'super']
 // '21232f297a57a5a743894a0e4a801fc3',
 const password = ['admin', 'ant.design'] // admin, ant.design
 
-const login = (options) => {
+const login = (options: any) => {
   const body = getBody(options)
   console.log('mock: body', body)
   if (!username.includes(body.account) || !password.includes(body.password)) {
@@ -37,15 +37,6 @@ const logout = () => {
   return builder({}, '[测试接口] 注销成功')
 }
 
-const smsCaptcha = () => {
-  return builder({ captcha: Mock.mock('@integer(10000, 99999)') })
-}
-
-const twofactor = () => {
-  return builder({ stepCode: Mock.mock('@integer(0, 1)') })
-}
 
 Mock.mock(/\/auth\/login/, 'post', login)
 Mock.mock(/\/auth\/logout/, 'post', logout)
-Mock.mock(/\/account\/sms/, 'post', smsCaptcha)
-Mock.mock(/\/auth\/2step-code/, 'post', twofactor)

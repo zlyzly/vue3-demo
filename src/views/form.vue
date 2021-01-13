@@ -91,6 +91,9 @@
           <a-checkbox value="3" name="type"> Offline </a-checkbox>
         </a-checkbox-group>
       </a-form-item>
+      <a-form-item label="Activity type" v-bind="validateInfos.date">
+        <a-range-picker v-model:value="modelRef.date" @change="onChange" />
+      </a-form-item>
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" @click="onSubmit"> Create </a-button>
         <a-button style="margin-left: 10px" @click="resetFields">
@@ -111,6 +114,9 @@ import { defineComponent, ref, reactive, toRaw } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { useForm } from '@ant-design-vue/use'
 import TableList from '../components/TableList/index.vue'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 export default defineComponent({
   components: {
     UserOutlined,
@@ -136,11 +142,13 @@ export default defineComponent({
       name: string;
       region: undefined;
       type: Array<string>;
+      date: Array<string>;
     }
     interface RulesRef {
       name: Array<object>;
       region: Array<object>;
       type: Array<object>;
+      date: Array<object>;
     }
     const message = ref('')
     const formInline: Model = reactive({
@@ -221,7 +229,8 @@ export default defineComponent({
     const modelRef: ModelRef = reactive({
       name: '',
       region: undefined,
-      type: []
+      type: [],
+      date: []
     })
     const rulesRef: RulesRef = reactive({
       name: [
@@ -251,8 +260,18 @@ export default defineComponent({
           message: 'Please select type',
           type: 'array',
         }
+      ],
+      date: [
+        {
+          required: true,
+          message: 'Please select date',
+          type: 'array',
+        }
       ]
     })
+    const onChange = (date: object, dateString: Array<string>) => {
+      console.log('error', date, dateString)
+    }
     const { resetFields, validate, validateInfos } = useForm(modelRef, rulesRef)
     const onSubmit = (e: any) => {
       e.preventDefault()
@@ -274,7 +293,8 @@ export default defineComponent({
       validateInfos,
       resetFields,
       modelRef,
-      onSubmit
+      onSubmit,
+      onChange
       // forms,
       // ruleForm,
       // checkAge,

@@ -27,14 +27,14 @@
         <a-menu-item v-if="!item.children" :key="item.name">
           <router-link :to="resolvePath(item.path)">
             <span>
-              <PieChartOutlined /><span>{{ item.meta.title }}</span>
+              <component :is="item.meta.icon" /><span>{{ item.meta.title }}</span>
             </span>
           </router-link>
         </a-menu-item>
         <a-sub-menu v-else :key="item.name">
           <template v-slot:title>
             <span>
-              <MailOutlined /><span>{{ item.meta.title }}</span>
+              <component :is="item.meta.icon" /><span>{{ item.meta.title }}</span>
             </span>
           </template>
           <template v-for="subItem in item.children">
@@ -52,13 +52,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from 'vue'
-import {
-  PieChartOutlined,
-  MailOutlined,
-  // DesktopOutlined,
-  // InboxOutlined,
-  // AppstoreOutlined
-} from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -66,11 +59,6 @@ export default defineComponent({
   name: 'LayoutMenus',
   props: {},
   components: {
-    PieChartOutlined,
-    MailOutlined,
-    // DesktopOutlined,
-    // InboxOutlined,
-    // AppstoreOutlined
   },
   setup() {
     interface DataModal {

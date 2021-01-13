@@ -11,11 +11,12 @@
         <template v-if="!item.children">
           <a-menu-item :key="item.path">
             <template v-if="item.meta">
-              <span>
-                <router-link :to="item.path">
-                  <span><a-icon :type="item.meta.icon" />{{ item.meta.title }}</span>
-                </router-link>
-              </span>
+              <router-link :to="item.path">
+                <span>
+                  <component :is="item.meta.icon"></component>
+                  {{ item.meta.title }}
+                </span>
+              </router-link>
             </template>
           </a-menu-item>
         </template>
@@ -27,18 +28,14 @@
   </a-menu>
 </template>
 <script lang="ts">
-// import {
-//   PieChartOutlined
-// } from '@ant-design/icons-vue';
 import SubMenu from './sub-menu.vue'
-import { defineComponent, reactive, computed, onMounted, toRefs } from 'vue'
+import { defineComponent, reactive, computed, onMounted, toRefs, h } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'SideBar',
   components: {
     SubMenu,
-    // PieChartOutlined
   },
   setup() {
     interface DataModal {
@@ -72,7 +69,13 @@ export default defineComponent({
       data.selectedKeys.push(route.name)
       data.openKeys.push(route.matched[route.matched.length - 1].name)
     })
-
+    // const renderSubMenu = (menu: any) {
+    //   const itemArr = []
+    //   if (!menu.hidden) {
+    //     menu.children.forEach(item => itemArr.push(renderItem(item)))
+    //   }
+    //   return ()
+    // }
     // 此处如果直接用扩展运算符...data,则使用toRefs方法，将 data 上的每个属性，都转化为 ref 形式的响应式数据
     // console.log({ ...data })
     return { ...toRefs(data) }

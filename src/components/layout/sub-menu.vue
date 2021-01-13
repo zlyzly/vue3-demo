@@ -1,7 +1,7 @@
 <template>
   <a-sub-menu :key="menuInfo.path" v-bind="$attrs">
     <template #title v-if="menuInfo.meta && !menuInfo.hidden">
-      <span><a-icon :type="menuInfo.meta.icon" />{{ menuInfo.meta.title }}</span>
+      <span><component :is="menuInfo.meta.icon" />{{ menuInfo.meta.title }}</span>
     </template>
     <template v-for="item in menuInfo.children" :key="item.path">
       <template v-if="!item.children">
@@ -24,9 +24,6 @@
 import { defineComponent, toRefs, inject } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-// import {
-//   PieChartOutlined
-// } from '@ant-design/icons-vue';
 export default defineComponent({
   name: 'SubMenu',
   props: {
@@ -40,7 +37,6 @@ export default defineComponent({
     }
   },
   components: {
-    // PieChartOutlined
   },
   setup(props) {
     const { menuInfo, basePath } = toRefs(props)

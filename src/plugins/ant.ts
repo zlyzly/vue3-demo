@@ -62,3 +62,18 @@ export default ant
 //     app.use(component)
 //   })
 // }
+
+// import { default as ConfigProvider } from './config-provider';
+// import { default as Empty } from './empty';
+// import { default as Result } from './result';
+// import { default as Descriptions } from './descriptions';
+// import { default as PageHeader } from './page-header';
+// import { default as Space } from './space';
+
+// declare const install: (app: App) => App<any>;
+// export { version, install, message, notification, Affix, Anchor, AutoComplete, Alert, Avatar, BackTop, Badge, Breadcrumb, Button, Calendar, Card, Collapse, Carousel, Cascader, Checkbox, Col, DatePicker, Divider, Dropdown, Form, Icon, Input, InputNumber, Layout, List, LocaleProvider, Menu, Mentions, Modal, Pagination, Popconfirm, Popover, Progress, Radio, Rate, Row, Select, Slider, Spin, Statistic, Steps, Switch, Table, Transfer, Tree, TreeSelect, Tabs, Tag, TimePicker, Timeline, Tooltip, Upload, Drawer, Skeleton, Comment, ConfigProvider, Empty, Result, Descriptions, PageHeader, Space, };
+// declare const ant: {
+//     version: any;
+//     install: (app: App<any>) => App<any>;
+// };
+// export default ant

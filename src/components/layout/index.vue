@@ -1,5 +1,10 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
+    <!-- <div
+      v-if="device === 'mobile' && sidebar.opened"
+      class="drawer-bg"
+      @click="handleClickOutside"
+    /> -->
     <a-layout-sider
       v-model:collapsed="data.collapsed"
       :trigger="null"
@@ -13,45 +18,38 @@
         <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
       </div>
       <side-bar />
-      <!-- <a-menu
-        mode="inline"
-        :theme="data.theme"
-        :inlineCollapsed="data.collapsed"
-        v-model:selectedKeys="data.selectedKeys"
-        v-model:openKeys="data.openKeys"
-      >
-        <SidebarItem
-          v-for="route in data.routes"
-          :key="route.name"
-          :item="route"
-          :base-path="route.path"
-        />
-      </a-menu> -->
     </a-layout-sider>
-    <!-- <LayoutMenus /> -->
     <a-layout>
-      <LayoutHeader />
-      <LayoutMain />
+      <div class="main-container">
+        <navbar />
+        <!-- <div :class="{ 'fixed-header': fixedHeader }">
+        </div> -->
+        <div class="contain">
+          <div class="breadcrumb-nav">
+            <breadcrumb />
+          </div>
+          <app-main />
+        </div>
+      </div>
     </a-layout>
   </a-layout>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted } from 'vue'
 import SideBar from './sidebar.vue'
-// import LayoutMenus from './menus.vue'
-import LayoutHeader from './header.vue'
-import LayoutMain from './main.vue'
+import Navbar from './navbar.vue'
+import AppMain from './main.vue'
+import Breadcrumb from './breadcrumb.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 export default defineComponent({
   name: '',
   props: {},
   components: {
-    // LayoutMenus,
-    LayoutHeader,
-    LayoutMain,
-    // SidebarItem,
-    SideBar
+    SideBar,
+    Navbar,
+    Breadcrumb,
+    AppMain,
   },
   setup() {
     interface DataModal {
@@ -109,5 +107,51 @@ export default defineComponent({
     width: 28px;
     height: 28px;
   }
+}
+.contain {
+  .breadcrumb-nav {
+    width: 100%;
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #fff;
+    border-radius: 10px 0 0 10px;
+  }
+}
+.app-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  &.mobile.openSidebar {
+    position: fixed;
+    top: 0;
+  }
+}
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  // width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+}
+
+.hideSidebar .fixed-header {
+  width: calc(100% - 54px);
+}
+
+.mobile .fixed-header {
+  width: 100%;
 }
 </style>
