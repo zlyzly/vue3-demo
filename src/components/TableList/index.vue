@@ -51,7 +51,7 @@ export default defineComponent({
     }
     const { pagination } = toRaw(props)
     const handleTableChange = async (page: number) => {
-      console.log('page', page)
+      // console.log('page', page)
       pagination.current = page
     }
     return { paginations, handleTableChange }

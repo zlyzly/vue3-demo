@@ -64,7 +64,7 @@ export default defineComponent({
   inject: ['globalColor', 'location'], //或者
   setup(props, context) {
     // 可以获取props内部的值
-    console.log(props, context)
+    // console.log(props, context)
     // Attribute (非响应式对象)
     // console.log(context.attrs)
 
@@ -90,8 +90,6 @@ export default defineComponent({
     })
 
     // -----watch用法--------
-    // 使用 `toRefs` 创建对prop的 `user` property 的响应式引用
-    // 但是，因为 props 是响应式的，你不能使用 ES6 解构，因为它会消除 props 的响应性。
     // --------ref--------
     const str = ref('zahra1')
     const getInfo = async () => {

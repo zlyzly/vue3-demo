@@ -24,16 +24,18 @@
       </a-list-item-meta>
     </a-list-item>
   </a-list>
+  <a-button type="primary" @click="changelist">点击改变</a-button>
+
   <ul id="v-for-object" class="demo">
-    <li v-for="value in myObject" :key="value">
-      {{ value }}
+    <li v-for="(value, name) in myObject" :key="value">
+      {{ name }}: {{ value }}
     </li>
   </ul>
 
   <div id="range" class="demo">
     <span v-for="n in 10" :key="n">{{ n }} </span>
   </div>
-
+  <span :key="text">{{ text }}</span>
   <!-- 动态参数 -->
   <div>
     <a :[attributeName]="url" target="_black"> ...链接 </a>
@@ -87,6 +89,7 @@ export default defineComponent({
     const attributeName = ref('')
     const url = ref('http://baidu.com')
     const eventName = ref('click')
+
     setTimeout(() => {
       isActive.value = true
       attributeName.value = 'href'
@@ -96,7 +99,16 @@ export default defineComponent({
       window.location.href = 'http://baidu.com'
     }
 
-    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo }
+    const text = ref('hello')
+    setTimeout(() => {
+      text.value = ' 你好'
+    }, 2000)
+
+    const nums = ref(10)
+    const changelist = () => {
+      data.list.splice(2, 1)
+    }
+    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo, text, nums, changelist }
   }
 })
 </script>

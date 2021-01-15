@@ -8,7 +8,7 @@ const password = ['admin', 'ant.design'] // admin, ant.design
 
 const login = (options: any) => {
   const body = getBody(options)
-  console.log('mock: body', body)
+  // console.log('mock: body', body)
   if (!username.includes(body.account) || !password.includes(body.password)) {
     return builder({ isLogin: true }, '账户或密码错误', 401)
   }

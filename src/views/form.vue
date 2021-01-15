@@ -8,7 +8,7 @@
       layout="inline"
       :model="formInline"
       @submit="handleSubmit"
-      @submit.native.prevent
+      @submit.prevent
     >
       <a-form-item>
         <a-input v-model:value="formInline.user" placeholder="Username">
@@ -157,7 +157,7 @@ export default defineComponent({
     })
     const handleSubmit = ((e: object) => {
       console.log(e)
-      console.log(formInline)
+      // console.log(formInline)
     })
 
     // let forms: Form = reactive({

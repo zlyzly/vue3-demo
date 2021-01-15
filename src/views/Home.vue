@@ -19,7 +19,8 @@
       >点击改变location的值并不改变子组件的值</a-button
     >
     <hr />
-    <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }">
+    <!-- vue2特殊attribute .ref 被用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 $refs 对象上。用在dom上指向dom元素，用在子组件指向组件实例 -->
+    <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }" :key="item">
       {{ item }}
     </div>
   </div>

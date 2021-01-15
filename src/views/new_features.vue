@@ -2,26 +2,32 @@
   <strong>组件式API</strong>
   <br />
   <div>
-    <table-list
-      :columns="post.columns"
-      :list="post.commentIds"
-      :pagination="{
-        pageSize: 1,
-        current: 1,
-        total: 500,
-        pageSizeOptions: ['10', '20', '30', '40'],
-        showQuickJumper: true,
-        showSizeChanger: true, 
-        showTotal
-      }"
-    />
+    <a-config-provider :locale="post.locale">
+      <table-list
+        :columns="post.columns"
+        :list="post.commentIds"
+        :pagination="{
+          pageSize: 1,
+          current: 1,
+          total: 500,
+          pageSizeOptions: ['10', '20', '30', '40'],
+          showQuickJumper: true,
+          showSizeChanger: true,
+          showTotal,
+        }"
+      />
+    </a-config-provider>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch, ref } from 'vue'
+import { defineComponent, reactive, watch } from 'vue'
 import { getLists } from '../api/list'
 import TableList from '../components/TableList/index.vue'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import moment from 'moment'
+import 'moment/dist/locale/zh-cn'
+moment.locale('en')
 export default defineComponent({
   components: {
     TableList
@@ -34,13 +40,15 @@ export default defineComponent({
       firstName: string;
       lastName: string;
       columns: any;
+      locale: any;
     }
     const post: Post = reactive({
       text: 0,
       commentIds: [],
       firstName: 'zhang',
       lastName: 'ly',
-      columns: []
+      columns: [],
+      locale: zhCN
     })
     const changeText = () => {
       post.text++

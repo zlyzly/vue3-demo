@@ -3,7 +3,7 @@ import { builder, getBody } from '../util'
 
 const getList = (options: any) => {
   const body = getBody(options)
-  console.log('mock: body', body)
+  // console.log('mock: body', body)
   
   return builder({
     'id': Mock.mock('@guid'),

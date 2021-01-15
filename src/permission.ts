@@ -1,5 +1,5 @@
-import router from './router/index'
-import store from './store/index'
+import router from './router'
+import store from './store'
 import { getToken } from '@/utils/auth' // get token from cookie
 import { toRaw } from 'vue'
 import NProgress from 'nprogress' // progress bar
@@ -9,7 +9,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 router.beforeEach(async (to: any, form: any, next: any) => {
   NProgress.start() // start progress bar
-  console.log(router.getRoutes(), to)
+  // console.log(router.getRoutes(), to, form)
   const hasToken = getToken()
   // console.log('hasToken', hasToken)
   if (hasToken) {

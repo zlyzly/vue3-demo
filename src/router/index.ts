@@ -51,13 +51,13 @@ export const constantRouterMap = [
     name: 'Config',
     component: Layout,
     meta: { title: '基础学习', mainMenu: true, icon: DesktopOutlined, roles: configurationRoles },
-    redirect: '/config/component',
+    redirect: '/config/index',
     children: [
       {
         path: 'new_features',
         name: 'NewFeatures',
         component: () => import('@/views/new_features.vue'),
-        meta: { title: '新特性', roles: ['admin', 202] }
+        meta: { title: '新特性', roles: ['admin', 201] }
       },
       {
         path: 'main',
@@ -69,13 +69,19 @@ export const constantRouterMap = [
         path: 'syntax',
         name: 'Syntax',
         component: () => import('@/views/template_syntax.vue'),
-        meta: { title: '模板语法', roles: ['admin', 202] }
+        meta: { title: '模板语法', roles: ['admin', 203] }
       },
       {
         path: 'component',
         name: 'Component',
         component: () => import('@/views/omponents_use.vue'),
-        meta: { title: '组件使用', roles: ['admin', 202] }
+        meta: { title: '组件使用', roles: ['admin', 204] }
+      },
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/data/index.vue'),
+        meta: { title: '例子', roles: ['admin', 205] }
       }
     ]
   }
@@ -189,7 +195,7 @@ const router = createRouter({
 })
 export function resetRouter() {
   // const newRouter = createRouter({})
-  console.log(router)
+  // console.log(router)
   // router.matcher = newRouter.matcher // reset router
 }
 export default router

@@ -42,13 +42,13 @@ export default defineComponent({
 
   },
   setup(props, context) {
-    console.log(toRaw(props.commentIds))
+    // console.log(toRaw(props.commentIds))
     const pushCommentIds = () => {
       // props.commentIds.push(500)
       context.emit('changeIds')
     }
     const login = () => {
-      console.log(props)
+      // console.log(props)
     }
     return { pushCommentIds, login }
   }

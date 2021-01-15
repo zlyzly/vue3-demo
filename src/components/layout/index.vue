@@ -9,8 +9,6 @@
       v-model:collapsed="data.collapsed"
       :trigger="null"
       :theme="data.theme"
-      collapsible
-      breakpoint="lg"
       :collapsed-width="80"
     >
       <div class="logo">
@@ -62,7 +60,7 @@ export default defineComponent({
     const store = useStore()
     const routers = useRouter()
     const route = useRoute()
-    console.log('menus', store, routers, route)
+    // console.log('menus', store, routers, route)
     const data: DataModal = reactive({
       theme: 'dark',
       routes: computed(() => store.state.permission.routers),

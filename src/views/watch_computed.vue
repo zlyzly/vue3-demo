@@ -18,7 +18,7 @@ export default defineComponent({
     // ref
     const count = ref(0)
     const counts = computed(() => count.value)
-    const changeCount = ()=> {
+    const changeCount = () => {
       count.value++
     }
     watch(count, (newV, oldV) => {
@@ -29,7 +29,7 @@ export default defineComponent({
     setInterval(() => {
       data.count++
       data.num = Math.random() * 100
-    }, 60000)
+    }, 5000)
     watch([() => data.count, () => data.num], (count, prevCount) => {
       console.log('1新值：', count, '1旧值：', prevCount)
     })

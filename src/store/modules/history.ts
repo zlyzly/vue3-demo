@@ -34,8 +34,8 @@ const history = {
     RESET_STATE_BY_NAME: (state: any, params: any) => {
       if (state.historyParams.hasOwnProperty(params.parentName)) {
         if (params.children.length) { // 如果children不为空，根据children清除，如果为空，全部清除
-          Object.keys(state.historyParams[params.parentName]).forEach(key => {
-            if (params.children.find((value:any) => value === key)) {
+          Object.keys(state.historyParams[params.parentName]).forEach((key: any) => {
+            if (params.children.find((value: any) => value === key)) {
               state.historyParams[params.parentName][key] = null
             }
           })
@@ -44,7 +44,7 @@ const history = {
         }
       }
     },
-    RESET_HISTORY_STATE_ALL: (state:any) => {
+    RESET_HISTORY_STATE_ALL: (state: any) => {
       state.historyParams = {}
     }
   },
@@ -52,13 +52,13 @@ const history = {
     ChangeParams: ({ commit }: any, params: any) => {
       commit('CHANGE_PARAMS', params)
     },
-    ResetState: ({ commit }:any, params: any) => {
+    ResetState: ({ commit }: any, params: any) => {
       commit('RESET_STATE', params)
     },
     ResetStateByName: ({ commit }: any, params: any) => {
       commit('RESET_STATE_BY_NAME', params)
     },
-    ResetHistoryStateAll: ({ commit }:any, params: any) => {
+    ResetHistoryStateAll: ({ commit }: any, params: any) => {
       commit('RESET_HISTORY_STATE_ALL')
     }
   }

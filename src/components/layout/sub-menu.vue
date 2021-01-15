@@ -1,7 +1,9 @@
 <template>
   <a-sub-menu :key="menuInfo.path" v-bind="$attrs">
     <template #title v-if="menuInfo.meta && !menuInfo.hidden">
-      <span><component :is="menuInfo.meta.icon" />{{ menuInfo.meta.title }}</span>
+      <span
+        ><component :is="menuInfo.meta.icon" />{{ menuInfo.meta.title }}</span
+      >
     </template>
     <template v-for="item in menuInfo.children" :key="item.path">
       <template v-if="!item.children">
@@ -21,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, inject } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 export default defineComponent({
@@ -39,6 +41,8 @@ export default defineComponent({
   components: {
   },
   setup(props) {
+    // 使用 `toRefs` 创建对prop的 `user` property 的响应式引用
+    // 但是，因为 props 是响应式的，你不能使用 ES6 解构，因为它会消除 props 的响应性。
     const { menuInfo, basePath } = toRefs(props)
     menuInfo.value = menuInfo
     // console.log(props, menuInfo.value, basePath)

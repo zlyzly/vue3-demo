@@ -15,5 +15,5 @@ const res: any = []
 apis.forEach((api: string) => {
   res.push(...methods.map(method => `${api}/${method}`))
 })
-console.log(res)
+// console.log(res)
 export default res

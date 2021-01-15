@@ -58,9 +58,15 @@ export default ant
 //   Menu
 // }
 // export function setupAntd(app: any) {
-//   components.forEach((component: any) => {
-//     app.use(component)
-//   })
+//   console.log(components)
+//   for (const key in components) {
+//     if (Object.prototype.hasOwnProperty.call(components, key)) {
+//       app.use(key)
+//     }
+//   }
+//   // components.forEach((component: any) => {
+//   //   app.use(component)
+//   // })
 // }
 
 // import { default as ConfigProvider } from './config-provider';
