@@ -15,7 +15,8 @@
         <h3 v-if="!data.collapsed">vue3-demo</h3>
         <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
       </div>
-      <side-bar />
+      <!-- <side-bar /> -->
+      <menus />
     </a-layout-sider>
     <a-layout>
       <div class="main-container">
@@ -40,6 +41,7 @@ import AppMain from './main.vue'
 import Breadcrumb from './breadcrumb.vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
+import Menus from './menu.vue'
 export default defineComponent({
   name: '',
   props: {},
@@ -48,6 +50,7 @@ export default defineComponent({
     Navbar,
     Breadcrumb,
     AppMain,
+    Menus
   },
   setup() {
     interface DataModal {

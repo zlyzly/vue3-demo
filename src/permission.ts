@@ -27,12 +27,7 @@ router.beforeEach(async (to: any, form: any, next: any) => {
             store.dispatch('permission/generateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
               // console.log(store.getters.addRouters)
               store.getters.addRouters.forEach((ele: any) => {
-                // console.log(toRaw(ele))
-                router.addRoute(ele)
-                // router.getRoutes().filter((r => toRaw(ele).name === r.name))
-                // router.addRoute(router.getRoutes().filter((r => toRaw(ele).name === r.name))[0]) // 动态添加可访问路由表
-                // if (to.name !== toRaw(ele).name) {
-                // }
+                router.addRoute(ele) 
               })
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
             })
@@ -61,3 +56,7 @@ router.beforeEach(async (to: any, form: any, next: any) => {
 router.afterEach(() => {
   NProgress.done()
 })
+ // router.getRoutes().filter((r => toRaw(ele).name === r.name))
+                // router.addRoute(router.getRoutes().filter((r => toRaw(ele).name === r.name))[0]) // 动态添加可访问路由表
+                // if (to.name !== toRaw(ele).name) {
+                // }

@@ -1,6 +1,6 @@
 import { reviewRules, configurationRules, statisticsRules, storeRules } from '@/utils/rules'
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Layout from '@/components/layout/index.vue'
+// import Layout from '@/components/layout/index.vue'
 import {
   PieChartOutlined,
   MailOutlined,
@@ -8,7 +8,7 @@ import {
   InboxOutlined,
   AppstoreOutlined
 } from '@ant-design/icons-vue'
-// const Layout = () => import('../views/layout.vue')
+const Layout = () => import('@/components/layout/index.vue')
 const reviewRoles = reviewRules.concat([{ id: 'admin' }]).map(item => item.id)
 const configurationRoles = configurationRules.concat([{ id: 'admin' }]).map(item => item.id)
 // const statisticsRoles = statisticsRules.concat([{ id: 'admin' }]).map(item => item.id)
@@ -126,21 +126,21 @@ export const asyncRouterMap = [
   {
     path: '/configuration',
     name: 'Configuration',
-    component: Layout,
+    component: () => import('@/components/layout/index.vue'),
     meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
     children: [
+      {
+        path: 'hello',
+        name: 'Hello',
+        component: () => import('@/views/hello.vue'),
+        meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
+      },
       // {
       //   path: 'gifts',
       //   name: 'Gifts',
       //   component: () => import('@/views/watch_computed.vue'),
       //   meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
       // },
-      {
-        path: 'hello',
-        name: 'Hello',
-        component: () => import('@/views/hello.vue'),
-        meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
-      }
     ]
   },
   // {
@@ -176,13 +176,13 @@ export const asyncRouterMap = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/home',
-  //   name: 'Home',
-  //   // component: Layout,
-  //   component: () => import('@/views/Home.vue'),
-  //   meta: { title: '组件式API', mainMenu: true, icon: InboxOutlined, roles: configurationRoles },
-  // },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Layout,
+    // component: () => import('@/views/Home.vue'),
+    meta: { title: '组件式API', mainMenu: true, icon: InboxOutlined, roles: configurationRoles },
+  },
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true }
 ]
