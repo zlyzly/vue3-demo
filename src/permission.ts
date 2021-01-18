@@ -1,15 +1,14 @@
 import router from './router'
 import store from './store'
 import { getToken } from '@/utils/auth' // get token from cookie
-import { toRaw } from 'vue'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar custom style
 const whiteList = ['/login', '/404'] // no redirect whitelist
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-router.beforeEach(async (to: any, form: any, next: any) => {
+router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start() // start progress bar
-  // console.log(router.getRoutes(), to, form)
+  // console.log(router.getRoutes(), to, from)
   const hasToken = getToken()
   // console.log('hasToken', hasToken)
   if (hasToken) {
@@ -25,15 +24,15 @@ router.beforeEach(async (to: any, form: any, next: any) => {
           store.dispatch('user/getInfo').then((res: any) => { // 拉取用户信息
             const roles = res
             store.dispatch('permission/generateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
-              // console.log(store.getters.addRouters)
               store.getters.addRouters.forEach((ele: any) => {
-                // console.log(toRaw(ele))
                 router.addRoute(ele)
-                // router.getRoutes().filter((r => toRaw(ele).name === r.name))
-                // router.addRoute(router.getRoutes().filter((r => toRaw(ele).name === r.name))[0]) // 动态添加可访问路由表
-                // if (to.name !== toRaw(ele).name) {
-                // }
               })
+              // const redirect = from.query.redirect || to.path
+              // if (to.path === redirect) {
+              //   next({ ...to, replace: true })
+              // } else {
+              //   next()
+              // }
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
             })
           }).catch((err) => {
@@ -41,7 +40,7 @@ router.beforeEach(async (to: any, form: any, next: any) => {
               next({ path: '/' })
             })
           })
-          next()
+          // next()
         } else {
           next()
         }

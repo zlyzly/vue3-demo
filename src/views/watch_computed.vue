@@ -30,6 +30,7 @@ export default defineComponent({
       data.count++
       data.num = Math.random() * 100
     }, 5000)
+    console.log(data.count)
     watch([() => data.count, () => data.num], (count, prevCount) => {
       console.log('1新值：', count, '1旧值：', prevCount)
     })
