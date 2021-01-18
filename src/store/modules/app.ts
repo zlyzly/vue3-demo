@@ -7,7 +7,7 @@ const state = {
     opened: value ? !!+value : true,
     withoutAnimation: false
   },
-  device: 'desktop',
+  device: 'mobile',
   version: '1.1.1',
   badges: {}
 }

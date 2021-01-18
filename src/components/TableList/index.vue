@@ -4,7 +4,7 @@
     :columns="columns"
     :data-source="list"
     :pagination="pagination"
-    :rowKey="(row) => row[dataIndex]"
+    :rowKey="(row) => `$${row[dataIndex]}`"
     @change="handleTableChange"
   >
     <!-- <template #name="{ text }">

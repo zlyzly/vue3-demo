@@ -32,7 +32,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/components/layout/mixin/ResizeHandler.js"  ],
   "exclude": [
     "node_modules"
   ]

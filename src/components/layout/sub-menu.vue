@@ -1,31 +1,46 @@
 <template>
-  <a-sub-menu :key="menuInfo.path" v-bind="$attrs">
-    <template #title v-if="menuInfo.meta && !menuInfo.hidden">
-      <span
-        ><component :is="menuInfo.meta.icon" />{{ menuInfo.meta.title }}</span
-      >
+  <a-sub-menu :key="menuInfo.name">
+    <template #title v-if="!menuInfo.hidden">
+      <span>
+        <component :is="menuInfo.meta.icon"></component>
+        <span>3{{ menuInfo.meta.title }}</span>
+      </span>
     </template>
-    <template v-for="item in menuInfo.children" :key="item.path">
-      <template v-if="!item.children">
+    <template v-if="menuInfo.children">
+      <template v-for="item in menuInfo.children">
+        <template v-if="!item.hidden">
+          <!-- 不存在子级 -->
+          <a-menu-item v-if="!item.children" :key="item.name">
+            <router-link :to="resolvePath(item.path)">{{
+              item.meta && item.meta.title
+            }}</router-link>
+          </a-menu-item>
+          <!-- 存在子级 -->
+          <sub-menu
+            v-else
+            :menu-info="item"
+            :key="item.path"
+            :base-path="item.path"
+          />
+        </template>
+      </template>
+    </template>
+    <!-- <template v-for="item in menuInfo.children">
+      <template v-if="!item.hidden">
         <a-menu-item :key="item.path">
-          <template v-if="item.meta">
+          <span>
             <router-link :to="resolvePath(item.path)">
+              <component :is="item.meta.icon"></component>
               <span>{{ item.meta.title }}</span>
             </router-link>
-          </template>
+          </span>
         </a-menu-item>
       </template>
-      <template v-else>
-        <sub-menu :menu-info="item" :base-path="item.path" />
-      </template>
-    </template>
+    </template> -->
   </a-sub-menu>
 </template>
-
 <script lang="ts">
 import { defineComponent, toRefs } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'SubMenu',
   props: {
@@ -45,18 +60,8 @@ export default defineComponent({
     // 但是，因为 props 是响应式的，你不能使用 ES6 解构，因为它会消除 props 的响应性。
     const { menuInfo, basePath } = toRefs(props)
     menuInfo.value = menuInfo
-    // console.log(props, menuInfo.value, basePath)
-    const store = useStore()
-    const route = useRoute()
-    function change(name: string, url: string, item: any) {
-      // console.log('this.$route: ', route.path, url, item)
-      store.dispatch('ResetState', { name: name }).then(() => {
-        if (route.path === url || route.path === item.redirect) {
-          window.location.reload() // 避免刷新之后丢失历史记录
-        }
-      })
-    }
-    function resolvePath(routePath: string) {
+    // console.log(menuInfo.value)
+    const resolvePath = (routePath: string) => {
       if (/^(https?:|mailto:|tel:)/.test(routePath)) {
         return routePath
       }
@@ -65,10 +70,13 @@ export default defineComponent({
       }
       return `${basePath.value}/${routePath}`
     }
-    return { resolvePath, change }
+    return { resolvePath }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+.ant-menu-item a {
+  color: #fff;
+}
 </style>

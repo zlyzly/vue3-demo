@@ -5,18 +5,10 @@
       <MenuFoldOutlined v-else />
     </a-button>
     <div class="user">
-      <a-dropdown>
-        <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-          {{ name }}<DownOutlined />
-        </a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item>
-              <a type="primary" @click="logout"> 退出 </a>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+      <span>{{ name }}</span>
+      <a-button type="primary" title="登出" @click="logout">
+        <LogoutOutlined style="fontsize: 20px" />
+      </a-button>
     </div>
   </a-layout-header>
 </template>
@@ -25,7 +17,7 @@ import { defineComponent, reactive } from 'vue'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  DownOutlined
+  LogoutOutlined
 } from '@ant-design/icons-vue'
 import { useStore, mapGetters } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -36,7 +28,7 @@ export default defineComponent({
   components: {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    DownOutlined
+    LogoutOutlined
   },
   computed: {
     ...mapGetters(['name'])
@@ -86,7 +78,7 @@ export default defineComponent({
   position: absolute;
   right: 20px;
   top: 0;
-  width: 100px;
+  width: 150px;
   text-align: right;
 }
 .ant-dropdown-link span {

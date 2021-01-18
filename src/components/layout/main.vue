@@ -2,7 +2,7 @@
   <a-layout-content class="content">
     <div class="main">
       <!-- <transition name="fade-transform" mode="out-in"> -->
-        <router-view />
+      <router-view />
       <!-- </transition> -->
     </div>
   </a-layout-content>

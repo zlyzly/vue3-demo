@@ -1,5 +1,8 @@
 <template>
-  <a-layout id="components-layout-demo-custom-trigger">
+  <a-layout
+    id="components-layout-demo-custom-trigger"
+    :class="device === 'mobile' ? 'mobile' : ''"
+  >
     <!-- <div
       v-if="device === 'mobile' && sidebar.opened"
       class="drawer-bg"
@@ -9,20 +12,47 @@
       v-model:collapsed="data.collapsed"
       :trigger="null"
       :theme="data.theme"
-      :collapsed-width="80"
+      :collapsed-width="data.device === 'mobile' ? 80 : 0"
     >
+      <!-- :class="device === 'mobile' ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''" -->
       <div class="logo">
         <h3 v-if="!data.collapsed">vue3-demo</h3>
         <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
       </div>
-      <!-- <side-bar /> -->
-      <menus />
+      <a-menu
+        mode="inline"
+        :theme="data.theme"
+        :inline-collapsed="data.collapsed"
+        v-model:selectedKeys="data.selectedKeys"
+        v-model:openKeys="data.openKeys"
+        @click="selectMenu"
+        @openChange="onOpenChange"
+      >
+        <template v-for="item in data.routes">
+          <template v-if="!item.hidden">
+            <!--只有一级菜单 -->
+            <a-menu-item v-if="!item.children" :key="item.name">
+              <span>
+                <router-link :to="item.path">
+                  <component :is="item.meta.icon"></component>
+                  <span>{{ item.meta.title }}</span>
+                </router-link>
+              </span>
+            </a-menu-item>
+            <!-- 有子菜单 -->
+            <sub-menu
+              v-else
+              :menu-info="item"
+              :key="item.path"
+              :base-path="item.path"
+            />
+          </template>
+        </template>
+      </a-menu>
     </a-layout-sider>
     <a-layout>
       <div class="main-container">
         <navbar />
-        <!-- <div :class="{ 'fixed-header': fixedHeader }">
-        </div> -->
         <div class="contain">
           <div class="breadcrumb-nav">
             <breadcrumb />
@@ -34,23 +64,24 @@
   </a-layout>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted } from 'vue'
-import SideBar from './sidebar.vue'
+import { defineComponent, reactive, computed, onMounted, watch } from 'vue'
+import SubMenu from './sub-menu.vue'
 import Navbar from './navbar.vue'
 import AppMain from './main.vue'
 import Breadcrumb from './breadcrumb.vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import Menus from './menu.vue'
+import { useRoute } from 'vue-router'
+// import ResizeMixin from './mixin/ResizeHandler.js'
 export default defineComponent({
   name: '',
   props: {},
+  // mixins: [ResizeMixin],
   components: {
-    SideBar,
+    SubMenu,
     Navbar,
     Breadcrumb,
     AppMain,
-    Menus
+    // Menus
   },
   setup() {
     interface DataModal {
@@ -59,33 +90,67 @@ export default defineComponent({
       openKeys: any;
       preOpenKeys: string[];
       theme: string;
+      device: string;
+      collapsed: boolean;
+      basePath: string;
+      rootSubmenuKeys: string[];
     }
     const store = useStore()
-    const routers = useRouter()
     const route = useRoute()
-    // console.log('menus', store, routers, route)
+    console.log('store', store)
     const data: DataModal = reactive({
       theme: 'dark',
       routes: computed(() => store.state.permission.routers),
+      collapsed: false || computed(() => store.state.app.sidebar.opened),
       openKeys: [],
       selectedKeys: [],
-      collapsed: false || computed(() => store.state.app.sidebar.opened),
-      preOpenKeys: computed(() => data.preOpenKeys),
+      preOpenKeys: [],
+      rootSubmenuKeys: [],
+      device: store.state.app.device,
+      basePath: ''
     })
     /** 声明周期函数 */
     onMounted(() => {
       // 获取当前的全部路由
       data.routes = store.state.permission.routers
-      // console.log(data.routes)
+      console.log('route', route)
       // 获取当前地址栏对应的菜单情况
       data.selectedKeys.push(route.name)
-      data.openKeys.push(route.matched[route.matched.length - 1].name)
+      store.getters.addRouters.forEach((key: any) => {
+        data.rootSubmenuKeys.push(key.path)
+      })
+      const openKeys: any = []
+      const latestOpenKey = openKeys.find((key: string) => data.openKeys.indexOf(key) === -1)
+      if (data.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+        data.openKeys = openKeys
+      } else {
+        data.openKeys = latestOpenKey ? [latestOpenKey] : []
+      }
     })
-    return { data }
+    watch([data.openKeys], (val, oldVal) => {
+      console.log('新的值旧的值', val, oldVal)
+      // const { preOpenKeys } = oldVal
+      // data.preOpenKeys = preOpenKeys
+    })
+    const onOpenChange = (openKeys: any) => {
+      console.log('openKeys', openKeys)
+      const latestOpenKey = openKeys.find((key: string) => data.openKeys.indexOf(key) === -1)
+      if (data.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+        data.openKeys = openKeys
+      } else {
+        data.openKeys = latestOpenKey ? [latestOpenKey] : []
+      }
+    }
+    const selectMenu = (val: any) => {
+      data.selectedKeys = val.selectedKeys
+    }
+    console.log(data)
+    return { data, onOpenChange, selectMenu }
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+// @import "~@/styles/mixin.scss";
 .box {
   display: flex;
   flex-direction: row;
@@ -154,5 +219,12 @@ export default defineComponent({
 
 .mobile .fixed-header {
   width: 100%;
+}
+.ant-layout .ant-layout-has-sider .mobile {
+  .ant-layout-sider {
+    position: fixed !important;
+    left: 0;
+    z-index: 10;
+  }
 }
 </style>
