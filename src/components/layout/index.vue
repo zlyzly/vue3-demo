@@ -28,24 +28,54 @@
         @click="selectMenu"
         @openChange="onOpenChange"
       >
-        <template v-for="item in data.routes">
+        <!-- <template v-for="item in data.routes">
           <template v-if="!item.hidden">
-            <!--只有一级菜单 -->
-            <a-menu-item v-if="!item.children" :key="item.name">
-              <span>
-                <router-link :to="item.path">
+            这里是一级
+            <a-menu-item v-if="hasOnlyChildren(item)" :key="item.name">
+              <router-link :to="item.children[0].path">
+                <span class="anticon">
                   <component :is="item.meta.icon"></component>
-                  <span>{{ item.meta.title }}</span>
-                </router-link>
-              </span>
+                  <span>2{{ item.children[0].meta && item.children[0].meta.title }}</span>
+                </span>
+              </router-link>
             </a-menu-item>
-            <!-- 有子菜单 -->
+            <a-menu-item v-if="!item.children" :key="item.name">
+              <router-link :to="item.path">
+                <span class="anticon">
+                  <component :is="item.meta.icon"></component>
+                  <span>1{{ item.meta && item.meta.title }}</span>
+                </span>
+              </router-link>
+            </a-menu-item>
+            这里是子级
             <sub-menu
               v-else
               :menu-info="item"
-              :key="item.path"
+              :key="item.name"
               :base-path="item.path"
             />
+          </template>
+        </template> -->
+        <template v-for="item in data.routes">
+          <template v-if="!item.hidden">
+            <template v-if="hasOnlyChildren(item)">
+              <!-- 只有一级菜单 -->
+              <a-menu-item v-if="!item.children" :key="item.name">
+                <span>
+                  <router-link :to="item.path">
+                    <component :is="item.meta.icon"></component>
+                    <span>{{ item.meta.title }}</span>
+                  </router-link>
+                </span>
+              </a-menu-item>
+              <!-- 有子菜单 -->
+              <sub-menu
+                v-else
+                :menu-info="item"
+                :key="item.name"
+                :base-path="item.path"
+              />
+            </template>
           </template>
         </template>
       </a-menu>
@@ -143,8 +173,17 @@ export default defineComponent({
     const selectMenu = (val: any) => {
       data.selectedKeys = val.selectedKeys
     }
+    const hasOnlyChildren = (data: any) => {
+      // 不存在子级的情况
+      if (!data.children) { return false }
+      // 过滤隐藏的子级路由
+      const routers = data.children.filter((item: any) => item.hidden ? false : true)
+      // 判断最终结果 
+      if (routers.length === 1) { return true }
+      return false
+    }
     console.log(data)
-    return { data, onOpenChange, selectMenu }
+    return { data, onOpenChange, selectMenu, hasOnlyChildren }
   }
 })
 </script>
