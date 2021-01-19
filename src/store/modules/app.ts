@@ -4,10 +4,10 @@ let value: any = ''
 value = Cookies.get('sidebarStatus')
 const state = {
   sidebar: {
-    opened: value ? !!+value : true,
+    opened: Cookies.get('sidebarStatus') ? !!+value : true,
     withoutAnimation: false
   },
-  device: 'mobile',
+  device: 'desktop',
   version: '1.1.1',
   badges: {}
 }

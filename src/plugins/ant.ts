@@ -14,7 +14,8 @@ import {
   Layout,
   Pagination,
   Progress,
-  Menu
+  Menu,
+  Drawer
 } from "ant-design-vue";
 
 const ant = {
