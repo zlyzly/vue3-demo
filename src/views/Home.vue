@@ -23,6 +23,25 @@
     <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }" :key="item">
       {{ item }}
     </div>
+
+    <strong>transition-group</strong>
+    <br>
+    <div id="list-demo">
+      <button v-on:click="add">Add</button>
+      <button v-on:click="remove">Remove</button>
+      <transition-group name="list" tag="p">
+        <span v-for="item in post.items" v-bind:key="item" class="list-item">
+          {{ item }}
+        </span>
+      </transition-group>
+    </div>
+    <div id="demo">
+      <button @click="post.show = !post.show">Toggle show</button>
+      
+      <transition name="bounce">
+        <p v-if="post.show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -71,13 +90,53 @@ export default defineComponent({
     const list = reactive([1, 2, 3])
     const divs = ref([])
 
+    const post = reactive({
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      nextNum: 10,
+      show: true
+    })
+   
     // 确保在每次更新之前重置ref
     onBeforeUpdate(() => {
       divs.value = []
     })
-
+    const randomIndex = () => { return Math.floor(Math.random() * post.items.length) }
+    const add = () => {
+      post.items.splice(randomIndex(), 0, post.nextNum++)
+    }
+    const remove = () => {
+      post.items.splice(randomIndex(), 1)
+    }
     return { themeColor, url, key, event, doSometing, location, changeLocation, list,
-        divs }
+        divs, post, add, remove }
   }
 });
 </script>
+<style lang="scss" scoped>
+.home {
+  padding-left: 50px;
+}
+.list-item { display: inline-block; margin-right: 10px; }
+.list-enter-active,.list-leave-active { transition: all 1s; }
+.list-enter-to,.list-leave-to { opacity: 0; transform: translateY(30px); }
+
+.bounce-enter-active {
+  animation: bounce-in .5s ease-out both;
+}
+
+.bounce-leave-active {
+  animation: bounce-in .5s reverse ease-in both;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

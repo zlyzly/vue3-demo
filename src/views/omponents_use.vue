@@ -1,18 +1,20 @@
 <template>
-  <strong>组件使用</strong>
-  <br />
   <div>
-    <a-button type="primary" @click="changeText">点击改变text的值</a-button>
+    <strong>组件使用</strong>
+    <br />
+    <div>
+      <a-button type="primary" @click="changeText">点击改变text的值</a-button>
+    </div>
+    <!-- 在组件上使用 v-model -->
+    <Components
+      title="My journey with Vue"
+      :text="post.text"
+      :comment-ids="post.commentIds"
+      v-model:first-name="post.firstName"
+      v-model:last-name="post.lastName"
+      @changeIds="changeIds"
+    />
   </div>
-  <!-- 在组件上使用 v-model -->
-  <Components
-    title="My journey with Vue"
-    :text="post.text"
-    :comment-ids="post.commentIds"
-    v-model:first-name="post.firstName"
-    v-model:last-name="post.lastName"
-    @changeIds="changeIds"
-  />
 </template>
 
 <script lang="ts">

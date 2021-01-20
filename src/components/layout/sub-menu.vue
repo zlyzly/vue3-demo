@@ -1,5 +1,5 @@
 <template>
-  <a-sub-menu :key="menuInfo.name">
+  <a-sub-menu :key="resolvePath(menuInfo.path)">
     <template #title v-if="!menuInfo.hidden">
       <span>
         <component :is="menuInfo.meta.icon"></component>
@@ -9,7 +9,7 @@
     <template v-if="menuInfo.children">
       <template v-for="item in menuInfo.children">
         <template v-if="!item.hidden">
-          <a-menu-item :key="item.name">
+          <a-menu-item :key="resolvePath(item.path)">
             <span>
               <router-link :to="resolvePath(item.path)">
                 <component :is="item.meta.icon"></component>
@@ -24,6 +24,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, toRefs } from 'vue'
+// import path from 'path'
 export default defineComponent({
   name: 'SubMenu',
   props: {
@@ -45,13 +46,14 @@ export default defineComponent({
     menuInfo.value = menuInfo
     // console.log(menuInfo.value)
     const resolvePath = (routePath: string) => {
-      if (/^(https?:|mailto:|tel:)/.test(routePath)) {
-        return routePath
-      }
-      if (/^(https?:|mailto:|tel:)/.test(basePath.value)) {
-        return basePath.value
-      }
+      // if (/^(https?:|mailto:|tel:)/.test(routePath)) {
+      //   return routePath
+      // }
+      // if (/^(https?:|mailto:|tel:)/.test(basePath.value)) {
+      //   return basePath.value
+      // }
       return `${basePath.value}/${routePath}`
+      // return path.resolve(basePath.value, routePath)
     }
     return { resolvePath }
   }

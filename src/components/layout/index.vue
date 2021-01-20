@@ -1,25 +1,52 @@
 <template>
-  <div
-    :class="[
-      data.opened ? 'openSidebar' : 'hideSidebar',
-      data.device,
-      data.withoutAnimation ? 'withoutAnimation' : '',
-    ]"
-    class="app-wrapper"
-  >
-    <div
-      v-if="data.device === 'mobile' && data.opened"
-      class="drawer-bg"
-      @click="handleClickOutside"
-    />
+  <div :class="data.device">
     <a-layout id="components-layout-demo-custom-trigger">
+      <a-drawer
+        v-if="data.device === 'mobile'"
+        width="200"
+        placement="left"
+        :closable="false"
+        :visible="data.opened"
+        @close="onClose"
+      >
+        <a-menu
+          style="width: 200px"
+          v-model:openKeys="data.openKeys"
+          v-model:selectedKeys="data.selectedKeys"
+          mode="inline"
+          theme="dark"
+          :inline-collapsed="false"
+        >
+          <template v-for="item in data.routes">
+            <template v-if="!item.hidden">
+              <!-- 这里是一级 -->
+              <a-menu-item
+                v-if="hasOnlyChildren(item.children, item)"
+                :key="resolvePath(data.onlyOneChild.path || item.path)"
+              >
+                <router-link :to="data.onlyOneChild.path || item.path">
+                  <span class="anticon">
+                    <component :is="data.onlyOneChild.meta.icon || (item.meta && item.meta.icon)"></component>
+                    <span>{{ data.onlyOneChild.meta.title }}</span>
+                  </span>
+                </router-link>
+              </a-menu-item>
+              <!-- 有子菜单 -->
+              <sub-menu
+                v-else
+                :menu-info="item"
+                :key="item.path"
+                :base-path="item.path"
+              />
+            </template>
+          </template>
+        </a-menu>
+      </a-drawer>
       <a-layout-sider
+        v-else
         v-model:collapsed="data.opened"
         :trigger="null"
-        :theme="data.theme"
-        :collapsed-width="data.device === 'mobile' ? 0 : 80"
-      >
-        <!-- :class="device === 'mobile' ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''" -->
+        :class="!data.opened ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''">
         <div class="logo">
           <h3 v-if="!data.opened">vue3-demo</h3>
           <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
@@ -36,31 +63,22 @@
           <template v-for="item in data.routes">
             <template v-if="!item.hidden">
               <!-- 这里是一级 -->
-              <a-menu-item v-if="hasOnlyChildren(item)" :key="item.name">
-                <router-link :to="item.children[0].path">
+              <a-menu-item
+                v-if="hasOnlyChildren(item.children, item)"
+                :key="resolvePath(data.onlyOneChild.path || item.path)"
+              >
+                <router-link :to="data.onlyOneChild.path || item.path">
                   <span class="anticon">
-                    <component :is="item.meta.icon"></component>
-                    <span
-                      >{{
-                        item.children[0].meta && item.children[0].meta.title
-                      }}</span
-                    >
+                    <component :is="data.onlyOneChild.meta.icon || (item.meta && item.meta.icon)"></component>
+                    <span>{{ data.onlyOneChild.meta.title }}</span>
                   </span>
                 </router-link>
               </a-menu-item>
-              <a-menu-item v-if="!item.children" :key="item.name">
-                <router-link :to="item.path">
-                  <span class="anticon">
-                    <component :is="item.meta.icon"></component>
-                    <span>{{ item.meta && item.meta.title }}</span>
-                  </span>
-                </router-link>
-              </a-menu-item>
-              <!-- 这里是子级 -->
+              <!-- 有子菜单 -->
               <sub-menu
                 v-else
                 :menu-info="item"
-                :key="item.name"
+                :key="item.path"
                 :base-path="item.path"
               />
             </template>
@@ -77,22 +95,35 @@
             <app-main />
           </div>
         </div>
+        <!-- <a-layout-header style="background: #fff; padding: 0">
+          <a-button type="primary" @click="toggleCollapsed">点击</a-button>
+        </a-layout-header>
+        <a-layout-content
+          :style="{
+            margin: '24px 16px',
+            padding: '24px',
+            background: '#fff',
+            minHeight: '100vh',
+          }"
+        >
+          1111
+        </a-layout-content> -->
       </a-layout>
     </a-layout>
   </div>
 </template>
+
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted, watch } from 'vue'
+import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
 import SubMenu from './sub-menu.vue'
 import Navbar from './navbar.vue'
 import AppMain from './main.vue'
 import Breadcrumb from './breadcrumb.vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import ResizeMixin from './mixin/ResizeHandler.js'
+import ResizeMixin from './mixin/resizeHandler'
 export default defineComponent({
-  name: '',
-  props: {},
+  name: 'Main',
   mixins: [ResizeMixin],
   components: {
     SubMenu,
@@ -100,120 +131,97 @@ export default defineComponent({
     Breadcrumb,
     AppMain,
   },
+  // setup 函数会在 beforeCreate 之后、created 之前执行
   setup() {
-    interface DataModal {
-      routes: any;
-      selectedKeys: any;
-      openKeys: any;
-      preOpenKeys: string[];
-      theme: string;
-      device: string;
-      withoutAnimation: boolean;
-      opened: boolean;
-      basePath: string;
-    }
     const store = useStore()
     const route = useRoute()
-    console.log('store', store, store.getters.sidebar.opened)
-    const data: DataModal = reactive({
+    console.log('store', store.getters, route)
+    const data: any = reactive({
       theme: 'dark',
-      routes: computed(() => store.getters.addRouters),
       opened: computed(() => store.getters.sidebar.opened),
-      withoutAnimation: computed(() => store.getters.sidebar.withoutAnimation),
+      device: computed(() => store.getters.device),
+      routes: computed(() => store.getters.addRouters),
       openKeys: [],
       selectedKeys: [],
       preOpenKeys: [],
-      device: computed(() => store.getters.device),
-      basePath: ''
+      basePath: '',
+      onlyOneChild: []
     })
-    console.log(data.opened)
-    /** 声明周期函数 */
+    console.log(data.opened, data.device)
     onMounted(() => {
-      // 获取当前的全部路由
       data.routes = store.getters.addRouters
       data.device = store.getters.device
-      console.log('route', route)
       console.log(data.device)
       // 获取当前地址栏对应的菜单情况
-      data.selectedKeys.push(route.name)
-      data.openKeys.push(route.matched[0].name)
+      data.selectedKeys.push(route.path)
+      data.openKeys.push(route.matched[0].path)
     })
-    watch(data.openKeys, (val, oldVal) => {
-      console.log('新的值旧的值', val, oldVal)
-      data.openKeys = val
+    // 监听device变化
+    watch(() => data.device, (nVal) => {
+      data.device = nVal
     })
-    watch(() => data.device, (val) => {
-      // console.log('新的值旧的值', val, oldVal)
-      data.device = val
+    // 监听菜单栏是否打开
+    watch(() => data.opened, (nVal) => {
+      // console.log(nVal, oVal)
+      data.opened = nVal
     })
+    const toggleCollapsed = () => {
+      store.dispatch('app/toggleSideBar')
+    }
+    const onClose = () => {
+      store.dispatch('app/toggleSideBar')
+    }
     const onOpenChange = (openKeys: any) => {
-      console.log('openKeys', openKeys)
+      // console.log('openKeys', openKeys)
       data.openKeys = openKeys
     }
-    const selectMenu = (val: any) => {
-      data.selectedKeys = val.selectedKeys
+    const selectMenu = (item: any) => {
+      data.selectedKeys = item.key
+      data.openKeys = item.keyPath.length? [item.keyPath[1]] : []
     }
-    const hasOnlyChildren = (data: any) => {
-      // 不存在子级的情况
-      if (!data.children) { return false }
-      // 过滤隐藏的子级路由
-      const routers = data.children.filter((item: any) => item.hidden ? false : true)
-      // 判断最终结果 
-      if (routers.length === 1) { return true }
+    const hasOnlyChildren = (children = [], parent: any) => {
+      const showingChildren = children.length ? children.filter((item: any) => {
+        if (item.hidden) {
+          return false
+        } else {
+          // 只有一个显示子元素时
+          data.onlyOneChild = item
+          return true
+        }
+      }) : []
+      // 只有一个子路由器时，默认显示该子路由器
+      if (showingChildren.length === 1) {
+        return true
+      }
+      // 没有子路由
+      if (showingChildren.length === 0) {
+        data.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
+        return true
+      }
       return false
     }
     const handleClickOutside = () => {
       store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
-    return { data, onOpenChange, selectMenu, hasOnlyChildren, handleClickOutside }
+    const resolvePath = (routePath: string) => {
+      return `${data.basePath}/${routePath}`
+    }
+    return { data, toggleCollapsed, onClose, onOpenChange, selectMenu, hasOnlyChildren, handleClickOutside, resolvePath }
   }
 })
 </script>
 <style lang="scss">
-.app-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  &.mobile.openSidebar {
-    position: fixed;
-    top: 0;
-  }
-  &.mobile .ant-layout-sider {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-height: 100%;
-    z-index: 100;
-  }
-  .contain {
-    .breadcrumb-nav {
-      width: 100%;
-      height: 30px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      background: #fff;
-      border-radius: 10px 0 0 10px;
-    }
-  }
+// >>> .ant-drawer-body {
+//   padding: 0;
+// }
+// ::v-deep .ant-drawer-body {
+//   padding: 0;
+// }
+.ant-drawer-body {
+  padding: 0 !important;
 }
-.drawer-bg {
-  background: #000;
-  opacity: 0.3;
-  width: 100%;
-  top: 0;
-  height: 100%;
-  position: absolute;
-  z-index: 99;
-}
-
-.box {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-#components-layout-demo-custom-trigger {
-  height: 100% !important;
+.ant-drawer-content {
+  background: #001529;
 }
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
@@ -248,38 +256,6 @@ export default defineComponent({
   &.mobile.openSidebar {
     position: fixed;
     top: 0;
-  }
-}
-.drawer-bg {
-  background: #000;
-  opacity: 0.3;
-  width: 100%;
-  top: 0;
-  height: 100%;
-  position: absolute;
-}
-
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  // width: calc(100% - #{$sideBarWidth});
-  transition: width 0.28s;
-}
-
-.hideSidebar .fixed-header {
-  width: calc(100% - 54px);
-}
-
-.mobile .fixed-header {
-  width: 100%;
-}
-.ant-layout .ant-layout-has-sider .mobile {
-  .ant-layout-sider {
-    position: fixed !important;
-    left: 0;
-    z-index: 10;
   }
 }
 </style>

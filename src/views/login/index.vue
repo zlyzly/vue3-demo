@@ -15,7 +15,7 @@
           autocomplete="off"
         />
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+      <a-form-item>
         <a-button type="primary" html-type="submit" @click="onSubmit">
           Login
         </a-button>
@@ -29,7 +29,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 import { setAdminName } from '../../utils/auth'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 export default defineComponent({
   name: 'Login',
@@ -100,8 +100,8 @@ export default defineComponent({
           // this.loading = false
           if (error.status !== 500) {
             let msg = '请检查输入的信息'
-            if (error.status !== 400) 
-            msg = '非管理员账号！'
+            if (error.status !== 400)
+              msg = '非管理员账号！'
             message.error(msg)
           }
         })
@@ -116,14 +116,15 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .login_box {
-  width: 500px;
-  height: 360px;
-  border: lightblue 1px solid;
-  box-shadow: 1px 5px 5px 5px rgba(196, 231, 243, 1);
+  &.mobile {
+    width: 80%;
+  }
+  width: 45%;
   position: absolute;
-  top: calc(50% - 250px);
-  left: calc(50% - 180px);
-  padding: 40px 20px 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  padding: 8% 5% 5%;
   text-align: center;
 }
 .login_title {

@@ -1,19 +1,21 @@
 <template>
-  <strong>组件式API</strong>
-  <br />
   <div>
-    <table-list
-      :columns="post.columns"
-      :list="post.commentIds"
-      :pagination="{
-        pageSize: 1,
-        current: 1,
-        total: 500,
-        pageSizeOptions: ['10', '20', '30', '40'],
-        showQuickJumper: true,
-        showSizeChanger: true,
-      }"
-    />
+    <strong>组件式API</strong>
+    <br />
+    <div>
+      <table-list
+        :columns="post.columns"
+        :list="post.commentIds"
+        :pagination="{
+          pageSize: 1,
+          current: 1,
+          total: 500,
+          pageSizeOptions: ['10', '20', '30', '40'],
+          showQuickJumper: true,
+          showSizeChanger: true,
+        }"
+      />
+    </div>
   </div>
 </template>
 
