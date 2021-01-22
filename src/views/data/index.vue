@@ -2,8 +2,10 @@
   <div>
     <strong># v-for中ref数组</strong>
     <div v-for="item in list" :ref="setItemRef" :key="item">{{ item }}</div>
-    <strong># 异步组件</strong>
+    <hr />
+    <strong># 异步组件 ?(延迟并没有提现出来)</strong>
     <div>
+      <AsyncComponent />
       异步组件测试点击按钮后第一个延迟300毫秒 第二个不延迟加载
       <a-button type="primary" @click="toggle">加载</a-button>
       <br />
@@ -15,24 +17,42 @@
         <asyncPage2></asyncPage2>
         <br />
         <asyncPageWithOptions2></asyncPageWithOptions2>
+        <br />
+        <asyncCompm />
       </template>
     </div>
-    <strong># 自定义指令,动态指令参数</strong>
+    <hr />
+    <strong># 自定义指令, 动态指令参数</strong>
     <div>
-      <input v-focus />
+      自定义指令默认focus<input v-focus />
       <div id="dynamic-arguments-example" class="demo">
         <p>Scroll down the page</p>
         <p v-pin="[0, 100]">Stick me 200px from the top of the page</p>
       </div>
     </div>
-      <p v-pin="[0]">Stick me 200px from the top of the page</p>
+    <p v-pin="[0]">Stick me 200px from the top of the page</p>
+    <hr />
+    <strong>#渲染函数api</strong>
+    <Renders />
+    <hr />
+    <transition-c />
+    <hr />
+    <strong>#插槽</strong>
+    <hr />
+    <strong>#组件注册</strong><br>
+    <component-a />
+    <p>局部注册是在根组件的componets组件</p>
+    <p>常用的是在模块系统中局部注册</p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, onBeforeUpdate, onUpdated, defineAsyncComponent } from 'vue'
+import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent } from 'vue'
 import Child1 from './child1.vue'
 import Child2 from './child2.vue'
+
+import TransitionC from './transition.vue'
+import Renders from './renders.vue'
 // import pin from '../../utils/directive'
 // const Child1 = defineAsyncComponent('Child1', function (resolve) {
 //   setTimeout(function () {
@@ -44,7 +64,7 @@ import Child2 from './child2.vue'
 // })
 const asyncPage = defineAsyncComponent(() => import('./child1.vue'))
 const asyncPageWithOptions = defineAsyncComponent({
-  delay: 200,
+  delay: 20000,
   timeout: 3000,
   loader: () =>
     new Promise((resolve: any, reject: any) => {
@@ -64,7 +84,7 @@ const asyncPage2 = defineAsyncComponent(() => import('./child2.vue'))
 const asyncPageWithOptions2 = defineAsyncComponent({
   // 这里之前是 component，现在改叫 loader 了 
   loader: () => import('./child2.vue'),
-  delay: 1000,
+  delay: 100000,
   timeout: 3000,
   errorComponent: Child1,
   loadingComponent: Child2,
@@ -75,6 +95,9 @@ export default defineComponent({
     asyncPage,
     asyncPage2,
     asyncPageWithOptions2,
+    Renders,
+    TransitionC,
+    AsyncComponent: defineAsyncComponent(() => import('./AsyncComponent.vue'))
   },
   directives: {
     focus: {
@@ -107,14 +130,16 @@ export default defineComponent({
     onUpdated(() => {
       console.log(itemRefs)
     })
-    // const AsyncComp = defineAsyncComponent(
-    //   () =>
-    //     new Promise((resolve: any, reject: any) => {
-    //       resolve({
-    //         template: '<div>I am async!</div>'
-    //       })
-    //     })
-    // )
+
+    const asyncComp = defineAsyncComponent(
+      () =>
+        new Promise((resolve: any, reject: any) => {
+          resolve({
+            template: '<div>I am async!</div>'
+          })
+        })
+    )
+
     const show = ref(false)
     const toggle = () => {
       show.value = !show.value
@@ -128,8 +153,8 @@ export default defineComponent({
       toggle,
       show,
       asyncPageWithOptions,
-      message
-      // AsyncCompm,
+      message,
+      asyncComp,
     }
   }
 })

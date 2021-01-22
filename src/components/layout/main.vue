@@ -1,7 +1,8 @@
 <template>
   <a-layout-content class="content">
     <div class="main">
-      <transition name="slide-fade">
+      <!-- slide-fade -->
+      <transition name="fade-transform">
         <router-view />
       </transition>
     </div>
@@ -67,5 +68,31 @@ export default defineComponent({
   -webkit-transform: scale(1.1);
   transform: scale(1.1)
 }
-// slide-fade-enter-active slide-fade-enter-to
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+
+.fade-transform-enter-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>

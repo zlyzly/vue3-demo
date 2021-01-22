@@ -16,19 +16,11 @@
           :default-open-keys="['sub1']"
           mode="inline"
           theme="dark"
-          :inline-collapsed="data.opened"
+          :inline-collapsed="false"
         >
-          <a-menu-item key="3">
-            <span><PieChartOutlined />Option 3</span>
+          <a-menu-item key="1">
+            <span><PieChartOutlined /><span>nav 1</span></span>
           </a-menu-item>
-          <a-sub-menu key="sub1">
-            <span><PieChartOutlined /><span>Navigation One</span></span>
-            <a-menu-item key="5"> Option 5 </a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="sub2">
-            <span><PieChartOutlined /><span>Navigation One</span></span>
-            <a-menu-item key="9"> Option 9 </a-menu-item>
-          </a-sub-menu>
         </a-menu>
       </a-drawer>
       <a-layout-sider
@@ -54,7 +46,9 @@
             minHeight: '100vh',
           }"
         >
-          1111
+          <strong>{{ data.counts }}</strong>
+          <strong>{{ data.opened }} ---- {{ data.opened1 }}</strong>
+          <strong>{{ data.device }} ---- {{ data.device1 }}</strong>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -62,13 +56,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
+import { computed, defineComponent, onMounted, reactive, watch, ref } from 'vue'
 import { useStore } from 'vuex'
-import ResizeMixin from '../components/layout/mixin/resizeHandler'
 import { PieChartOutlined } from '@ant-design/icons-vue'
 export default defineComponent({
   name: 'Main',
-  mixins: [ResizeMixin],
   components: {
     PieChartOutlined
   },
@@ -77,31 +69,49 @@ export default defineComponent({
     const store = useStore()
     console.log('store', store.getters)
 
+    const count = ref(0)
     const data: any = reactive({
-      opened: computed(() => store.getters.sidebar.opened),
+      opened: computed(() => store.getters.sidebar.opened), // store.getters.sidebar.opened值改变data.opened的值就改变
       device: computed(() => store.getters.device),
-      routes: store.getters.addRouters,
+      opened1: store.getters.sidebar.opened, // store.getters.sidebar.opened值改变data.opened的值就改变
+      device1: store.getters.device,
+      routes: computed(() => store.getters.addRouters),
+      // counts:  computed(() => count.value), //可以使用计算属性或者watch监听count值的变化
+      counts: count.value
     })
+
+    setInterval(() => {
+      count.value++
+    }, 100000)
+
     onMounted(() => {
-      console.log(data.opened, data.device)
+      console.log(data.opened, data.device, data.routes)
     })
+
+    // 使用computed获取store的值可不使用watch监听 
     // 监听device变化
-    watch(() => data.device, (nVal) => {
-      data.device = nVal
-    })
+    // watch(() => data.device, (nVal) => {
+    //   data.device = nVal
+    // })
     // 监听菜单栏是否打开
-    watch(() => data.opened, (nVal) => {
-      // console.log(nVal, oVal)
-      data.opened = nVal
+    // watch(() => data.opened, (nVal) => {
+    //   // console.log(nVal, oVal)
+    //   data.opened = nVal
+    // })
+
+    watch(count, (nVal, oldV) => {
+      console.log(nVal, oldV)
+      data.counts = nVal
     })
+
     const toggleCollapsed = () => {
       store.dispatch('app/toggleSideBar')
     }
+
     const onClose = () => {
       store.dispatch('app/toggleSideBar')
     }
-    toggleCollapsed()
-    return { data, toggleCollapsed, onClose }
+    return { data, toggleCollapsed, onClose, count }
   }
 })
 </script>

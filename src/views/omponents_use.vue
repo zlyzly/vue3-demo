@@ -1,4 +1,5 @@
 <template>
+  <!-- 新增片段 -->
   <div>
     <strong>组件使用</strong>
     <br />
@@ -14,14 +15,22 @@
       v-model:last-name="post.lastName"
       @changeIds="changeIds"
     />
+
+    <!-- 函数式组件 -->
+    <strong>函数式组件--通过函数创建组件</strong>
+    <br />
+    <!--setup将接收两个参数：props 和 context。context 参数是一个对象，包含组件的 attrs，slots，和 emit property。
+    现在不是在 render 函数中隐式提供 h，而是全局导入 h。 -->
+    <component v-bind:is="`h${$props.level}`" v-bind="$attrs" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from 'vue'
+import { defineComponent, reactive, watch, h } from 'vue'
 import Components from './component.vue'
 
 export default defineComponent({
+  props: ['level'],
   components: {
     Components
   },
@@ -47,8 +56,19 @@ export default defineComponent({
       // console.log('11111')
       post.commentIds.push(Math.floor(Math.random() * 1000))
     }
-    return { post, changeText, changeIds }
-  }
+    //  渲染函数
+    
+    const DynamicHeading = (props, context) => {
+      return h(`h${props.level}`, context.attrs, context.slots)
+    }
+
+    DynamicHeading.props = ['level']
+
+    return { post, changeText, changeIds, DynamicHeading }
+  },
+  // render(h) {
+  //   return h('div')
+  // }
 })
 </script>
 <style lang="scss" scoped>

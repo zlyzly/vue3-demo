@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -32,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/components/layout/mixin/ResizeHandler.js"  ],
+, "src/utils/resizeHandler.js"  ],
   "exclude": [
     "node_modules"
   ]

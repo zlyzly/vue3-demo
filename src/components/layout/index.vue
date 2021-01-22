@@ -95,33 +95,20 @@
             <app-main />
           </div>
         </div>
-        <!-- <a-layout-header style="background: #fff; padding: 0">
-          <a-button type="primary" @click="toggleCollapsed">点击</a-button>
-        </a-layout-header>
-        <a-layout-content
-          :style="{
-            margin: '24px 16px',
-            padding: '24px',
-            background: '#fff',
-            minHeight: '100vh',
-          }"
-        >
-          1111
-        </a-layout-content> -->
       </a-layout>
     </a-layout>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
+import { computed, defineComponent, onMounted, reactive } from 'vue'
 import SubMenu from './sub-menu.vue'
 import Navbar from './navbar.vue'
 import AppMain from './main.vue'
 import Breadcrumb from './breadcrumb.vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import ResizeMixin from './mixin/resizeHandler'
+import ResizeMixin from '../../utils/resizeHandler.js'
 export default defineComponent({
   name: 'Main',
   mixins: [ResizeMixin],
@@ -157,14 +144,14 @@ export default defineComponent({
       data.openKeys.push(route.matched[0].path)
     })
     // 监听device变化
-    watch(() => data.device, (nVal) => {
-      data.device = nVal
-    })
+    // watch(() => data.device, (nVal) => {
+    //   data.device = nVal
+    // })
     // 监听菜单栏是否打开
-    watch(() => data.opened, (nVal) => {
-      // console.log(nVal, oVal)
-      data.opened = nVal
-    })
+    // watch(() => data.opened, (nVal) => {
+    //   // console.log(nVal, oVal)
+    //   data.opened = nVal
+    // })
     const toggleCollapsed = () => {
       store.dispatch('app/toggleSideBar')
     }

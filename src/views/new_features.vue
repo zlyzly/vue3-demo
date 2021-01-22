@@ -23,19 +23,21 @@
 import { defineComponent, reactive, watch } from 'vue'
 import { getLists } from '../api/list'
 import TableList from '../components/TableList/index.vue'
+interface Post {
+  text: number;
+  commentIds: any;
+  firstName: string;
+  lastName: string;
+  columns: any;
+}
+
 export default defineComponent({
+  // ts已启用类型推断
   components: {
     TableList
   },
   setup(props, context) {
     console.log(props, context)
-    interface Post {
-      text: number;
-      commentIds: any;
-      firstName: string;
-      lastName: string;
-      columns: any;
-    }
     const post: Post = reactive({
       text: 0,
       commentIds: [],

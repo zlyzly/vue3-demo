@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" user="zahra" />
 
-    <!-- 10.2 点击按钮，切换子组件中文字的颜色 -->
+    <!-- 1.2 点击按钮，切换子组件中文字的颜色 -->
     <button @click="themeColor = 'red'">红色</button>
     <button @click="themeColor = 'blue'">蓝色</button>
     <button @click="themeColor = 'orange'">橘黄色</button>
@@ -24,32 +24,14 @@
       {{ item }}
     </div>
 
-    <strong>transition-group</strong>
-    <br>
-    <div id="list-demo">
-      <button v-on:click="add">Add</button>
-      <button v-on:click="remove">Remove</button>
-      <transition-group name="list" tag="p">
-        <span v-for="item in post.items" v-bind:key="item" class="list-item">
-          {{ item }}
-        </span>
-      </transition-group>
-    </div>
-    <div id="demo">
-      <button @click="post.show = !post.show">Toggle show</button>
-      
-      <transition name="bounce">
-        <p v-if="post.show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
-      </transition>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-// 10.provide & inject
+// 1.provide & inject
 // provide() 和 inject() 可以实现嵌套组件之间的数据传递。这两个函数只能在 setup() 函数中使用。父级组件中使用 provide() 函数向下传递数据；子级组件中使用 inject() 获取上层传递过来的数据。
-// 10.1.共享普通数据  1.按需导入 provide
-// 10.2.共享ref 响应式数据
+// 1.1.共享普通数据  1.按需导入 provide
+// 1.2.共享ref 响应式数据
 import { defineComponent, provide, ref, readonly, onMounted, onBeforeUpdate, reactive } from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue'
 import { useStore } from 'vuex'
@@ -60,10 +42,9 @@ export default defineComponent({
   },
   // setup 函数会在 beforeCreate 之后、created 之前执行
   setup() {
-    // 10.1
+    // 1
     // provide('globalColor', 'red')
-
-    // 10.2 
+    // 2 
     // 定义 ref 响应式数据
     const themeColor = ref('red')
     const location = ref('')
@@ -89,26 +70,14 @@ export default defineComponent({
 
     const list = reactive([1, 2, 3])
     const divs = ref([])
-
-    const post = reactive({
-      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      nextNum: 10,
-      show: true
-    })
    
     // 确保在每次更新之前重置ref
     onBeforeUpdate(() => {
       divs.value = []
     })
-    const randomIndex = () => { return Math.floor(Math.random() * post.items.length) }
-    const add = () => {
-      post.items.splice(randomIndex(), 0, post.nextNum++)
-    }
-    const remove = () => {
-      post.items.splice(randomIndex(), 1)
-    }
+    
     return { themeColor, url, key, event, doSometing, location, changeLocation, list,
-        divs, post, add, remove }
+        divs }
   }
 });
 </script>
@@ -116,27 +85,5 @@ export default defineComponent({
 .home {
   padding-left: 50px;
 }
-.list-item { display: inline-block; margin-right: 10px; }
-.list-enter-active,.list-leave-active { transition: all 1s; }
-.list-enter-to,.list-leave-to { opacity: 0; transform: translateY(30px); }
 
-.bounce-enter-active {
-  animation: bounce-in .5s ease-out both;
-}
-
-.bounce-leave-active {
-  animation: bounce-in .5s reverse ease-in both;
-}
-
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.25);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 </style>

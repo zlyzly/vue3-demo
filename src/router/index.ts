@@ -117,14 +117,14 @@ export const asyncRouterMap = [
       {
         path: 'main',
         name: 'GiftSet',
-        hidden: true,
+        // hidden: true,
         component: () => import('@/views/watch_computed.vue'),
         meta: { title: 'watch_computed', roles: ['admin', 202] }
       },
       {
         path: 'syntax',
         name: 'Syntax',
-        hidden: true,
+        // hidden: true,
         component: () => import('@/views/template_syntax.vue'),
         meta: { title: '模板语法', roles: ['admin', 203] }
       },
@@ -146,13 +146,13 @@ export const asyncRouterMap = [
     path: '/home',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
-    meta: { title: '组件式API', mainMenu: true, icon: DesktopOutlined, roles: configurationRoles },
+    meta: { title: '组件式API', icon: DesktopOutlined },
   },
   // {
   //   path: '/main',
   //   name: 'Main',
   //   component: () => import('@/views/main.vue'),
-  //   meta: { title: '适配手机', mainMenu: true, icon: DesktopOutlined, roles: configurationRoles },
+  //   meta: { title: '适配手机', icon: DesktopOutlined },
   // }
 ]
 const router = createRouter({
