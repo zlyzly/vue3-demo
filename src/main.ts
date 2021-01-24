@@ -19,13 +19,16 @@ import moment from 'moment'
 import 'moment/dist/locale/zh-cn'
 moment.locale('en')
 
-import { Menu, Layout, Form, Dropdown, List, Avatar, InputNumber, Select, Checkbox, Result, Table, Pagination, DatePicker, Icon, Breadcrumb, Button, Input, Switch, Col, Radio, ConfigProvider } from "ant-design-vue"
-import ant from './plugins/ant'
+import { Menu, Layout, Form, Dropdown, List, Avatar, InputNumber, Select, Checkbox, Result, Table, Pagination, DatePicker, Icon, Breadcrumb, Button, Input, Switch, Col, Radio, ConfigProvider, Drawer } from "ant-design-vue"
 
 const app = createApp(App)
+
+// 全局注册组件
+app.component('component-a', {
+  template: '<div><<可直接使用--全局注册组件!>></div>'
+})
+
 // 将应用程序的根组件挂载到指定的DOM元素上
-app.use(store).use(router).use(ant)
-.mount('#app')
-// .use(Menu).use(Layout).use(Form).use(Dropdown).use(List).use(Avatar).use(InputNumber).use(Select).use(Checkbox).use(Result).use(Table).use(Pagination).use(DatePicker).use(Icon).use(Breadcrumb).use(Input).use(Button).use(Switch).use(Col).use(Radio).use(ConfigProvider)
+app.use(store).use(router).use(Menu).use(Layout).use(Form).use(Dropdown).use(List).use(Avatar).use(InputNumber).use(Select).use(Checkbox).use(Result).use(Table).use(Pagination).use(DatePicker).use(Icon).use(Breadcrumb).use(Input).use(Button).use(Switch).use(Col).use(Radio).use(ConfigProvider).use(Drawer).mount('#app')
 // 取消挂载
 // setTimeout(() => app.unmount('#my-app'), 2000)

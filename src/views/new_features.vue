@@ -1,19 +1,21 @@
 <template>
-  <strong>组件式API</strong>
-  <br />
   <div>
-    <table-list
-      :columns="post.columns"
-      :list="post.commentIds"
-      :pagination="{
-        pageSize: 1,
-        current: 1,
-        total: 500,
-        pageSizeOptions: ['10', '20', '30', '40'],
-        showQuickJumper: true,
-        showSizeChanger: true,
-      }"
-    />
+    <strong>组件式API</strong>
+    <br />
+    <div>
+      <table-list
+        :columns="post.columns"
+        :list="post.commentIds"
+        :pagination="{
+          pageSize: 1,
+          current: 1,
+          total: 500,
+          pageSizeOptions: ['10', '20', '30', '40'],
+          showQuickJumper: true,
+          showSizeChanger: true,
+        }"
+      />
+    </div>
   </div>
 </template>
 
@@ -21,19 +23,21 @@
 import { defineComponent, reactive, watch } from 'vue'
 import { getLists } from '../api/list'
 import TableList from '../components/TableList/index.vue'
+interface Post {
+  text: number;
+  commentIds: any;
+  firstName: string;
+  lastName: string;
+  columns: any;
+}
+
 export default defineComponent({
+  // ts已启用类型推断
   components: {
     TableList
   },
   setup(props, context) {
     console.log(props, context)
-    interface Post {
-      text: number;
-      commentIds: any;
-      firstName: string;
-      lastName: string;
-      columns: any;
-    }
     const post: Post = reactive({
       text: 0,
       commentIds: [],

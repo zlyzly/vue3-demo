@@ -16,7 +16,6 @@ service.interceptors.request.use(
     // do something before request is sent
     if (store.getters.token) {
       config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-      config.headers['Authorization-2'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     return config
   },
@@ -100,12 +99,10 @@ export default service
 // service.interceptors.request.use(
 //     config => {
 //         // 这里可以自定义一些config 配置
-
 //         return config
 //     },
 //     error => {
 //         //  这里处理一些请求出错的情况
-
 //         Promise.reject(error)
 //     }
 // )
@@ -114,8 +111,7 @@ export default service
 // service.interceptors.response.use(
 //     response => {
 //         const res = response.data
-//         // 这里处理一些response 正常放回时的逻辑
-
+//         // 这里处理一些response 正常返回时的逻辑
 //         return res
 //     },
 //     error => {

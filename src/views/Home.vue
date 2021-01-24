@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" user="zahra" />
 
-    <!-- 10.2 点击按钮，切换子组件中文字的颜色 -->
+    <!-- 1.2 点击按钮，切换子组件中文字的颜色 -->
     <button @click="themeColor = 'red'">红色</button>
     <button @click="themeColor = 'blue'">蓝色</button>
     <button @click="themeColor = 'orange'">橘黄色</button>
@@ -23,14 +23,15 @@
     <div v-for="(item, i) in list" :ref="el => { if (el) divs[i] = el }" :key="item">
       {{ item }}
     </div>
+
   </div>
 </template>
 
 <script lang="ts">
-// 10.provide & inject
+// 1.provide & inject
 // provide() 和 inject() 可以实现嵌套组件之间的数据传递。这两个函数只能在 setup() 函数中使用。父级组件中使用 provide() 函数向下传递数据；子级组件中使用 inject() 获取上层传递过来的数据。
-// 10.1.共享普通数据  1.按需导入 provide
-// 10.2.共享ref 响应式数据
+// 1.1.共享普通数据  1.按需导入 provide
+// 1.2.共享ref 响应式数据
 import { defineComponent, provide, ref, readonly, onMounted, onBeforeUpdate, reactive } from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue'
 import { useStore } from 'vuex'
@@ -41,10 +42,9 @@ export default defineComponent({
   },
   // setup 函数会在 beforeCreate 之后、created 之前执行
   setup() {
-    // 10.1
+    // 1
     // provide('globalColor', 'red')
-
-    // 10.2 
+    // 2 
     // 定义 ref 响应式数据
     const themeColor = ref('red')
     const location = ref('')
@@ -70,14 +70,20 @@ export default defineComponent({
 
     const list = reactive([1, 2, 3])
     const divs = ref([])
-
+   
     // 确保在每次更新之前重置ref
     onBeforeUpdate(() => {
       divs.value = []
     })
-
+    
     return { themeColor, url, key, event, doSometing, location, changeLocation, list,
         divs }
   }
 });
 </script>
+<style lang="scss" scoped>
+.home {
+  padding-left: 50px;
+}
+
+</style>

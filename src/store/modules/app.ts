@@ -4,20 +4,20 @@ let value: any = ''
 value = Cookies.get('sidebarStatus')
 const state = {
   sidebar: {
-    opened: value ? !!+value : true,
-    withoutAnimation: false
+    opened: Cookies.get('sidebarStatus') ? !!+value : true,
+    // withoutAnimation: false
   },
-  device: 'mobile',
+  device: 'desktop',
   version: '1.1.1',
   badges: {}
 }
 
 const mutations = {
   TOGGLE_SIDEBAR: (state: any) => {
-    // console.log(state)
+    console.log(state.sidebar)
     state.sidebar.opened = !state.sidebar.opened
-    // console.log(state.sidebar.opened)
-    state.sidebar.withoutAnimation = false
+    console.log(state.sidebar.opened)
+    // state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
       Cookies.set('sidebarStatus', '1')
     } else {
@@ -27,7 +27,7 @@ const mutations = {
   CLOSE_SIDEBAR: (state: any, withoutAnimation: any) => {
     Cookies.set('sidebarStatus', '0')
     state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
+    // state.sidebar.withoutAnimation = withoutAnimation
   },
   TOGGLE_DEVICE: (state: any, device: string) => {
     state.device = device
@@ -41,9 +41,9 @@ const actions = {
   toggleSideBar({ commit }: any) {
     commit('TOGGLE_SIDEBAR')
   },
-  closeSideBar({ commit }: any, { withoutAnimation }: any) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
+  // closeSideBar({ commit }: any, { withoutAnimation }: any) {
+  //   commit('CLOSE_SIDEBAR', withoutAnimation)
+  // },
   toggleDevice({ commit }: any, device: string) {
     commit('TOGGLE_DEVICE', device)
   },

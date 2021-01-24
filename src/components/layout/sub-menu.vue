@@ -1,46 +1,30 @@
 <template>
-  <a-sub-menu :key="menuInfo.name">
+  <a-sub-menu :key="resolvePath(menuInfo.path)">
     <template #title v-if="!menuInfo.hidden">
       <span>
         <component :is="menuInfo.meta.icon"></component>
-        <span>3{{ menuInfo.meta.title }}</span>
+        <span>{{ menuInfo.meta.title }}</span>
       </span>
     </template>
     <template v-if="menuInfo.children">
       <template v-for="item in menuInfo.children">
         <template v-if="!item.hidden">
-          <!-- 不存在子级 -->
-          <a-menu-item v-if="!item.children" :key="item.name">
-            <router-link :to="resolvePath(item.path)">{{
-              item.meta && item.meta.title
-            }}</router-link>
+          <a-menu-item :key="resolvePath(item.path)">
+            <span>
+              <router-link :to="resolvePath(item.path)">
+                <component :is="item.meta.icon"></component>
+                <span>{{ item.meta.title }}</span>
+              </router-link>
+            </span>
           </a-menu-item>
-          <!-- 存在子级 -->
-          <sub-menu
-            v-else
-            :menu-info="item"
-            :key="item.path"
-            :base-path="item.path"
-          />
         </template>
       </template>
     </template>
-    <!-- <template v-for="item in menuInfo.children">
-      <template v-if="!item.hidden">
-        <a-menu-item :key="item.path">
-          <span>
-            <router-link :to="resolvePath(item.path)">
-              <component :is="item.meta.icon"></component>
-              <span>{{ item.meta.title }}</span>
-            </router-link>
-          </span>
-        </a-menu-item>
-      </template>
-    </template> -->
   </a-sub-menu>
 </template>
 <script lang="ts">
 import { defineComponent, toRefs } from 'vue'
+// import path from 'path'
 export default defineComponent({
   name: 'SubMenu',
   props: {
@@ -62,13 +46,14 @@ export default defineComponent({
     menuInfo.value = menuInfo
     // console.log(menuInfo.value)
     const resolvePath = (routePath: string) => {
-      if (/^(https?:|mailto:|tel:)/.test(routePath)) {
-        return routePath
-      }
-      if (/^(https?:|mailto:|tel:)/.test(basePath.value)) {
-        return basePath.value
-      }
+      // if (/^(https?:|mailto:|tel:)/.test(routePath)) {
+      //   return routePath
+      // }
+      // if (/^(https?:|mailto:|tel:)/.test(basePath.value)) {
+      //   return basePath.value
+      // }
       return `${basePath.value}/${routePath}`
+      // return path.resolve(basePath.value, routePath)
     }
     return { resolvePath }
   }

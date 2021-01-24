@@ -41,11 +41,10 @@ export default defineComponent({
       device: string;
     }
     const data: Data = reactive({
-      collapsed: false || store.state.app.opened,
-      device: store.state.app.device
+      collapsed: store.getters.sidebar.opened,
+      device: store.getters.device
     })
     const toggleCollapsed = () => {
-      data.collapsed = !data.collapsed
       store.dispatch('app/toggleSideBar')
     }
     async function logout(): Promise<void> {

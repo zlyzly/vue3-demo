@@ -8,6 +8,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   components: {
   },
+  // 自定义指令默认focus
   directives: {
     focus: {
       // 指令的定义

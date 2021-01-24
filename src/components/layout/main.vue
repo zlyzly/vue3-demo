@@ -1,9 +1,10 @@
 <template>
   <a-layout-content class="content">
     <div class="main">
-      <!-- <transition name="fade-transform" mode="out-in"> -->
-      <router-view />
-      <!-- </transition> -->
+      <!-- slide-fade -->
+      <transition name="fade-transform">
+        <router-view />
+      </transition>
     </div>
   </a-layout-content>
 </template>
@@ -30,5 +31,68 @@ export default defineComponent({
     min-height: 100%;
     padding-bottom: 60px;
   }
+}
+/* 可以设置不同的进入和离开动画   */
+/* 设置持续时间和动画函数        */
+// .slide-fade-enter-active {
+//   transition: all 1s ease-in;
+// }
+
+// .slide-fade-leave-active {
+//   transition: all 1s ease-in;
+// }
+
+// .slide-fade-enter-from,
+// .slide-fade-leave-to {
+//   // transform: translateX(20px);
+//   opacity: 0;
+// }
+
+// .page-transition-enter-active,.page-transition-leave-active {
+//   // -webkit-transform: scale(1.5);
+//   // transform: scale(1.5);
+//   transition: all 1s ease-in;
+// }
+
+// .page-transition-enter-from,
+// .page-transition-leave-to {
+//   opacity: 0.2;
+// }
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1)
+}
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+
+.fade-transform-enter-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
