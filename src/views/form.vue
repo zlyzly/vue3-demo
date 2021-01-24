@@ -1,6 +1,4 @@
 <template>
-  <!-- 表单组件 -->
-  <strong>form表单使用</strong>
   <div>
     <input v-model="message" placeholder="edit me" />
     <p>Message is: {{ message }}</p>

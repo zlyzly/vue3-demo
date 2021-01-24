@@ -1,9 +1,8 @@
 <template>
   <div>
-    <strong># v-for中ref数组</strong>
+    <h3># v-for中ref数组</h3>
     <div v-for="item in list" :ref="setItemRef" :key="item">{{ item }}</div>
-    <hr />
-    <strong># 异步组件 ?(延迟并没有提现出来)</strong>
+    <h3># 异步组件 ?(延迟并没有提现出来)</h3>
     <div>
       <AsyncComponent />
       异步组件测试点击按钮后第一个延迟300毫秒 第二个不延迟加载
@@ -21,8 +20,7 @@
         <asyncCompm />
       </template>
     </div>
-    <hr />
-    <strong># 自定义指令, 动态指令参数</strong>
+    <h3># 自定义指令, 动态指令参数</h3>
     <div>
       自定义指令默认focus<input v-focus />
       <div id="dynamic-arguments-example" class="demo">
@@ -32,22 +30,26 @@
     </div>
     <p v-pin="[0]">Stick me 200px from the top of the page</p>
     <hr />
-    <strong>#渲染函数api</strong>
+    <h3>#渲染函数api</h3>
     <Renders />
-    <hr />
     <transition-c />
-    <hr />
-    <strong>#插槽</strong>
-    <hr />
-    <strong>#组件注册</strong><br>
+    <h3>#插槽</h3>
+    <h3>#组件注册</h3>
     <component-a />
     <p>局部注册是在根组件的componets组件</p>
     <p>常用的是在模块系统中局部注册</p>
+
+    <h3>#过滤器(已删除，可使用调用方法计算属性代替)</h3>
+    <li v-for="tag in tags" :key="tag">
+      {{ tagText(tag) }}
+    </li>
+    <h3>#组件注册</h3>
+    <h3>#组件注册</h3>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent } from 'vue'
+import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent, reactive, toRefs } from 'vue'
 import Child1 from './child1.vue'
 import Child2 from './child2.vue'
 
@@ -146,7 +148,16 @@ export default defineComponent({
     }
 
     const message = ref('hello')
+
+    const arr = reactive({
+      tags: ['0', '1', '2', '3', '4', '5']
+    })
+    const tags = toRefs(arr)
+    const tagText = (tag: string | number) => {
+      return '$' + tag
+    }
     return {
+      ...tags,
       list,
       itemRefs,
       setItemRef,
@@ -155,6 +166,7 @@ export default defineComponent({
       asyncPageWithOptions,
       message,
       asyncComp,
+      tagText
     }
   }
 })

@@ -10,6 +10,13 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
+  css: {
+    loaderOptions: {
+      scss: {
+          prependData: `@import "./src/styles/main.scss";`
+      }
+    }
+  },
   devServer: {
     open: true, //是否自动弹出浏览器页面
     host: "localhost",

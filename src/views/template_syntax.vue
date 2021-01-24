@@ -1,12 +1,12 @@
 <template>
   <div>
-    <strong>模板语法</strong>
+    <h3>#模板语法-ts类型响应式基础</h3>
     <div class="home">
-      <div :class="{ active: isActive }">哈哈哈哈</div>
-      <div :class="[isActive ? activeClass : '', errorClass]">哈哈哈</div>
+      <div :class="{ active: isActive }">111111111</div>
+      <div :class="[isActive ? activeClass : '', errorClass]">222222222</div>
       <!-- <div :class="[{ active: isActive }, errorClass]">哈哈哈</div> -->
       <strong :style="{ color: activeColor, fontSize: fontSize + 'px' }"
-        >啦啦啦</strong
+        >333333</strong
       >
     </div>
 
@@ -15,6 +15,19 @@
 
     <a-list item-layout="horizontal">
       <a-list-item v-for="item in data.list" :key="item">
+        <a-list-item-meta :description="item.text">
+          <template #title>
+            {{ item.title }}
+          </template>
+          <template #avatar>
+            <a-avatar :src="item.avatar" />
+          </template>
+        </a-list-item-meta>
+      </a-list-item>
+    </a-list>
+
+    <a-list item-layout="horizontal">
+      <a-list-item v-for="item in list" :key="item">
         <a-list-item-meta :description="item.text">
           <template #title>
             {{ item.title }}
@@ -41,8 +54,10 @@
       <a :[attributeName]="url" target="_black"> ...链接 </a>
       <a @[eventName]="getGo"> ...跳转链接 </a>
     </div>
-
+    <h3>#响应式计算和监听</h3>
+    <watch-computed />
     <!-- 表单组件 -->
+    <h3>#表单组件</h3>
     <div>
       <Forms />
     </div>
@@ -50,19 +65,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, toRefs, readonly } from 'vue'
 import Forms from './form.vue'
+import WatchComputed from './watch_computed.vue'
 export default defineComponent({
   components: {
-    Forms
+    Forms,
+    WatchComputed
   },
   setup() {
+    // 声明响应式状态  定义基本类型的数据
+    // ref返回一个可变的响应式对象 调用变量.value
     const isActive = ref(false)
     const activeClass = ref('active')
     const errorClass = ref('text-danger')
     const activeColor = ref('red')
     const fontSize = ref(22)
     const rawHtml = ref('红红火火')
+   // 响应式状态
     const data = reactive({
       list: [
         {
@@ -74,19 +94,23 @@ export default defineComponent({
           avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           title: 'Ant Design Title 2',
           text: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
-        },
-        {
-          avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          title: 'Ant Design Title 3',
-          text: 'Ant Design, a design language for background applications, is refined by Ant UED Team',
-        },
+        }
       ]
     })
+
     const myObject = reactive({
       title: 'How to do lists in Vue',
       author: 'Jane Doe',
       publishedAt: '2016-04-10'
     })
+    const copy = readonly(myObject)
+    // 使用es6解构会丢失响应性，可以使用 toRefs转换成ref式的响应性数据
+    // let { author, title } = myObject
+    let { author, title } = toRefs(myObject)
+    author.value = 'Zahra'
+    // 只读属性的值不可以修改
+    // copy.title = '改变只读属性的值' //title" failed: target is readonly. 
+
     const attributeName = ref('')
     const url = ref('http://baidu.com')
     const eventName = ref('click')
@@ -101,6 +125,7 @@ export default defineComponent({
     }
 
     const text = ref('hello')
+    
     setTimeout(() => {
       text.value = ' 你好'
     }, 2000)
@@ -109,7 +134,10 @@ export default defineComponent({
     const changelist = () => {
       data.list.splice(2, 1)
     }
-    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo, text, nums, changelist }
+    // 把响应式对象转成普通对象直接使用 导出是...kk
+    const kk = toRefs(data)
+    console.log(kk)
+    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo, text, nums, changelist, ...kk }
   }
 })
 </script>
@@ -128,5 +156,8 @@ div {
 .home > div.text-danger {
   background: red;
   text-align: center;
+}
+h3:not(:first-child) {
+  margin-top: 30px;
 }
 </style>

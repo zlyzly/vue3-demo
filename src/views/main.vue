@@ -3,7 +3,6 @@
     <a-layout id="components-layout-demo-custom-trigger">
       <a-drawer
         v-if="data.device === 'mobile'"
-        class="drawer"
         width="200"
         placement="left"
         :closable="false"
@@ -12,26 +11,45 @@
       >
         <a-menu
           style="width: 200px"
-          :default-selected-keys="['1']"
-          :default-open-keys="['sub1']"
+          v-model:openKeys="data.openKeys"
+          v-model:selectedKeys="data.selectedKeys"
           mode="inline"
           theme="dark"
           :inline-collapsed="false"
+          @click="selectMenu"
         >
-          <a-menu-item key="1">
-            <span><PieChartOutlined /><span>nav 1</span></span>
-          </a-menu-item>
+          <sidebar-item
+            v-for="route in data.routes"
+            :key="route.path"
+            :item="route"
+            :base-path="route.path"
+          />
         </a-menu>
       </a-drawer>
       <a-layout-sider
         v-else
         v-model:collapsed="data.opened"
         :trigger="null"
-        :class="data.device === 'mobile' ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''">
-        <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
-          <a-menu-item key="1">
-            <span><PieChartOutlined /><span>nav 1</span></span>
-          </a-menu-item>
+        :class="!data.opened ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''">
+        <div class="logo">
+          <h3 v-if="!data.opened">vue3-demo</h3>
+          <img v-else src="../assets/logo.png" alt="logo" class="logo_img" />
+        </div>
+        <a-menu
+          mode="inline"
+          :theme="data.theme"
+          :inline-collapsed="data.opened"
+          v-model:openKeys="data.openKeys"
+          v-model:selectedKeys="data.selectedKeys"
+          @click="selectMenu"
+          @openChange="onOpenChange"
+        >
+          <sidebar-item
+            v-for="route in data.routes"
+            :key="route.path"
+            :item="route"
+            :base-path="route.path"
+          />
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -59,23 +77,27 @@
 import { computed, defineComponent, onMounted, reactive, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import { PieChartOutlined } from '@ant-design/icons-vue'
+import { useRouter } from 'vue-router'
+import SidebarItem from '../components/layout/menu.vue'
 export default defineComponent({
   name: 'Main',
   components: {
-    PieChartOutlined
+    PieChartOutlined,
+    SidebarItem
   },
   // setup 函数会在 beforeCreate 之后、created 之前执行
   setup() {
     const store = useStore()
+    const { options } = useRouter()
     console.log('store', store.getters)
-
+   
     const count = ref(0)
     const data: any = reactive({
       opened: computed(() => store.getters.sidebar.opened), // store.getters.sidebar.opened值改变data.opened的值就改变
       device: computed(() => store.getters.device),
       opened1: store.getters.sidebar.opened, // store.getters.sidebar.opened值改变data.opened的值就改变
       device1: store.getters.device,
-      routes: computed(() => store.getters.addRouters),
+      routes: store.getters.permission_routes,
       // counts:  computed(() => count.value), //可以使用计算属性或者watch监听count值的变化
       counts: count.value
     })

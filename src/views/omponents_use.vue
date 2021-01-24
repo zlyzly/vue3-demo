@@ -1,8 +1,7 @@
 <template>
   <!-- 新增片段 -->
   <div>
-    <strong>组件使用</strong>
-    <br />
+    <h3>#深入组件-组件使用</h3>
     <div>
       <a-button type="primary" @click="changeText">点击改变text的值</a-button>
     </div>
@@ -15,10 +14,12 @@
       v-model:last-name="post.lastName"
       @changeIds="changeIds"
     />
-
+    <h3>#props</h3>
+    <h3>#自定义事件</h3>
+    <h3>#插槽</h3>
+    <h3>#提供/注入</h3>
     <!-- 函数式组件 -->
-    <strong>函数式组件--通过函数创建组件</strong>
-    <br />
+    <h3>#函数式组件--通过函数创建组件</h3>
     <!--setup将接收两个参数：props 和 context。context 参数是一个对象，包含组件的 attrs，slots，和 emit property。
     现在不是在 render 函数中隐式提供 h，而是全局导入 h。 -->
     <component v-bind:is="`h${$props.level}`" v-bind="$attrs" />

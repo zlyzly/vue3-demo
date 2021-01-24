@@ -24,11 +24,11 @@ const mutations = {
       Cookies.set('sidebarStatus', '0')
     }
   },
-  CLOSE_SIDEBAR: (state: any, withoutAnimation: any) => {
-    Cookies.set('sidebarStatus', '0')
-    state.sidebar.opened = false
-    // state.sidebar.withoutAnimation = withoutAnimation
-  },
+  // CLOSE_SIDEBAR: (state: any, withoutAnimation: any) => {
+  //   Cookies.set('sidebarStatus', '0')
+  //   state.sidebar.opened = false
+  //   state.sidebar.withoutAnimation = withoutAnimation
+  // },
   TOGGLE_DEVICE: (state: any, device: string) => {
     state.device = device
   },

@@ -76,6 +76,7 @@ export const asyncRouterMap = [
   //     {
   //       path: 'home',
   //       name: 'Homes',
+  //       hidden: true,
   //       component: () => import('@/views/hello.vue'),
   //       meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home' }
   //     }
@@ -90,12 +91,14 @@ export const asyncRouterMap = [
   //     {
   //       path: 'gifts',
   //       name: 'Gifts',
+  //       hidden: true,
   //       component: () => import('@/views/watch_computed.vue'),
   //       meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
   //     },
   //     {
   //       path: 'hello',
   //       name: 'Hello',
+  //       hidden: true,
   //       component: () => import('@/views/hello.vue'),
   //       meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
   //     }
@@ -109,15 +112,15 @@ export const asyncRouterMap = [
     redirect: '/config/index',
     children: [
       {
-        path: 'new_features',
-        name: 'NewFeatures',
-        component: () => import('@/views/new_features.vue'),
-        meta: { title: '新特性', roles: ['admin', 201] }
+        path: 'transition',
+        name: 'Transition',
+        component: () => import('@/views/data/transition.vue'),
+        meta: { title: '过渡动画', roles: ['admin', 201] }
       },
       {
         path: 'main',
         name: 'GiftSet',
-        // hidden: true,
+        hidden: true,
         component: () => import('@/views/watch_computed.vue'),
         meta: { title: 'watch_computed', roles: ['admin', 202] }
       },
@@ -148,12 +151,12 @@ export const asyncRouterMap = [
     component: () => import('@/views/Home.vue'),
     meta: { title: '组件式API', icon: DesktopOutlined },
   },
-  // {
-  //   path: '/main',
-  //   name: 'Main',
-  //   component: () => import('@/views/main.vue'),
-  //   meta: { title: '适配手机', icon: DesktopOutlined },
-  // }
+  {
+    path: '/main',
+    name: 'Main',
+    component: () => import('@/views/main.vue'),
+    meta: { title: '适配手机', icon: DesktopOutlined },
+  }
 ]
 const router = createRouter({
   // history: createWebHistory(process.env.BASE_URL),
