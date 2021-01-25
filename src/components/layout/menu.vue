@@ -17,7 +17,7 @@
       </template>
       <sidebar-item
         v-for="child in item.children"
-        :key="child.path"
+        :key="resolvePath(child.path)"
         :item="child"
         :base-path="resolvePath(child.path)"
       />
@@ -25,9 +25,9 @@
   </template>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, computed, onMounted, toRefs, h } from "vue"
+import { defineComponent, reactive } from "vue"
 import { useStore } from "vuex"
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 export default defineComponent({
   name: "SidebarItem",
   props: {

@@ -2,8 +2,8 @@
   <strong>#transition</strong>
   <br />
   <div id="list-demo">
-    <button v-on:click="add">Add</button>
-    <button v-on:click="remove">Remove</button>
+    <a-button v-on:click="add" type="primary">Add</a-button>
+    <a-button v-on:click="remove" type="primary">Remove</a-button>
     <transition-group name="list" tag="p">
       <span v-for="item in post.items" v-bind:key="item" class="list-item">
         {{ item }}
@@ -12,16 +12,16 @@
   </div>
   <div id="list-demos">
     <!-- 多个元素使用v-if控制 -->
-    <button v-on:click="show">show</button>
-    <button v-on:click="hide">hide</button>
-    <transition-group name="list" tag="p">
+    <a-button v-on:click="show" type="primary">show</a-button>
+    <a-button v-on:click="hide" type="primary">hide</a-button>
+    <transition-group name="list" tag="div">
       <p v-if="post.shows">111111111111</p>
       <p v-if="post.shows">22222222222</p>
       <p v-else>33333333333</p>
     </transition-group>
   </div>
   <div id="demo">
-    <button @click="post.show = !post.show">Toggle show</button>
+    <a-button @click="post.show = !post.show" type="primary">Toggle show</a-button>
     <transition name="bounce">
       <p v-if="post.show">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
@@ -75,10 +75,13 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
+div {
+  margin: 20px 0;
+}
 .list-item,
-.list-items {
+.list-items,
+.demo {
   display: inline-block;
-  margin-right: 10px;
 }
 .list-enter-active,
 .list-leave-active {

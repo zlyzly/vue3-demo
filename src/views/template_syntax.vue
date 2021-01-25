@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3>#模板语法-ts类型响应式基础</h3>
+    <h3>#模板语法-ts类型，响应式api</h3>
+    
     <div class="home">
       <div :class="{ active: isActive }">111111111</div>
       <div :class="[isActive ? activeClass : '', errorClass]">222222222</div>
@@ -73,7 +74,14 @@ export default defineComponent({
     Forms,
     WatchComputed
   },
-  setup() {
+  beforeCreate() {
+    console.log('beforeCreate')
+  },
+  /* 组合式API都必须只能在setup中使用, 并充当合成 API 的入口点
+  在 beforeCreate 钩子之前被调用*/
+  setup(props, ctx) {
+    console.log('setup')
+    console.log(props, ctx)
     // 声明响应式状态  定义基本类型的数据
     // ref返回一个可变的响应式对象 调用变量.value
     const isActive = ref(false)
@@ -137,7 +145,7 @@ export default defineComponent({
     // 把响应式对象转成普通对象直接使用 导出是...kk
     const kk = toRefs(data)
     console.log(kk)
-    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo, text, nums, changelist, ...kk }
+    return { isActive, activeClass, errorClass, activeColor, fontSize, rawHtml, data, myObject, attributeName, url, eventName, getGo, text, nums, changelist, ...kk, copy }
   }
 })
 </script>

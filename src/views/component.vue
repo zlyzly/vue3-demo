@@ -2,19 +2,13 @@
   <div class="home">静态值：{{ title }}</div>
   <div class="home">动态赋予一个变量的值：{{ text }}</div>
 
-  <div>
-    <a-button type="primary" @click="pushCommentIds">向数组添加一个值</a-button>
-  </div>
-  <ul>
-    <li v-for="id in commentIds" :key="id">{{ id }}</li>
-  </ul>
+  <p>v-model在组件上使用并且可以多个</p>
   <div>
     <input
       type="text"
       :value="firstName"
       @input="$emit('update:firstName', $event.target.value)"
     />
-
     <input
       type="text"
       :value="lastName"
@@ -22,13 +16,21 @@
     />
     <a-button type="primary" @click="login">Log in</a-button>
   </div>
+
+  <div>
+    <a-button type="primary" @click="pushCommentIds">向数组添加一个值</a-button>
+  </div>
+  <ul>
+    <li v-for="id in commentIds" :key="id">{{ id }}</li>
+  </ul>
+
   <div>
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRaw } from 'vue'
+import { defineComponent, toRaw, toRefs } from 'vue'
 export default defineComponent({
   emits: ['changeIds'],
   props: {
@@ -42,13 +44,14 @@ export default defineComponent({
 
   },
   setup(props, context) {
-    // console.log(toRaw(props.commentIds))
+    console.log(toRaw(props.commentIds))
     const pushCommentIds = () => {
       // props.commentIds.push(500)
       context.emit('changeIds')
     }
     const login = () => {
-      // console.log(props)
+      const prop = toRefs(props)
+      console.log(props, prop)
     }
     return { pushCommentIds, login }
   }

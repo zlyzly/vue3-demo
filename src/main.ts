@@ -22,7 +22,7 @@ const app = createApp(App)
 
 // 全局注册组件
 app.component('component-a', {
-  template: '<div><<可直接使用--全局注册组件!>></div>'
+  template: '<div>---可直接使用--全局注册组件!---</div>'
 })
 
 // 将应用程序的根组件挂载到指定的DOM元素上

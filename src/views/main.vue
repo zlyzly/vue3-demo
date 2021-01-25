@@ -76,13 +76,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, watch, ref } from 'vue'
 import { useStore } from 'vuex'
-import { PieChartOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import SidebarItem from '../components/layout/menu.vue'
 export default defineComponent({
   name: 'Main',
   components: {
-    PieChartOutlined,
     SidebarItem
   },
   // setup 函数会在 beforeCreate 之后、created 之前执行

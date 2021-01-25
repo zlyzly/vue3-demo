@@ -34,10 +34,7 @@
     <Renders />
     <transition-c />
     <h3>#插槽</h3>
-    <h3>#组件注册</h3>
-    <component-a />
-    <p>局部注册是在根组件的componets组件</p>
-    <p>常用的是在模块系统中局部注册</p>
+
 
     <h3>#过滤器(已删除，可使用调用方法计算属性代替)</h3>
     <li v-for="tag in tags" :key="tag">

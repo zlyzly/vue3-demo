@@ -55,11 +55,11 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .ant-btn-primary {
   margin-left: 20px;
 }
-#components-layout-demo-custom-trigger .trigger {
+.trigger {
   font-size: 18px;
   line-height: 64px;
   padding: 0 24px;
@@ -67,18 +67,19 @@ export default defineComponent({
   transition: color 0.3s;
 }
 
-#components-layout-demo-custom-trigger .trigger:hover {
+.trigger:hover {
   color: #1890ff;
 }
 .ant-layout-header {
   position: relative;
-}
-.user {
-  position: absolute;
-  right: 20px;
-  top: 0;
-  width: 150px;
-  text-align: right;
+  line-height: 64px;
+  .user {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    width: 150px;
+    text-align: right;
+  }
 }
 .ant-dropdown-link span {
   margin-left: 10px;
