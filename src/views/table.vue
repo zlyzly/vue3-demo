@@ -14,8 +14,8 @@
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>
-      <template #avatar="scope">
-        <a-avatar :src="scope.tableRow.avatar" />
+      <template #avatar="{ tableRow }">
+        <a-avatar :src="tableRow.avatar" />
       </template>
       <template #action="scope">
         <a-button type="link" @click="handleDel(scope.tableRow.id)"
