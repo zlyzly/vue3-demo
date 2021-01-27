@@ -32,16 +32,13 @@
     <hr />
     <h3>#渲染函数api</h3>
     <Renders />
-    <transition-c />
-    <h3>#插槽</h3>
-
+    <!-- <transition-c /> -->
 
     <h3>#过滤器(已删除，可使用调用方法计算属性代替)</h3>
     <li v-for="tag in tags" :key="tag">
       {{ tagText(tag) }}
     </li>
-    <h3>#组件注册</h3>
-    <h3>#组件注册</h3>
+
   </div>
 </template>
 

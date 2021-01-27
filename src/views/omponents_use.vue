@@ -20,8 +20,31 @@
     
     <h3>#自定义事件</h3>
     <h3>#插槽</h3>
+    <!-- vue2 具名插槽(多个插槽-控制输入到子组件的不同位置)
+    在child双标签下写入对应的内容，在标签上加个属性（<p slot=xxx,>)（xxx为子组件中的 name值<slot name=xxx>）在标签中加上想插入的内容
+      vue3 !具名插槽只能写在template上或者组件上! v-slot:top/#bottom -->
     <slots>
-      <div>{{ post.firstName }}</div>
+      <div>{{ post.firstName }}{{ post.lastName }}</div>
+
+      <!-- 这种写法不对 -->
+      <p slot:header>哈哈哈哈</p>
+
+      <!-- 对应slots组件内 name=top ,bottom的插槽， 并且替换了后备内容bottom没有内容 使用后备内容显示
+      vue2 slot='top' slot-scope='props'
+      vue3 合起来 v-slot:top="obj"
+       -->
+      <template v-slot:top="obj">
+        插入子组件的内容——top
+        <div class="sign">获取具名插槽传参--{{ obj.scope.a }}---{{ obj.scope.b }}</div>
+         <div class="sign">获取具名插槽传参---{{ obj.text }}</div>
+      </template>
+      <template #bottom></template>
+
+      <!-- 插入多段内容 -->
+      <template #more>
+        <p v-for="el in 5" :key="el"> 插入多段内容---{{ el }} </p>
+      </template>
+      <!--  -->
     </slots>
     <h3>#提供/注入</h3>
     <div class="home">
@@ -123,10 +146,8 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-div {
+div,p  {
   margin: 10px 0;
 }
-p {
-  margin: 10px 0;
-}
+
 </style>

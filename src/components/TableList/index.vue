@@ -4,30 +4,21 @@
       bordered
       showTotal
       hideOnSinglePage
+      :loading="loading"
       :columns="columns"
       :data-source="dataList"
       :pagination="pagination"
       :rowKey="(row) => `$${row[dataIndex]}`"
       @change="handleTableChange"
     >
-      <!-- <template #name="{ text }">
-      <a>{{ text }}</a>
-    </template> -->
-      <!-- <template #avatar="{ text, record }">
-        <p>{{ text }}</p>
-        1111
-        <p>{{ record }}</p>
-        <a-avatar :src="text" />
-      </template> -->
       <template
         v-for="(colCustom, i) in columnsCustom"
-        v-slot:colCustom.customRender
-        slot-scope="item, record"
+        #[colCustom.customRender]="{ text, record }"
       >
         <slot
           :name="colCustom.customRender"
+          :text="text"
           :tableRow="record"
-          :text="item"
           :list="dataList"
           :index="i"
         />
@@ -40,6 +31,10 @@ import { computed, defineComponent, reactive, toRefs } from 'vue'
 export default defineComponent({
   name: 'TableList',
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     columns: {
       type: Array,
       default: []
@@ -72,8 +67,8 @@ export default defineComponent({
       },
       columnsCustom: computed(() => {
         return props.columns.filter((item: any) => {
-          return item.scopedSlots
-        }).map((item: any)=> item.scopedSlots)
+          return item.slots
+        }).map((item: any)=> item.slots)
       })
     })
     console.log(data.columnsCustom)
@@ -95,4 +90,7 @@ export default defineComponent({
 td.column-money {
   text-align: right !important;
 } */
+th, td {
+  vertical-align: center !important;
+}
 </style>

@@ -63,7 +63,7 @@ service.interceptors.response.use(
     // }
 
     if (response.status === 401) { // 401 代表token失效，需要重新登录（没权限也是401，error_message是invalid rule）
-      if (response.data.error_message !== 'Insufficient privilege create') {
+      if (response.data.error_message !== 'Token Not Found') {
         message.error({
           message: '你已被登出，请重新登录',
           duration: 3 * 1000,

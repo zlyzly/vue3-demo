@@ -1,5 +1,6 @@
 <template>
   <a-table :columns="columns" :data-source="data" bordered>
+    <!-- 插槽解构 -->
     <template #name="{ text }">
       <a>{{ text }}</a>
     </template>

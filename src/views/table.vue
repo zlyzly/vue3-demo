@@ -11,11 +11,16 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-      <template v-slot:action>
-        <span>
-          <a-divider type="vertical" />
-          <a>Delete</a>
-        </span>
+      <template #name="{ text }">
+        <a>{{ text }}</a>
+      </template>
+      <template #avatar="scope">
+        <a-avatar :src="scope.tableRow.avatar" />
+      </template>
+      <template #action="scope">
+        <a-button type="link" @click="handleDel(scope.tableRow.id)"
+          >删除</a-button
+        >
       </template>
     </table-list>
     <tables />
@@ -40,28 +45,30 @@ export default defineComponent({
         title: 'id',
         dataIndex: 'id',
         key: 'id',
-        align: 'center'
+        align: 'center',
+        width: '37%'
       },
       {
         title: '名称',
         dataIndex: 'name',
         key: 'name',
-        align: 'center'
+        align: 'center',
+        slots: { customRender: 'name' }
       },
       {
         title: '头像',
         dataIndex: 'avatar',
         key: 'avatar',
         align: 'center',
-        scopedSlots: { customRender: 'avatar' }
+        slots: { customRender: 'avatar' }
       },
       {
         title: '操作',
         dataIndex: 'action',
         key: 'action',
         align: 'center',
-        width: 80,
-        scopedSlots: { customRender: 'action' }
+        width: 60,
+        slots: { customRender: 'action' }
       }
     ])
     const data = reactive({
@@ -78,7 +85,7 @@ export default defineComponent({
       pos: computed(() => (data.pagination.current - 1) * data.pagination.pageSize),
       limit: computed(() => data.pagination.pageSize)
     })
-    console.log({...toRefs(params)})
+    console.log({ ...toRefs(params) })
     let messages: any = {}
     // 必须在这里给message赋值否则调不到方法 ?
     onMounted(() => {
@@ -102,8 +109,9 @@ export default defineComponent({
       data.pagination = pagination
       getlist()
     }
-    const handleDel = () => {
-
+    const handleDel = (val) => {
+      console.log(val)
+      console.log('删除')
     }
     return { ...toRefs(data), getlist, handleTableChange, params, messages, handleDel }
   }

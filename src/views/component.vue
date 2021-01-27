@@ -23,10 +23,6 @@
   <ul>
     <li v-for="id in commentIds" :key="id">{{ id }}</li>
   </ul>
-
-  <div>
-    <slot></slot>
-  </div>
 </template>
 
 <script lang="ts">
