@@ -1,6 +1,6 @@
 <template>
   <div class="welcome-container">
-    <div class="welcomeword"><h2>欢迎页</h2></div>
+    <h2>欢迎页</h2>
   </div>
 </template>
 
@@ -27,12 +27,11 @@ $dark_gray: #889aa4;
 $black: #000;
 .welcome-container {
   background-color: $bg;
-  .welcomeword {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 200px auto;
-    text-align: center;
+  text-align: center;
+  h2 {
+    font-size: 25px;
+    font-weight: bold;
   }
+  
 }
 </style>

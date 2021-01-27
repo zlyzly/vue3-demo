@@ -99,10 +99,6 @@
         </a-button>
       </a-form-item>
     </a-form>
-
-    <div>
-      <table-list />
-    </div>
   </div>
 </template>
 
@@ -111,15 +107,13 @@
 import { defineComponent, ref, reactive, toRaw } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { useForm } from '@ant-design-vue/use'
-import TableList from '../components/TableList/index.vue'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 export default defineComponent({
   components: {
     UserOutlined,
-    LockOutlined,
-    TableList
+    LockOutlined
   },
   setup() {
     interface Model {

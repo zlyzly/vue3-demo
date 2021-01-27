@@ -142,6 +142,12 @@ export const asyncRouterMap = [
         name: 'Index',
         component: () => import('@/views/data/index.vue'),
         meta: { title: '例子', roles: ['admin', 205] }
+      },
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table.vue'),
+        meta: { title: '表格', roles: ['admin', 208] }
       }
     ]
   },

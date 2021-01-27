@@ -102,7 +102,7 @@ export default defineComponent({
     console.log(data.opened, data.device)
     onMounted(() => {
       // 获取当前地址栏对应的菜单情况
-      console.log(data.openKeys, data.selectedKeys)
+      // console.log(data.openKeys, data.selectedKeys)
     })
     const toggleCollapsed = () => {
       store.dispatch('app/toggleSideBar')

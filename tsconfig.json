@@ -33,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/utils/resizeHandler.js"  ],
+, "src/utils/resizeHandler.js", "src/mock/services/list.js", "src/mock/services/auth.js", "src/mock/index.js", "src/mock/isShouldMock.js", "src/mock/util.js"  ],
   "exclude": [
     "node_modules"
   ]

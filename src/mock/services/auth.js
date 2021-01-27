@@ -6,7 +6,7 @@ const username = ['admin', 'super']
 // '21232f297a57a5a743894a0e4a801fc3',
 const password = ['admin', 'ant.design'] // admin, ant.design
 
-const login = (options: any) => {
+const login = (options => {
   const body = getBody(options)
   // console.log('mock: body', body)
   if (!username.includes(body.account) || !password.includes(body.password)) {
@@ -31,7 +31,7 @@ const login = (options: any) => {
     ],
     'token': '4291d7da9005377ec9aec4a71ea837f'
   }, '', 200, { 'Custom-Header': Mock.mock('@guid') })
-}
+})
 
 const logout = () => {
   return builder({}, '[测试接口] 注销成功')

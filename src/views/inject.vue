@@ -48,6 +48,8 @@ export default defineComponent({
       h3Ref.value.style.color = 'pink'
       h3Ref.value.style.fontSize = '25px'
     })
+    // setTimeout(() => {
+    // }, 10000)
     onBeforeMount(() => {
       // debugger
     })

@@ -60,7 +60,7 @@
     <!-- 表单组件 -->
     <h3>#表单组件</h3>
     <div>
-      <Forms />
+      <forms />
     </div>
   </div>
 </template>

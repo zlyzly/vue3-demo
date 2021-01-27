@@ -1,7 +1,7 @@
 const methods = [ 'get', 'post', 'put', 'delete' ]
 
-const apis: any = [
-  '/\/list\/table/',
+const apis = [
+  '/\\/list\\/table/',
   // '/\\/Pantomath\\/admin\\/login',
   // '/\\/Pantomath\\/admin\\/logout',
   // '/\\/Pantomath\\/app\\/index',
@@ -11,8 +11,8 @@ const apis: any = [
   // '/\\/Pantomath\\/data\\/day_active_retain'
 ]
 
-const res: any = []
-apis.forEach((api: string) => {
+const res= []
+apis.forEach((api) => {
   res.push(...methods.map(method => `${api}/${method}`))
 })
 // console.log(res)

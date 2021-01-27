@@ -1,10 +1,10 @@
-const responseBody: any = {
+const responseBody = {
   code: 200,
   msg: '',
   data: {}
 }
 
-export const builder = (data: any, msg: any, code = 200, headers: any = {}) => {
+export const builder = (data, msg, code = 200, headers) => {
   responseBody.data = data
   if (msg !== undefined && msg !== null) {
     responseBody.msg = msg
@@ -20,7 +20,7 @@ export const builder = (data: any, msg: any, code = 200, headers: any = {}) => {
   return responseBody
 }
 
-export const getQueryParameters = (options:any) => {
+export const getQueryParameters = (options) => {
   const url = options.url
   const search = url.split('?')[1]
   if (!search) {
@@ -32,6 +32,6 @@ export const getQueryParameters = (options:any) => {
     .replace(/=/g, '":"') + '"}')
 }
 
-export const getBody = (options: any) => {
+export const getBody = (options) => {
   return options.body && JSON.parse(options.body)
 }

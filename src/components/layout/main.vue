@@ -23,7 +23,7 @@ export default defineComponent({
 .content {
   padding: 16px;
   background: #fff;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 110px);
   overflow: hidden;
   height: auto;
   overflow-y: auto;

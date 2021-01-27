@@ -1,24 +1,27 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store/index'
+import store from './store'
 
 // import "ant-design-vue/dist/antd.css";
 // import './plugins/ant-design-vue.js'
 
 import loadComponent from './plugins/ant'
 
+import { message } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import './permission'
-import './mock'
+import './mock/index'
 import './utils/directive'
 
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import moment from 'moment'
 import 'moment/dist/locale/zh-cn'
 moment.locale('en')
-
 const app = createApp(App)
+
+app.config.globalProperties.$message = message
+app.provide('$message', message)
 
 // 全局注册组件
 app.component('component-a', {

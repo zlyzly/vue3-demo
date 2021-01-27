@@ -4,7 +4,7 @@ import {
   Checkbox, Result, Table, Pagination,
   DatePicker, Icon, Breadcrumb, Button, 
   Input, Switch, Col, Radio, ConfigProvider,
-  Drawer
+  Drawer, Popconfirm
 } from 'ant-design-vue'
 
 /*手动注册 antd-vue 组件,达到按需加载目的*/
@@ -31,5 +31,5 @@ export default function loadComponent(app: any) {
   app.use(Radio)
   app.use(ConfigProvider)
   app.use(Drawer)
-  
+  app.use(Popconfirm)
 }

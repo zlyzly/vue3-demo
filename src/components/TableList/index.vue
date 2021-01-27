@@ -1,60 +1,92 @@
 <template>
-  <a-table
-    bordered
-    :columns="columns"
-    :data-source="list"
-    :pagination="pagination"
-    :rowKey="(row) => `$${row[dataIndex]}`"
-    @change="handleTableChange"
-  >
-    <!-- <template #name="{ text }">
+  <div>
+    <a-table
+      bordered
+      showTotal
+      hideOnSinglePage
+      :columns="columns"
+      :data-source="dataList"
+      :pagination="pagination"
+      :rowKey="(row) => `$${row[dataIndex]}`"
+      @change="handleTableChange"
+    >
+      <!-- <template #name="{ text }">
       <a>{{ text }}</a>
     </template> -->
-    <template #avatar="{ text }">
-      <a-avatar :src="text" />
-    </template>
-  </a-table>
+      <!-- <template #avatar="{ text, record }">
+        <p>{{ text }}</p>
+        1111
+        <p>{{ record }}</p>
+        <a-avatar :src="text" />
+      </template> -->
+      <template
+        v-for="(colCustom, i) in columnsCustom"
+        v-slot:colCustom.customRender
+        slot-scope="item, record"
+      >
+        <slot
+          :name="colCustom.customRender"
+          :tableRow="record"
+          :text="item"
+          :list="dataList"
+          :index="i"
+        />
+      </template>
+    </a-table>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, toRaw } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 export default defineComponent({
   name: 'TableList',
   props: {
     columns: {
-      type: Object,
+      type: Array,
       default: []
     },
     list: {
-      type: Object,
+      type: Array,
       default: []
     },
     pagination: {
-      type: Object,
-      default: () => ({})
+      type: Object || Boolean,
+      default: false
     },
     dataIndex: {
       type: String,
       default: 'key'
-    },
-    pageSize: {
-      type: Number,
-      default: () => 1
     }
   },
-  setup(props) {
-    const paginations = {
-      defaultPageSize: 1,
-      pageSizeOptions: ['10', '30', '50', '90'],
-      current: 1,
-      showQuickJumper: true,
-      showSizeChanger: true
+  emits: ['change'],
+  setup(props, context) {
+    const data = reactive({
+      dataList: computed(() => props.list),
+      columns: props.columns,
+      pagination: !props.pagination ? false : {
+        defaultPageSize: computed(() => props.pagination.pageSize) || 30,
+        pageSizeOptions: ['10', '30', '50'],
+        current: computed(() => props.pagination.current),
+        total: computed(() => props.pagination.total),
+        showQuickJumper: true,
+        showSizeChanger: true
+      },
+      columnsCustom: computed(() => {
+        return props.columns.filter((item: any) => {
+          return item.scopedSlots
+        }).map((item: any)=> item.scopedSlots)
+      })
+    })
+    console.log(data.columnsCustom)
+    // , filters, sorter, { currentDataSource }
+    const handleTableChange = (pagination) => {
+      // console.log('page', pagination)
+      data.pagination = pagination
+      const maxPage = Math.floor(pagination.total / pagination.pageSize)
+      if (pagination.current <= maxPage) context.emit('change', pagination)
+      else return
     }
-    const { pagination } = toRaw(props)
-    const handleTableChange = async (page: number) => {
-      // console.log('page', page)
-      pagination.current = page
-    }
-    return { paginations, handleTableChange }
+    console.log(data.pagination)
+    return { ...toRefs(data), handleTableChange }
   }
 })
 </script>
