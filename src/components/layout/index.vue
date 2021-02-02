@@ -2,6 +2,7 @@
   <div :class="data.device" id="main">
     <a-layout id="components-layout-demo-custom-trigger">
       <a-drawer
+        class="drawer"
         v-if="data.device === 'mobile'"
         width="200"
         placement="left"
@@ -68,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive } from 'vue'
 import SidebarItem from './menu.vue'
 import Navbar from './navbar.vue'
 import Breadcrumb from './breadcrumb.vue'
@@ -121,19 +122,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="less" scoped>
-// >>> .ant-drawer-body {
-//   padding: 0;
-// }
-// ::v-deep .ant-drawer-body {
-//   padding: 0;
-// }
-/deep/ .ant-drawer-body {
-  padding: 0 !important;
-}
-/deep/ .ant-drawer-content {
-  background: #001529;
-}
+<style lang="less">
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
   line-height: 32px;
@@ -171,5 +160,13 @@ export default defineComponent({
 }
 #main,section.ant-layout {
   height: 100% !important;
+}
+.drawer {
+  /deep/ .ant-drawer-body {
+    padding: 0 !important;
+  }
+  /deep/ .ant-drawer-content {
+    background: #001529;
+  }
 }
 </style>
