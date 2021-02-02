@@ -21,12 +21,12 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
-$bg: #fff;
-$dark_gray: #889aa4;
-$black: #000;
+<style lang="less" scoped>
+// $bg: #fff;
+// $dark_gray: #889aa4;
+// $black: #000;
 .welcome-container {
-  background-color: $bg;
+  background-color: #fff;
   text-align: center;
   h2 {
     font-size: 25px;

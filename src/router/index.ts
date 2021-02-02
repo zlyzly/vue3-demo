@@ -1,5 +1,7 @@
-import { reviewRules, configurationRules, statisticsRules, storeRules } from '@/utils/rules'
-import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
+// , statisticsRules, storeRules
+import { reviewRules, configurationRules } from '@/utils/rules'
+// , createWebHistory, RouteRecordRaw
+import { createRouter, createWebHashHistory } from 'vue-router'
 // import Layout from '@/components/layout/index.vue'
 import {
   PieChartOutlined,
@@ -87,6 +89,7 @@ export const asyncRouterMap = [
   //   name: 'Configuration',
   //   component: Layout,
   //   meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
+  //   redirect: '/configuration/gifts',
   //   children: [
   //     {
   //       path: 'gifts',
@@ -116,13 +119,6 @@ export const asyncRouterMap = [
         name: 'Transition',
         component: () => import('@/views/data/transition.vue'),
         meta: { title: '过渡动画', roles: ['admin', 201] }
-      },
-      {
-        path: 'main',
-        name: 'GiftSet',
-        hidden: true,
-        component: () => import('@/views/watch_computed.vue'),
-        meta: { title: 'watch_computed', roles: ['admin', 202] }
       },
       {
         path: 'syntax',

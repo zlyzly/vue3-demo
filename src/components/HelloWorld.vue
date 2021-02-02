@@ -39,7 +39,7 @@ export default defineComponent({
     // console.log(context.attrs)
 
     // 插槽 (非响应式对象)
-    // console.log(context.slots)
+    console.log(context.slots)
 
     // 触发事件 (方法)
     // console.log(context.emit)
@@ -69,15 +69,15 @@ export default defineComponent({
     }
     // 在用户 prop 的响应式引用上设置一个侦听器
     watch(str, (nv: string, ov: string) => {
-      // console.log('新的值：', nv, '旧的值', ov)
+      console.log('新的值：', nv, '旧的值', ov)
     })
     // --------reactive--------
     // 定义数据源 name: 'zs' 对象多个属性可连着使用
     const state = reactive({ count: 0 })
     // 监视 state.count 这个数据节点的变化
     const change = () => state.count++;
-    watch(() => state.count, (oldVlaue, newValue) => {
-      // console.log(oldVlaue, newValue, '改变')
+    const stop = watch(() => state.count, (oldVlaue, newValue) => {
+      console.log(oldVlaue, newValue, '改变')
     })
     // watch(
     //   [() => state.count, () => state.name], // Object.values(toRefs(state)),
@@ -101,7 +101,7 @@ export default defineComponent({
     // 创建监视，并得到 停止函数
     // const stop = watch(() => {})
     // 调用停止函数，清除对应的监视
-    // stop()
+    stop()
 
 
     // 把接收到的共享数据 return 给 Template 使用
@@ -111,7 +111,7 @@ export default defineComponent({
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped lang="less">
 h3 {
   margin: 40px 0 0;
 }

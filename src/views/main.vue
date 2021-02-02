@@ -87,10 +87,17 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const { options } = useRouter()
-    console.log('store', store.getters)
-   
+    console.log('store', store.getters, options)
+    interface Data {
+      opened: boolean;
+      device: string;
+      opened1: boolean;
+      device1: string;
+      routes: [object];
+      counts: number;
+    }
     const count = ref(0)
-    const data: any = reactive({
+    const data: Data = reactive({
       opened: computed(() => store.getters.sidebar.opened), // store.getters.sidebar.opened值改变data.opened的值就改变
       device: computed(() => store.getters.device),
       opened1: store.getters.sidebar.opened, // store.getters.sidebar.opened值改变data.opened的值就改变
@@ -135,7 +142,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
+<style lang="less">
 // >>> .ant-drawer-body {
 //   padding: 0;
 // }

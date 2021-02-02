@@ -114,8 +114,9 @@ export default defineComponent({
     const copy = readonly(myObject)
     // 使用es6解构会丢失响应性，可以使用 toRefs转换成ref式的响应性数据
     // let { author, title } = myObject
-    let { author, title } = toRefs(myObject)
+    const { author, title } = toRefs(myObject)
     author.value = 'Zahra'
+    console.log(author, title)
     // 只读属性的值不可以修改
     // copy.title = '改变只读属性的值' //title" failed: target is readonly. 
 
@@ -149,7 +150,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .home > div {
   width: 100%;
   height: 100px;

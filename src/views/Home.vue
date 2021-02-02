@@ -81,7 +81,7 @@ export default defineComponent({
   }
 });
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .home {
   padding-left: 50px;
 }

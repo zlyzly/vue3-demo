@@ -1,11 +1,14 @@
 import Mock from 'mockjs'
 import { builder, getBody, getQueryParameters } from '../util'
 
-const getLists = (options => {
+const getLists = ((options: any) => {
   console.log(options)
   const { limit, pos } = getQueryParameters(options)
-
-  const data = []
+  const obj: any = {
+    total: Number,
+    list: Array,
+  }
+  const data: any = []
 
   for (let i = 0; i < limit; i++) {
     data.push({
@@ -15,15 +18,13 @@ const getLists = (options => {
       'avatar': 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png',
       'deleted': 0,
       'roleId': Mock.mock('@guid'),
-      'lang': 'zh-CN',
+      'lang': 'zh-CN',  
       'type': 1
     })
   }
-
-  return builder({
-    total: 100,
-    list: data
-  })
+  obj.total = 100
+  obj.list = data
+  return builder(obj)
 })
 
 

@@ -1,7 +1,7 @@
 <template>
   <template v-if="!item.hidden">
-    <template v-if="hasOneShowingChild(item.children,item) && (!data.onlyOneChild.children||data.onlyOneChild.noShowingChildren)&&!item.alwaysShow">
-      <a-menu-item :key="resolvePath(data.onlyOneChild.path)" @click="change(data.onlyOneChild.name, resolvePath(data.onlyOneChild.path), data.onlyOneChild)">
+    <template v-if="hasOneShowingChild(item.children,item) && (!data.onlyOneChild.children||data.onlyOneChild.noShowingChildren)">
+      <a-menu-item :key="resolvePath(data.onlyOneChild.path)">
         <router-link :to="resolvePath(data.onlyOneChild.path)">
           <span>
             <component :is="data.onlyOneChild.meta.icon"></component>
@@ -10,8 +10,9 @@
         </router-link>
       </a-menu-item>
     </template>
-
-    <a-sub-menu v-else :key="resolvePath(item.path)" @click="change(item.name, resolvePath(item.path), item)">
+    <!-- @click="change(data.onlyOneChild.name, resolvePath(data.onlyOneChild.path), data.onlyOneChild)" -->
+<!-- @click="change(item.name, resolvePath(item.path), item)" -->
+    <a-sub-menu v-else :key="resolvePath(item.path)">
       <template #title>
         <span><component :is="item.meta.icon"></component><span>{{ item.meta.title }}</span></span>
       </template>
@@ -26,8 +27,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
-import { useStore } from "vuex"
-import { useRoute } from 'vue-router'
+// import { useStore } from "vuex"
+// import { useRoute } from 'vue-router'
 export default defineComponent({
   name: "SidebarItem",
   props: {
@@ -44,8 +45,8 @@ export default defineComponent({
     interface DataModal {
       onlyOneChild: string[];
     }
-    const store = useStore()
-    const route = useRoute()
+    // const store = useStore()
+    // const route = useRoute()
     const data: DataModal = reactive({
       onlyOneChild: []
     })
@@ -59,7 +60,7 @@ export default defineComponent({
           return true
         }
       }) : []
-      // 只有一个子路由器时，默认显示该子路由器
+      // 只有一个子路由器时，默认显示该子路由
       if (showingChildren.length === 1) {
         return true
       }
@@ -75,16 +76,16 @@ export default defineComponent({
       // console.log(routePath)
       return routePath ? `${props.basePath}/${routePath}` : `${props.basePath}`
     }
-    const change = (name, url, item) => {
-      // console.log('this.$route: ', route.path, url, item)
-      store.dispatch('ResetState', { name: name }).then(() => {
-        if (route.path === url || route.path === item.redirect) {
-          window.location.reload() // 避免刷新之后丢失历史记录
-          // this.reload()
-        }
-      })
-    }
-    return { data, hasOneShowingChild, resolvePath, change }
+    // const change = (name, url, item) => {
+    //   // console.log('this.$route: ', route.path, url, item)
+    //   store.dispatch('ResetState', { name: name }).then(() => {
+    //     if (route.path === url || route.path === item.redirect) {
+    //       window.location.reload() // 避免刷新之后丢失历史记录
+    //       // this.reload()
+    //     }
+    //   })
+    // }
+    return { data, hasOneShowingChild, resolvePath }
   }
 })
 </script>

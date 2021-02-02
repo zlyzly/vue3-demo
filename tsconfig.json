@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "allowJs": true,
     "baseUrl": ".",
     "types": [
       "webpack-env"
@@ -27,13 +28,21 @@
       "scripthost"
     ]
   },
+  "files": [
+    "src/utils/resizeHandler.js",
+    "src/mock/services/list.ts",
+    "src/mock/services/auth.ts",
+    "src/mock/index.ts",
+    "src/mock/isShouldMock.ts",
+    "src/mock/util.ts"
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/utils/resizeHandler.js", "src/mock/services/list.js", "src/mock/services/auth.js", "src/mock/index.js", "src/mock/isShouldMock.js", "src/mock/util.js"  ],
+  ],
   "exclude": [
     "node_modules"
   ]

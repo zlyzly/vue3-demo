@@ -77,7 +77,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 div {
   margin: 10px 0;
 }

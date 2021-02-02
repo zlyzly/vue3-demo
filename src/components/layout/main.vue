@@ -2,6 +2,9 @@
   <a-layout-content class="content">
     <div class="main">
       <!-- slide-fade -->
+      <!-- <router-view>
+        <transition name="fade-transform" />
+      </router-view> -->
       <transition name="fade-transform">
         <router-view />
       </transition>
@@ -19,16 +22,17 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .content {
   padding: 16px;
   background: #fff;
   min-height: calc(100vh - 110px);
-  overflow: hidden;
   height: auto;
+  overflow: hidden;
   overflow-y: auto;
   .main {
     min-height: 100%;
+    height: auto;
     padding-bottom: 60px;
   }
 }
@@ -95,4 +99,5 @@ export default defineComponent({
   opacity: 0;
   transform: translateX(30px);
 }
+
 </style>

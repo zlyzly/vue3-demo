@@ -12,12 +12,12 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'tr
   // const Mock = require('mockjs')
   require('./services/auth')
   require('./services/list')
-  console.log(Mock._mocked)
-  shouldNotMockApis.forEach((api) => {
-    if (Mock._mocked[api]) {
-      delete Mock._mocked[api]
-    }
-  })
+  // console.log(Mock._mocked)
+  // shouldNotMockApis.forEach((api) => {
+  //   if (Mock._mocked[api]) {
+  //     delete Mock._mocked[api]
+  //   }
+  // })
 
   Mock.setup({
     timeout: 2000 // setter delay time

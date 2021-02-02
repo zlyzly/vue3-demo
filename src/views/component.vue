@@ -5,11 +5,13 @@
   <p>v-model在组件上使用并且可以多个</p>
   <div>
     <input
+      v-focus
       type="text"
       :value="firstName"
       @input="$emit('update:firstName', $event.target.value)"
     />
     <input
+      v-pin="[]"
       type="text"
       :value="lastName"
       @input="$emit('update:lastName', $event.target.value)"
@@ -53,7 +55,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 div {
   margin: 10px 0;
 }

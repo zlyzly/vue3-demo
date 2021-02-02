@@ -43,7 +43,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .breadcrumb {
   line-height: 30px;
   margin-left: 16px;

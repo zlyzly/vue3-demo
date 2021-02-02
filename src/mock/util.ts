@@ -1,10 +1,17 @@
-const responseBody = {
+interface responseBody {
+  code: Number;
+  msg: string;
+  data: any;
+  _status?: Number;
+  _headers?: any;
+}
+const responseBody: responseBody = {
   code: 200,
   msg: '',
   data: {}
 }
 
-export const builder = (data, msg, code = 200, headers) => {
+export const builder: any = (data, msg, code = 200, headers) => {
   responseBody.data = data
   if (msg !== undefined && msg !== null) {
     responseBody.msg = msg
@@ -20,7 +27,7 @@ export const builder = (data, msg, code = 200, headers) => {
   return responseBody
 }
 
-export const getQueryParameters = (options) => {
+export const getQueryParameters: any = (options) => {
   const url = options.url
   const search = url.split('?')[1]
   if (!search) {

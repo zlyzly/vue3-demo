@@ -8,9 +8,9 @@
 import { defineComponent, reactive } from 'vue'
 // import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import moment from 'moment'
-import 'moment/dist/locale/zh-cn'
-moment.locale('en')
+// import moment from 'moment'
+// import 'moment/dist/locale/zh-cn'
+// moment.locale('en')
 export default defineComponent({
   setup() {
     // console.log(zhCN)
@@ -32,5 +32,3 @@ export default defineComponent({
 })
 </script>
 
-<style>
-</style>

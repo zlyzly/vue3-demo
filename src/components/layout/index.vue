@@ -1,5 +1,5 @@
 <template>
-  <div :class="data.device">
+  <div :class="data.device" id="main">
     <a-layout id="components-layout-demo-custom-trigger">
       <a-drawer
         v-if="data.device === 'mobile'"
@@ -121,17 +121,17 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss">
+<style lang="less" scoped>
 // >>> .ant-drawer-body {
 //   padding: 0;
 // }
 // ::v-deep .ant-drawer-body {
 //   padding: 0;
 // }
-.ant-drawer-body {
+/deep/ .ant-drawer-body {
   padding: 0 !important;
 }
-.ant-drawer-content {
+/deep/ .ant-drawer-content {
   background: #001529;
 }
 #components-layout-demo-custom-trigger .logo {
@@ -168,5 +168,8 @@ export default defineComponent({
     position: fixed;
     top: 0;
   }
+}
+#main,section.ant-layout {
+  height: 100% !important;
 }
 </style>

@@ -47,7 +47,7 @@ import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent, 
 import Child1 from './child1.vue'
 import Child2 from './child2.vue'
 
-import TransitionC from './transition.vue'
+// import TransitionC from './transition.vue'
 import Renders from './renders.vue'
 // import pin from '../../utils/directive'
 // const Child1 = defineAsyncComponent('Child1', function (resolve) {
@@ -92,7 +92,7 @@ export default defineComponent({
     asyncPage2,
     asyncPageWithOptions2,
     Renders,
-    TransitionC,
+    // TransitionC,
     AsyncComponent: defineAsyncComponent(() => import('./AsyncComponent.vue'))
   },
   directives: {
@@ -165,7 +165,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .demo {
   font-family: sans-serif;
   border: 1px solid #eee;

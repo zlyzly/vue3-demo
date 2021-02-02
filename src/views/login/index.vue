@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 import { setAdminName } from '../../utils/auth'
 import { useStore } from 'vuex'
@@ -114,7 +114,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .login_box {
   &.mobile {
     width: 80%;

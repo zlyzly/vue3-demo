@@ -81,7 +81,7 @@ export default defineComponent({
         total: 0
       }
     })
-    const params: any = reactive({
+    const params: object = reactive({
       pos: computed(() => (data.pagination.current - 1) * data.pagination.pageSize),
       limit: computed(() => data.pagination.pageSize)
     })
@@ -117,7 +117,7 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 div {
   margin: 10px 0;
 }
