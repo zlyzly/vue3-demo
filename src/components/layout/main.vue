@@ -2,9 +2,6 @@
   <a-layout-content class="content">
     <div class="main">
       <!-- slide-fade -->
-      <!-- <router-view>
-        <transition name="fade-transform" />
-      </router-view> -->
       <transition name="fade-transform">
         <router-view />
       </transition>
@@ -22,23 +19,34 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .content {
   padding: 16px;
   background: #fff;
-  min-height: calc(100vh - 110px);
+  // less会影响calc算法加转意符号~解决
+  min-height: calc(~"100vh - 110px");
   height: auto;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   .main {
     min-height: 100%;
     height: auto;
     padding-bottom: 60px;
   }
+  h3:not(:first-child) {
+    margin-top: 30px;
+  }
+  h3 {
+    font-weight: bold;
+  }
+  .sign {
+    font-weight: bold;
+    color: rgb(243, 22, 22);
+  }
 }
 /* 可以设置不同的进入和离开动画   */
 /* 设置持续时间和动画函数        */
-// .slide-fade-enter-active {
+/* // .slide-fade-enter-active {
 //   transition: all 1s ease-in;
 // }
 
@@ -61,7 +69,7 @@ export default defineComponent({
 // .page-transition-enter-from,
 // .page-transition-leave-to {
 //   opacity: 0.2;
-// }
+// } */
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {

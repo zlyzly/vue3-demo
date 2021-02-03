@@ -11,7 +11,7 @@ import loadComponent from './plugins/ant'
 import { message } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import './permission'
-import './mock/index.ts'
+import './mock/index'
 // import './utils/directive'
 
 // import zhCN from 'ant-design-vue/es/locale/zh_CN'

@@ -1,21 +1,22 @@
-const path = require('path')
-
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
+// const path = require('path')
+// import path from 'path'
+// import UglifyPlugin from 'uglifyjs-webpack-plugin'
+// import CompressionWebpackPlugin from 'webpack-bundle-analyzer'
 module.exports = {
-  publicPath: '/', //在打包时添加这段代码，处理静态资源找不到问题
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : './', //在打包时添加这段代码，处理静态资源找不到问题
   runtimeCompiler: true,//在启用vue-router路由时需要配置该带码否则会报错
   outputDir: 'dist',
-  assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  assetsDir: 'static',//放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
+  lintOnSave: process.env.NODE_ENV === 'production',
+  // 生产环境是否生成 sourceMap 文件 sourceMap的详解请看末尾  
   productionSourceMap: false,
   devServer: {
     open: true, //是否自动弹出浏览器页面
-    host: "localhost",
-    port: '9528',
-    https: false,
-    hotOnly: false,
+    port: '8080',
+    overlay: {
+      warnings: false,
+      errors: true
+    },
     proxy: {
       '/api': {
         target: 'http://106.75.11.161:8082/', //API服务器的地址
@@ -27,14 +28,13 @@ module.exports = {
       }
     },
   },
-  configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
-    // name: name,
-    resolve: {
-      alias: {
-        '@': resolve('src')
-      }
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+        // 为生产环境修改配置...
+      config.mode = 'production'
+    } else {
+        // 为开发环境修改配置...
+      config.mode = 'development'
     }
-  }
+  },
 }

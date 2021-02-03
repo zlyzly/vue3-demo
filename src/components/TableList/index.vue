@@ -1,30 +1,28 @@
 <template>
-  <div>
-    <a-table
-      bordered
-      showTotal
-      hideOnSinglePage
-      :loading="loading"
-      :columns="columns"
-      :data-source="dataList"
-      :pagination="pagination"
-      :rowKey="(row) => `$${row[dataIndex]}`"
-      @change="handleTableChange"
+  <a-table
+    bordered
+    showTotal
+    hideOnSinglePage
+    :loading="loading"
+    :columns="columns"
+    :data-source="dataList"
+    :pagination="pagination"
+    :rowKey="(row) => `$${row[dataIndex]}`"
+    @change="handleTableChange"
+  >
+    <template
+      v-for="(colCustom, i) in columnsCustom"
+      #[colCustom.customRender]="{ text, record }"
     >
-      <template
-        v-for="(colCustom, i) in columnsCustom"
-        #[colCustom.customRender]="{ text, record }"
-      >
-        <slot
-          :name="colCustom.customRender"
-          :text="text"
-          :tableRow="record"
-          :list="dataList"
-          :index="i"
-        />
-      </template>
-    </a-table>
-  </div>
+      <slot
+        :name="colCustom.customRender"
+        :text="text"
+        :tableRow="record"
+        :list="dataList"
+        :index="i"
+      />
+    </template>
+  </a-table>
 </template>
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
@@ -37,11 +35,11 @@ export default defineComponent({
     },
     columns: {
       type: Array,
-      default: []
+      default: (() => [])
     },
     list: {
       type: Array,
-      default: []
+      default: (() => [])
     },
     pagination: {
       type: Object || Boolean,

@@ -3,7 +3,6 @@ import getters from './getters'
 import app from './modules/app'
 import permission from './modules/permission'
 import history from './modules/history'
-// import settings from './modules/settings'
 import user from './modules/user'
 
 const store = createStore({
@@ -11,7 +10,6 @@ const store = createStore({
     app,
     permission,
     history,
-    // settings,
     user
   },
   getters
