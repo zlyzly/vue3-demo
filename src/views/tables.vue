@@ -12,7 +12,6 @@
       >
         <a>Delete</a>
       </a-popconfirm>
-      <a-button type="primary">Delete</a-button>
     </template>
   </a-table>
 </template>
@@ -25,7 +24,7 @@ export default defineComponent({
   setup() {
     const ctx = getCurrentInstance()
     // const message = inject('$message')
-    console.log(inject('$message'))
+    console.log(ctx, inject('$message'))
     const columns = [
       {
         title: 'Name',
@@ -72,11 +71,9 @@ export default defineComponent({
     onMounted(() => {
       //  as object
       message = inject('$message')
-      console.log(ctx)
     })
     const onDelete = () => {
       message.success('删除成功')
-      // ctx.$message.success('删除成功')
     }
     return { data, columns, onDelete }
   }

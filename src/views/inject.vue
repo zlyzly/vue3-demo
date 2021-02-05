@@ -68,12 +68,12 @@ export default defineComponent({
     onUnmounted(() => {
        // debugger
     })
-    onRenderTracked((e) => {
-      console.log(e)
+    onRenderTracked(() => {
+      // console.log(e)
       // debugger
     })
-    onRenderTriggered((e) => {
-      console.log(e)
+    onRenderTriggered(() => {
+      // console.log(e)
       // debugger
     })
 

@@ -27,8 +27,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
-// import { useStore } from "vuex"
-// import { useRoute } from 'vue-router'
 export default defineComponent({
   name: "SidebarItem",
   props: {
@@ -45,8 +43,6 @@ export default defineComponent({
     interface DataModal {
       onlyOneChild: string[];
     }
-    // const store = useStore()
-    // const route = useRoute()
     const data: DataModal = reactive({
       onlyOneChild: []
     })
@@ -69,11 +65,9 @@ export default defineComponent({
         data.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
         return true
       }
-      // console.log(data.onlyOneChild)
       return false
     }
     const resolvePath = (routePath: string) => {
-      // console.log(routePath)
       return routePath ? `${props.basePath}/${routePath}` : `${props.basePath}`
     }
     // const change = (name, url, item) => {

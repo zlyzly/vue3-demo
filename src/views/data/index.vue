@@ -17,7 +17,7 @@
         <br />
         <asyncPageWithOptions2></asyncPageWithOptions2>
         <br />
-        <asyncCompm />
+        <!-- <asyncComp /> -->
       </template>
     </div>
     <h3># 自定义指令, 动态指令参数</h3>
@@ -38,12 +38,16 @@
     <li v-for="tag in tags" :key="tag">
       {{ tagText(tag) }}
     </li>
-
+    <a-button type="danger" @click="changeLink">跳到路由页面</a-button>
+    <a-button type="danger" @click="changeLink1">跳到过渡动面</a-button>
+    <a-button type="danger" @click="changeLink2">跳到路由页面</a-button>
+    <a-button type="primary" @click="changeLink3">跳到路由页面tab1</a-button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent, reactive, toRefs } from 'vue'
+import { defineComponent, ref, onBeforeUpdate, onUpdated, defineAsyncComponent, reactive, toRefs, getCurrentInstance } from 'vue'
+import { useRouter } from 'vue-router'
 import Child1 from './child1.vue'
 import Child2 from './child2.vue'
 
@@ -113,7 +117,10 @@ export default defineComponent({
     }
   },
   setup() {
-    // console.log(props, context)
+    const ctx = getCurrentInstance()
+    console.log(ctx)
+    const router = useRouter()
+    console.log(router)
     const itemRefs = ref([])
     const list = ref([1, 3, 5])
     const setItemRef = (el: any) => {
@@ -150,6 +157,28 @@ export default defineComponent({
     const tagText = (tag: string | number) => {
       return '$' + tag
     }
+    const changeLink = () => {
+      router.push({ path: `/users/${message.value}` })
+    }
+    const changeLink1 = () => {
+      router.push({ path: '/configuration/gifts', query: { message: message.value } })
+      // router.push({ name: 'Transition', params: { message: message.value } })
+      // router.push({ path: '/config/transition', params: { message: 'hhhh' } })
+    }
+   
+    const querys: any = {
+      message: message.value,
+      arr: arr.tags,
+      show: show.value
+    }
+    const changeLink2 = () => {
+      // router.push({ path: '/config/router', query: { message: message.value } })
+      router.push({ name: 'NestedRouter', query: querys })
+    }
+    const changeLink3 = () => {
+      // router.push({ path: '/config/router', query: { message: message.value } })
+      router.push({ name: 'NestedRouter1', query: querys })
+    }
     return {
       ...tags,
       list,
@@ -160,7 +189,11 @@ export default defineComponent({
       asyncPageWithOptions,
       message,
       asyncComp,
-      tagText
+      tagText,
+      changeLink,
+      changeLink1,
+      changeLink2,
+      changeLink3
     }
   }
 })
@@ -199,5 +232,8 @@ export default defineComponent({
 }
 #dynamic-arguments-example {
   position: relative;
+}
+.ant-btn {
+  margin-right: 20px;
 }
 </style>

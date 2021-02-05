@@ -6,20 +6,26 @@ import store from './store'
 // import "ant-design-vue/dist/antd.css";
 // import './plugins/ant-design-vue.js'
 
+// 局部导入组件
 import loadComponent from './plugins/ant'
-
 import { message } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
+
+// 引入全部组件样式
+import 'ant-design-vue/dist/antd.less'
+
 import './permission'
-import './mock/index'
+
+import './mock'
+
 // import './utils/directive'
 
 // import zhCN from 'ant-design-vue/es/locale/zh_CN'
 // import moment from 'moment'
 // import 'moment/dist/locale/zh-cn'
 // moment.locale('en')
-const app = createApp(App)
 
+const app = createApp(App)
+// 局部导入组件
 app.config.globalProperties.$message = message
 app.provide('$message', message)
 

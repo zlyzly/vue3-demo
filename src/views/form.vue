@@ -213,7 +213,7 @@ export default defineComponent({
     // }
 
     const nameValidator = async (rule: object, value: string) => {
-      // console.log(rule, value, callback)
+      // console.log(rule, value)
       if (value === '') return Promise.reject('Please input Activity name')
       if (value.length < 3 || value.length > 5) return Promise.reject('Length should be 3 to 5')
       else Promise.resolve()

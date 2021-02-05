@@ -1,6 +1,9 @@
 <template>
   <div class="welcome-container">
     <h2>欢迎页</h2>
+    <!-- <a-config-provider :csp="{ nonce: 'YourNonceCode' }">
+      <a-button>My Button</a-button>
+    </a-config-provider> -->
   </div>
 </template>
 
@@ -32,6 +35,6 @@ export default defineComponent({
     font-size: 25px;
     font-weight: bold;
   }
-  
 }
 </style>
+

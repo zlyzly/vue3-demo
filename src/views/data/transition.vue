@@ -39,7 +39,8 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, getCurrentInstance, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 export default defineComponent({
   components: {
     'v-a': {
@@ -50,6 +51,11 @@ export default defineComponent({
     }
   },
   setup() {
+    const route = useRoute()
+    const ctx = getCurrentInstance()
+    console.log(route, ctx)
+    const { params } = route
+    console.log(params)
     const post = reactive({
       items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       nextNum: 10,

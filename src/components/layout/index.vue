@@ -31,7 +31,12 @@
         v-else
         v-model:collapsed="data.opened"
         :trigger="null"
-        :class="!data.opened ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width': ''">
+        :class="
+          !data.opened
+            ? 'ant-layout-sider-collapsed ant-layout-sider-zero-width'
+            : ''
+        "
+      >
         <div class="logo">
           <h3 v-if="!data.opened">vue3-demo</h3>
           <img v-else src="../../assets/logo.png" alt="logo" class="logo_img" />
@@ -69,14 +74,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive } from 'vue'
+import { computed, defineComponent, reactive, watch } from 'vue'
 import SidebarItem from './menu.vue'
 import Navbar from './navbar.vue'
 import Breadcrumb from './breadcrumb.vue'
 import AppMain from './main.vue'
 
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 import ResizeMixin from '../../utils/resizeHandler.js'
 export default defineComponent({
@@ -98,12 +103,20 @@ export default defineComponent({
       device: computed(() => store.getters.device),
       routes: store.getters.permission_routes,
       openKeys: [route.matched[0].path],
-      selectedKeys: [route.matched[1].path],
+      selectedKeys: route.matched.length > 1? [route.matched[1].path]: [route.matched[0].path],
     })
-    console.log(data.opened, data.device)
-    onMounted(() => {
-      // 获取当前地址栏对应的菜单情况
-      // console.log(data.openKeys, data.selectedKeys)
+    onBeforeRouteUpdate((to, from) => {
+      // console.log('onBeforeRouteUpdate', to, from)
+    })
+    onBeforeRouteLeave((to, from) => {
+      // console.log('onBeforeRouteLeave', to, from)
+    })
+    // 避免监听整个路由的变化会报错
+    watch(() => route.matched, newMatched => {
+      // console.log('newParams', newMatched)
+      data.openKeys = [newMatched[0].path]
+      data.selectedKeys = newMatched.length > 1? [newMatched[1].path]: [newMatched[0].path]
+      // console.log(data.selectedKeys)
     })
     const toggleCollapsed = () => {
       store.dispatch('app/toggleSideBar')
@@ -118,7 +131,7 @@ export default defineComponent({
       data.selectedKeys = item.item.selectedKeys
       if (data.device === 'mobile' && data.opened) store.dispatch('app/toggleSideBar')
     }
-    return { data, toggleCollapsed, onClose, onOpenChange, selectMenu }
+    return { data, toggleCollapsed, onClose, onOpenChange, selectMenu, stop }
   }
 })
 </script>
@@ -158,7 +171,8 @@ export default defineComponent({
     top: 0;
   }
 }
-#main,section.ant-layout {
+#main,
+section.ant-layout {
   height: 100% !important;
 }
 .drawer {

@@ -40,7 +40,6 @@ router.beforeEach((to: any, from: any, next: any) => {
               next({ path: '/' })
             })
           })
-          // next()
         } else {
           next()
         }
@@ -60,7 +59,3 @@ router.beforeEach((to: any, from: any, next: any) => {
 router.afterEach(() => {
   NProgress.done()
 })
- // router.getRoutes().filter((r => toRaw(ele).name === r.name))
-                // router.addRoute(router.getRoutes().filter((r => toRaw(ele).name === r.name))[0]) // 动态添加可访问路由表
-                // if (to.name !== toRaw(ele).name) {
-                // }

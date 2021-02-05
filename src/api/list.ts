@@ -6,6 +6,7 @@ export function getLists(params) {
     method: 'get',
     params
   })
+  
   // return new Promise((resolve: any, reject: any) => {
   //   const list = [
   //     {
@@ -24,3 +25,11 @@ export function getLists(params) {
   //   resolve(list)
   // })
 }
+
+export function getLista() {
+  return request({
+    url: '/list/lista',
+    method: 'get'
+  })
+}
+

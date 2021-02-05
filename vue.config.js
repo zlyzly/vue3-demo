@@ -10,6 +10,20 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'production',
   // 生产环境是否生成 sourceMap 文件 sourceMap的详解请看末尾  
   productionSourceMap: false,
+  css: { // 自定义主题色
+    loaderOptions: {
+      less: {
+        // lessOptions: {
+        modifyVars: {
+          'primary-color': '#1DA57A',
+          'link-color': '#1DA57A',
+          'border-radius-base': '2px',
+        },
+        javascriptEnabled: true,
+        // },
+      },
+    },
+  },
   devServer: {
     open: true, //是否自动弹出浏览器页面
     port: '8080',
@@ -20,7 +34,7 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://106.75.11.161:8082/', //API服务器的地址
-        ws: true,  //代理websockets
+        // ws: true,  //代理websockets
         changeOrigin: true, // 虚拟的站点需要更管origin
         pathRewrite: {   //重写路径 比如'/api/aaa/ccc'重写为'/aaa/ccc'
           '/api': '/'
