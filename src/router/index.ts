@@ -166,6 +166,13 @@ export const asyncRouterMap = [
             hidden: true,
             component: () => import('@/views/router/router1.vue'),
             meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router' }
+          },
+          {
+            path: 'canvas',
+            name: 'Canvas',
+            hidden: true,
+            component: () => import('@/views/router/canvas.vue'),
+            meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router' }
           }
         ]
       }

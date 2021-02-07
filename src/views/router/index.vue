@@ -6,6 +6,7 @@
   >
     <a-tab-pane key="NestedRouter" tab="多级路由" />
     <a-tab-pane key="Modal" tab="模态框" />
+    <a-tab-pane key="Canvas" tab="Canvas" />
   </a-tabs>
   <router-view />
 </template>

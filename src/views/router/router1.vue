@@ -151,7 +151,7 @@ export default defineComponent({
           }
           params.list.push(row)
         } else {
-          const index = params.list.findIndex(() => id.value === value.id)
+          // const index = params.list.findIndex(() => id.value === value.id)
           const row: any = params.list.find(() => id.value === value.id)
           row.name = value.name
           row.region = value.region
