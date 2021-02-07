@@ -1,40 +1,47 @@
 <template>
   <a-modal
-    title="添加"
+    :title="title"
     ok-text="确定"
     cancel-text="取消"
     :visible="visible"
     @ok="handleOk"
     @cancel="handleCancel"
   >
-    <!-- <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
-      <a-form-item label="Activity name" v-bind="validateInfos.name">
-        <a-input v-model:value="info.name" />
+    <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
+      <a-form-item label="活动名称" v-bind="validateInfos.name">
+        <a-input
+          v-model:value="info.name"
+          @blur="validate('name', { trigger: 'blur' }).catch(() => {})"
+        />
       </a-form-item>
-      <a-form-item label="Activity zone" v-bind="validateInfos.region">
+      <a-form-item label="地区" v-bind="validateInfos.region">
         <a-select
           v-model:value="info.region"
-          placeholder="please select your zone"
+          placeholder="请选择地区"
         >
-          <a-select-option value="shanghai"> Zone one </a-select-option>
-          <a-select-option value="beijing"> Zone two </a-select-option>
+          <a-select-option value="shanghai">Zone one</a-select-option>
+          <a-select-option value="beijing">Zone two</a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="Activity type" v-bind="validateInfos.type">
+      <a-form-item label="类型" v-bind="validateInfos.type">
         <a-checkbox-group v-model:value="info.type">
-          <a-checkbox value="1" name="type"> Online </a-checkbox>
-          <a-checkbox value="2" name="type"> Promotion </a-checkbox>
-          <a-checkbox value="3" name="type"> Offline </a-checkbox>
+          <a-checkbox value="1" name="type">Online</a-checkbox>
+          <a-checkbox value="2" name="type">Promotion</a-checkbox>
+          <a-checkbox value="3" name="type">Offline</a-checkbox>
         </a-checkbox-group>
       </a-form-item>
-    </a-form> -->
+    </a-form>
   </a-modal>
 </template>
 <script>
-import { defineComponent, toRefs, reactive, toRaw, toRef } from 'vue'
+import { defineComponent, reactive, toRaw } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      default: '添加'
+    },
     visible: {
       type: Boolean,
       default: false
@@ -52,50 +59,32 @@ export default defineComponent({
   },
   emits: ['handleOk', 'handleCancel'],
   setup(props, context) {
-    console.log(props)
-    const { info } = toRefs(props)
-    console.log(info)
+    console.log(props, props.info)
     const handleCancel = () => {
       context.emit('handleCancel')
     }
-    // const { form } = toRef(modal)
-    // console.log(form)
-    // const modelRef = toRaw(modal).form
-    // console.log(modelRef)
+    const nameValidator = async (rule, value) => {
+      // console.log(rule, value)
+      if (value === '') return Promise.reject('请输入活动名称')
+      if (value.length < 3 || value.length > 5) return Promise.reject('活动名称3~5个字符')
+      else Promise.resolve()
+    }
     const rulesRef = reactive({
-      name: [
-        {
-          required: true,
-          message: 'Please input name',
-        },
-      ],
-      region: [
-        {
-          required: true,
-          message: 'Please select region',
-        },
-      ],
-      type: [
-        {
-          required: true,
-          message: 'Please select type',
-          type: 'array',
-        },
-      ],
+      name: [{ validator: nameValidator, trigger: 'blur', required: true }],
+      region: [{ required: true, message: '请选择地区' }],
+      type: [{ required: true, message: '请选择类型', type: 'array' }]
     })
-    // const { resetFields, validate, validateInfos } = useForm(modelRef, rulesRef)
+    const { resetFields, validate, validateInfos } = useForm(props.info, rulesRef)
     const handleOk = (e) => {
       e.preventDefault()
-      // validate()
-      //   .then(() => {
-      //     console.log(toRaw(modelRef))
-      //   })
-      //   .catch(err => {
-      //     console.log('error', err)
-      //   })
-      context.emit('handleOk', '哈哈哈')
+      validate()
+        .then(() => {
+          // console.log(toRaw(props.info))
+          context.emit('handleOk', toRaw(props.info))
+        })
+        .catch(() => { return })
     }
-    return { handleOk, handleCancel, rulesRef }
+    return { handleOk, handleCancel, rulesRef, validate, resetFields, validateInfos }
   }
 })
 </script>

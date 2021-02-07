@@ -33,3 +33,10 @@ export function getLista() {
   })
 }
 
+export function getListB(params) {
+  return request({
+    url: '/list/listb',
+    method: 'get',
+    params
+  })
+}

@@ -56,5 +56,30 @@ const getLista = (() => {
   return builder(obj)
 })
 
+const getListB = ((options: any) => {
+  const { limit, pos } = getQueryParameters(options)
+  const obj: any = {
+    total: Number,
+    list: Array,
+  }
+  const data: any = []
+  const types = ['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']
+  // const types = [['1'], ['2'], ['3'], ['1', '2'], ['1', '3'], ['2', '3'], ['1', '2', '3']]
+  // let tips = type.sort(() => {
+  //   return 0.5 - Math.random()
+  // })
+  for (let i = 0; i < limit; i++) {
+    data.push({
+      'id': Mock.mock('@id'),
+      'name': Mock.mock('@name'),
+      'region': Mock.mock('@city'),
+      'type': types[Math.floor((Math.random() * types.length))]
+    })
+  }
+  obj.total = 100
+  obj.list = data
+  return builder(obj)
+})
 Mock.mock(/\/list\/table/, 'get', getLists)
 Mock.mock(/\/list\/lista/, 'get', getLista)
+Mock.mock(/\/list\/listb/, 'get', getListB)
