@@ -3,7 +3,10 @@
 // import UglifyPlugin from 'uglifyjs-webpack-plugin'
 // import CompressionWebpackPlugin from 'webpack-bundle-analyzer'
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : './', //在打包时添加这段代码，处理静态资源找不到问题
+  // ./ 是指用户所在的当前目录（相对路径）；
+  // / 是指根目录（绝对路径，项目根目录），也就是项目根目录；
+  // 历史记录HTML5模式下publicPath: 默认/ 不可以设置为空或者./ ---相对路径 ('./') 路由要配置为相对路径否则会报错
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/', //在打包时添加这段代码，处理静态资源找不到问题
   runtimeCompiler: true,//在启用vue-router路由时需要配置该带码否则会报错
   outputDir: 'dist',
   assetsDir: 'static',//放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
@@ -44,10 +47,10 @@ module.exports = {
   },
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
-        // 为生产环境修改配置...
+      // 为生产环境修改配置...
       config.mode = 'production'
     } else {
-        // 为开发环境修改配置...
+      // 为开发环境修改配置...
       config.mode = 'development'
     }
   },

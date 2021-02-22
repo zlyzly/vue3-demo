@@ -24,7 +24,10 @@ import './mock'
 // import 'moment/dist/locale/zh-cn'
 // moment.locale('en')
 
+// 图片懒加载
+import VueLazyloadNext from 'vue-lazyload-next'
 const app = createApp(App)
+
 // 局部导入组件
 app.config.globalProperties.$message = message
 app.provide('$message', message)
@@ -61,7 +64,17 @@ app.directive('pin', {
     el.style.right = binding.value + 'px'
   }
 })
+
+const loadimage = require('./assets/loading.png')
+const errorimage = require('./assets/error.png')
+
 // 将应用程序的根组件挂载到指定的DOM元素上
-app.use(store).use(router).use(loadComponent).mount('#app')
+app.use(store).use(router).use(loadComponent).use(VueLazyloadNext, {
+  preLoad: 1.3,
+  error: errorimage,
+  loading: loadimage,
+  attempt: 1,
+  lazyComponent: true
+}).mount('#app')
 // 取消挂载
 // setTimeout(() => app.unmount('#my-app'), 2000)

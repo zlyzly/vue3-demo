@@ -175,7 +175,13 @@ export const asyncRouterMap = [
             meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router' }
           }
         ]
-      }
+      },
+      {
+        path: 'lazyload',
+        name: 'Lazyload',
+        component: () => import('@/views/lazyload.vue'),
+        meta: { title: '图片懒加载', roles: ['admin', 213] }
+      },
     ]
   },
   {
@@ -197,9 +203,9 @@ export const asyncRouterMap = [
   }
 ]
 const router = createRouter({
-  // history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),
   // 区别于vue2的mode，vue3中将使用history属性来决定采用哪种路由模式
-  history: createWebHashHistory(), // 默认为Hash模式，可设置createWebHistory模式
+  // history: createWebHashHistory(), // 默认为Hash模式，可设置createWebHistory模式
   // 区别于vue2的base，vue3中的基础路由路径将作为createWebHashHistory或者createWebHistory的唯一参数配置到路由中。
   routes: constantRouterMap
 })

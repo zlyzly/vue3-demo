@@ -1,9 +1,12 @@
 <template>
   <div class="home">
-    <canvas id="ball-canvas" class="ball-canvas">当前浏览器不支持canvas</canvas>
+    <!-- <canvas id="ball-canvas" class="ball-canvas">当前浏览器不支持canvas</canvas> -->
     <canvas ref="stockGraph" width="150" height="150">
-      current stock price: $3.15 +0.15
+      当前浏览器不支持canvas
     </canvas>
+    <!-- <canvas ref="stockGraphs" width="300" height="300"
+      >当前浏览器不支持canvas</canvas
+    > -->
   </div>
 </template>
 
@@ -15,15 +18,30 @@ export default defineComponent({
   components: {},
   setup() {
     const stockGraph = ref()
-    const canvas = reactive({
-      width: 100,
-      height: 100,
+    const stockGraphs = ref()
+    interface Canvas {
+      width: number;
+      height: number;
+      ctx: any;
+    }
+    const canvas: Canvas = reactive({
+      width: 300,
+      height: 300,
       ctx: null
     })
     const initCanvas = () => {
-      const [can, ctx] = generateCanvas({ w: canvas.width, h: canvas.height })
+      const { can, ctx }: any = generateCanvas({ w: canvas.width, h: canvas.height })
       console.log(can, ctx)
-      // canvas.ctx.drawImage(can, 0, 0)
+      const ball = {
+        ctx: ctx,
+        can: can// 每个小球的canvas实例
+      }
+      const circle = new Path2D()
+      circle.moveTo(125, 35)
+      circle.arc(100, 35, 25, 0, 2 * Math.PI)
+      ctx.fill(circle)
+
+      // canvas.ctx.drawImage(can, 0, 0, ball.can.width, ball.can.height)
     }
     // 在 DOM 首次加载完毕之后，才能获取到元素的引用
     onMounted(() => {
@@ -32,8 +50,26 @@ export default defineComponent({
       stockGraph.value.style.background = 'pink'
       initCanvas()
     })
-    
-    return { stockGraph, canvas, initCanvas }
+    const draw = () => {
+      const { ctx }: any = generateCanvas({ w: canvas.width, h: canvas.height })
+      ctx.fillStyle = "pink";
+      ctx.strokeStyle = "blue";
+      const rectangle = new Path2D();
+      rectangle.rect(10, 10, 50, 50);
+
+      const circle = new Path2D();
+      circle.moveTo(125, 35);
+      circle.arc(100, 35, 25, 0, 2 * Math.PI);
+
+      ctx.stroke(rectangle);
+      ctx.fill(circle);
+
+      ctx.fillRect(125, 125, 100, 100);
+      ctx.clearRect(145, 145, 60, 60);
+      ctx.strokeRect(150, 150, 50, 50);
+    }
+    draw()
+    return { stockGraph, stockGraphs, canvas, initCanvas, draw }
   }
 })
 </script>

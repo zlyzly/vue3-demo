@@ -5,7 +5,8 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'api', // url = base url + request url
+  // baseURL: 'api', // hash模式下可以不加/
+  baseURL: '/api', // url = base url + request url HTML5模式下必选加/ 会在url上带上当前路由造成请求接口报错
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
 })

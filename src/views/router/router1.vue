@@ -144,12 +144,11 @@ export default defineComponent({
       data.confirmLoading = true
       setTimeout(() => {
         if (data.title === '添加') {
-          const row: any = {
-            name: value.name,
-            region: value.region,
-            type: value.type.join()
-          }
-          params.list.push(row)
+          console.log(params.list)
+          // params.list[0].id = ''
+          // params.list[0].name = value.name
+          // params.list[0].region = value.region
+          // params.list[0].type = value.type.join()
         } else {
           // const index = params.list.findIndex(() => id.value === value.id)
           const row: any = params.list.find(() => id.value === value.id)
