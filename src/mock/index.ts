@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'tr
   // const Mock = require('mockjs')
   require('./services/auth')
   require('./services/list')
+  require('./services/lazyload')
   // console.log(Mock._mocked)
   // shouldNotMockApis.forEach((api) => {
   //   if (Mock._mocked[api]) {

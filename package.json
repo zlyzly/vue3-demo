@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:prod": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@antv/g2": "^4.1.12",
     "ant-design-vue": "^2.0.0-rc.5",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
@@ -15,10 +16,12 @@
     "js-cookie": "^2.2.1",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
+    "viser-vue": "^2.4.8",
     "vue": "^3.0.0",
     "vue-lazyload-next": "0.0.1",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "zx-markdown-editor": "0.0.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^2.2.6",

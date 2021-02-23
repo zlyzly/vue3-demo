@@ -40,3 +40,11 @@ export function getListB(params) {
     params
   })
 }
+
+
+export function getBar() {
+  return request({
+    url: '/list/bar',
+    method: 'get'
+  })
+}

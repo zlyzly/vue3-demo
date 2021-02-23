@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <strong
-      ><p>路由query: {{ query }}</p></strong
-    >
+    <strong><p>路由query: {{ query }}</p></strong>
     <a-button type="primary" @click="openModal">添加数据</a-button>
     <table-list
       data-index="id"
@@ -37,7 +35,7 @@
 import { defineComponent, reactive, toRefs, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import ModalComponent from './component/modal.vue'
-import TableList from '@/components/TableList/index.vue'
+import TableList from '@c/TableList/index.vue'
 import { getListB } from '@/api/list'
 export default defineComponent({
   name: 'Router',

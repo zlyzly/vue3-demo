@@ -1,4 +1,47 @@
 <template>
+  <a-card hoverable style="width: 240px">
+    <template #cover>
+      <div class="img_group">
+        <img
+          class="img_card"
+          alt="example"
+          src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+        />
+      </div>
+    </template>
+    <a-card-meta title="Europe Street beat">
+      <template #description>www.instagram.com</template>
+    </a-card-meta>
+  </a-card>
+  <a-row>
+    <a-col
+      v-for="img in list.imgArr"
+      :key="img.id"
+      :xs="24"
+      :sm="24"
+      :md="12"
+      :lg="10"
+      :xl="6"
+    >
+      <a-card hoverable style="width: 240px">
+        <template #cover>
+          <div class="img_group">
+            <img
+              v-lazy="{
+                src: img.src,
+                lifecycle: lazyOptions.lifecycle,
+              }"
+              alt="Vue logo"
+              class="img_card"
+            />
+          </div>
+        </template>
+        <a-card-meta title="Europe Street beat">
+          <template #description>www.instagram.com</template>
+        </a-card-meta>
+      </a-card>
+    </a-col>
+  </a-row>
   <div class="margin" />
   <img src="../assets/gril.jpg" width="100" />
   <img v-lazy="img.src" />
@@ -15,7 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-
+import { getImgs } from '../api/lazyload'
 export default defineComponent({
   setup() {
     const lazyOptions = reactive({
@@ -39,10 +82,23 @@ export default defineComponent({
     const handler = (component) => {
       console.log('this component is showing', component)
     }
+    const list = reactive({
+      imgArr: [],
+      total: 0
+    })
+    const getLists = () => {
+      getImgs({ pos: 0, limit: 30 }).then(res => {
+        list.imgArr = res.data.list
+        list.total = res.data.total
+      }).catch((err) => console.log(err))
+    }
+    getLists()
     return {
       lazyOptions,
       img,
-      handler
+      handler,
+      list,
+      getLists
     }
   }
 })
@@ -59,5 +115,21 @@ export default defineComponent({
 }
 .image[lazy="loaded"] {
   background: green;
+}
+.img_group {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  .img_card {
+    width: 100%;
+    transition: all ease-in-out 1s;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+/deep/ .ant-col {
+  display: inline-block;
+  padding: 20px 20px 0 0;
 }
 </style>

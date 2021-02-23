@@ -33,7 +33,7 @@
 // 1.1.共享普通数据  1.按需导入 provide
 // 1.2.共享ref 响应式数据
 import { defineComponent, provide, ref, readonly, onMounted, onBeforeUpdate, reactive } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@c/HelloWorld.vue'
 import { useStore } from 'vuex'
 export default defineComponent({
   name: 'Home',

@@ -80,6 +80,21 @@ const getListB = ((options: any) => {
   obj.list = data
   return builder(obj)
 })
+const getBar = (() => {
+  const obj: any = {
+    list: Array
+  }
+  const data: any = []
+  for (let i = 0; i < 5; i++) {
+    data.push({
+      'time': Mock.mock('@time'),
+      'value': Math.floor((Math.random() * 100))
+    })
+  }
+  obj.list = data
+  return builder(obj)
+})
 Mock.mock(/\/list\/table/, 'get', getLists)
 Mock.mock(/\/list\/lista/, 'get', getLista)
 Mock.mock(/\/list\/listb/, 'get', getListB)
+Mock.mock(/\/list\/bar/, 'get', getBar)
