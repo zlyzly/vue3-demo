@@ -17,6 +17,9 @@ import './permission'
 
 import './mock'
 
+// 引入viser
+import Viser from 'viser-vue'
+
 // import './utils/directive'
 
 // import zhCN from 'ant-design-vue/es/locale/zh_CN'
@@ -69,7 +72,7 @@ const loadimage = require('./assets/loading.png')
 const errorimage = require('./assets/error.png')
 
 // 将应用程序的根组件挂载到指定的DOM元素上
-app.use(store).use(router).use(loadComponent).use(VueLazyloadNext, {
+app.use(store).use(router).use(loadComponent).use(Viser).use(VueLazyloadNext, {
   preLoad: 1.3,
   error: errorimage,
   loading: loadimage,

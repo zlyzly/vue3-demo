@@ -53,60 +53,60 @@ export const constantRouterMap = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRouterMap = [
-  {
-    path: '/review',
-    name: 'Review',
-    component: Layout,
-    meta: { title: '审核', roles: reviewRoles, icon: PieChartOutlined },
-    children: [
-      {
-        path: 'about',
-        name: 'About',
-        component: () => import('@v/hello.vue'),
-        meta: { title: '新用户账户认证', roles: ['admin', 101], activeMenu: '/review/about' },
-        redirect: '/review/about/abouts',
-        children: [
-          {
-            path: 'abouts',
-            name: 'Abouts',
-            hidden: true,
-            component: () => import('@v/404.vue'),
-            meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about' },
-          }
-        ]
-      },
-      {
-        path: 'home',
-        name: 'Homes',
-        hidden: true,
-        component: () => import('@v/hello.vue'),
-        meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home' }
-      }
-    ]
-  },
-  {
-    path: '/configuration',
-    name: 'Configuration',
-    component: Layout,
-    meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
-    redirect: '/configuration/gifts',
-    children: [
-      {
-        path: 'gifts',
-        name: 'Gifts',
-        // hidden: true,
-        component: () => import('@v/watch_computed.vue'),
-        meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
-      },
-      {
-        path: 'hello',
-        name: 'Hello',
-        // hidden: true,
-        component: () => import('@v/hello.vue'),
-        meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
-      }
-    ]
-  },
+  // {
+  //   path: '/review',
+  //   name: 'Review',
+  //   component: Layout,
+  //   meta: { title: '审核', roles: reviewRoles, icon: PieChartOutlined },
+  //   children: [
+  //     {
+  //       path: 'about',
+  //       name: 'About',
+  //       component: () => import('@v/hello.vue'),
+  //       meta: { title: '新用户账户认证', roles: ['admin', 101], activeMenu: '/review/about' },
+  //       redirect: '/review/about/abouts',
+  //       children: [
+  //         {
+  //           path: 'abouts',
+  //           name: 'Abouts',
+  //           hidden: true,
+  //           component: () => import('@v/404.vue'),
+  //           meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about' },
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'home',
+  //       name: 'Homes',
+  //       hidden: true,
+  //       component: () => import('@v/hello.vue'),
+  //       meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/configuration',
+  //   name: 'Configuration',
+  //   component: Layout,
+  //   meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
+  //   redirect: '/configuration/gifts',
+  //   children: [
+  //     {
+  //       path: 'gifts',
+  //       name: 'Gifts',
+  //       // hidden: true,
+  //       component: () => import('@v/watch_computed.vue'),
+  //       meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
+  //     },
+  //     {
+  //       path: 'hello',
+  //       name: 'Hello',
+  //       // hidden: true,
+  //       component: () => import('@v/hello.vue'),
+  //       meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
+  //     }
+  //   ]
+  // },
   {
     path: '/config',
     name: 'Config',
@@ -183,31 +183,53 @@ export const asyncRouterMap = [
         meta: { title: '图片懒加载', roles: ['admin', 213] }
       },
       {
-        path: 'antv-g2',
-        name: 'AntvG2',
-        component: () => import('@v/antv-g2/index.vue'),
-        meta: { title: '图表antv使用', roles: ['admin', 215] }
+        path: 'echarts',
+        name: 'Echarts',
+        component: () => import('@v/echarts/index.vue'),
+        meta: { title: '图表使用', roles: ['admin', 215] },
+        redirect: '/config/echarts/antv-g2',
+        children: [
+          {
+            path: 'antv-g2',
+            name: 'AntvG2',
+            hidden: true,
+            component: () => import('@v/echarts/antv-g2/index.vue'),
+            meta: { title: 'antv-g2', roles: ['admin', 215], activeMenu: '/config/echarts' }
+          },
+          {
+            path: 'viser',
+            name: 'Viser',
+            hidden: true,
+            component: () => import('@v/echarts/viser/index.vue'),
+            meta: { title: 'viser', roles: ['admin', 215], activeMenu: '/config/echarts' }
+          }
+        ]
       },
-      
+      {
+        path: 'quillEditor',
+        name: 'QuillEditor',
+        component: () => import('@v/quillEditor/index.vue'),
+        meta: { title: '编辑器vue-quill-editor', roles: ['admin', 219] }
+      }
     ]
   },
-  {
-    path: '/home',
-    name: 'Home',
-    component: () => import('@v/Home.vue'),
-    meta: { title: '组件式API', icon: DesktopOutlined },
-  },
-  {
-    path: '/main',
-    name: 'Main',
-    component: () => import('@v/main.vue'),
-    meta: { title: '适配手机', icon: DesktopOutlined },
-  },
-  {
-    path: '/users/:id',
-    component: () => import('@v/user.vue'),
-    meta: { title: '路由', icon: DesktopOutlined }
-  }
+  // {
+  //   path: '/home',
+  //   name: 'Home',
+  //   component: () => import('@v/Home.vue'),
+  //   meta: { title: '组件式API', icon: DesktopOutlined },
+  // },
+  // {
+  //   path: '/main',
+  //   name: 'Main',
+  //   component: () => import('@v/main.vue'),
+  //   meta: { title: '适配手机', icon: DesktopOutlined },
+  // },
+  // {
+  //   path: '/users/:id',
+  //   component: () => import('@v/user.vue'),
+  //   meta: { title: '路由', icon: DesktopOutlined }
+  // }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

@@ -48,3 +48,10 @@ export function getBar() {
     method: 'get'
   })
 }
+
+export function getLine() {
+  return request({
+    url: '/list/line',
+    method: 'get'
+  })
+}

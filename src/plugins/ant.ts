@@ -5,7 +5,7 @@ import {
   DatePicker, Icon, Breadcrumb, Button, 
   Input, Switch, Col, Radio, ConfigProvider,
   Drawer, Popconfirm, Tabs, Skeleton, Modal,
-  Tag, Card
+  Tag, Card, Spin, Empty
 } from 'ant-design-vue'
 
 /*手动注册 antd-vue 组件,达到按需加载目的*/
@@ -38,4 +38,6 @@ export default function loadComponent(app: any) {
   app.use(Modal)
   app.use(Tag)
   app.use(Card)
+  app.use(Spin)
+  app.use(Empty)
 }

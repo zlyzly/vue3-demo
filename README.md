@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Vue轻量级富文本编辑器-Vue-Quill-Editor
+See [Vue-Quill-Editor](https://blog.csdn.net/senmage/article/details/82388728)
