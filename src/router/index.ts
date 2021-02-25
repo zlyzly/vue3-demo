@@ -150,7 +150,7 @@ export const asyncRouterMap = [
         name: 'Router',
         // component: () => import('@v/router/router.vue'),
         component: () => import('@v/router/index.vue'),
-        meta: { title: '路由', roles: ['admin', 210] },
+        meta: { title: '多级路由', roles: ['admin', 210] },
         redirect: '/config/router/nested_router',
         children: [
           {

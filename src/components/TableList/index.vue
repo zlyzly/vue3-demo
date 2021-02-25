@@ -66,7 +66,7 @@ export default defineComponent({
       columnsCustom: computed(() => {
         return props.columns.filter((item: any) => {
           return item.slots
-        }).map((item: any)=> item.slots)
+        }).map((item: any) => item.slots)
       })
     })
     console.log(data.columnsCustom)
@@ -88,7 +88,8 @@ export default defineComponent({
 td.column-money {
   text-align: right !important;
 } */
-th, td {
+th,
+td {
   vertical-align: center !important;
 }
 </style>

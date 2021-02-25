@@ -28,11 +28,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs, inject, onMounted } from 'vue'
+import { computed, defineComponent, reactive, toRefs, inject, onMounted, createVNode } from 'vue'
 import TableList from '../components/TableList/index.vue'
 import { getLists } from '../api/list'
-
 import Tables from './tables.vue'
+import { Modal } from 'ant-design-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
     TableList,
@@ -111,7 +112,22 @@ export default defineComponent({
     }
     const handleDel = (val) => {
       console.log(val)
-      console.log('删除')
+      const modal = Modal
+      modal.confirm({
+        title: '删除提示',
+        content: `确认删除${val}吗？`,
+        icon: createVNode(ExclamationCircleOutlined),
+        cancelText: 'Cancel',
+        okText: 'Confirm',
+        onOk() {
+          return new Promise((resolve, reject) => {
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {
+          modal.destroyAll()
+        }
+      })
     }
     return { ...toRefs(data), getlist, handleTableChange, params, messages, handleDel }
   }
