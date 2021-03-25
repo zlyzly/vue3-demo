@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 // import Mock from 'mockjs'
-export function getLists(params) {
+export function getLists(params?) {
   return request({
     url: '/list/table',
     method: 'get',
@@ -53,5 +53,14 @@ export function getLine() {
   return request({
     url: '/list/line',
     method: 'get'
+  })
+}
+
+export function getListll(params) {
+  // console.log(params)
+  return request({
+    url: '/list/listll',
+    method: 'get',
+    params
   })
 }

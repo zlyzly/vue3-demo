@@ -1,9 +1,8 @@
 import Mock from 'mockjs'
 import { builder, getBody, getQueryParameters } from '../util'
-
-const getLists = ((options: any) => {
-  console.log(options)
-  const { limit, pos } = getQueryParameters(options)
+const total = Math.floor(Math.random() * 500)
+const getLists = ((options?: any) => {
+  const limit = getQueryParameters(options).limit?  getQueryParameters(options).limit: 5
   const obj: any = {
     total: Number,
     list: Array,
@@ -22,8 +21,30 @@ const getLists = ((options: any) => {
       'type': 1
     })
   }
-  obj.total = 100
+  obj.total = total
   obj.list = data
+  return builder(obj)
+})
+
+const getListll = ((options: any) => {
+  console.log(options)
+  const limit = getQueryParameters(options).limit?  getQueryParameters(options).limit: 5
+  const obj: any = {
+    total: Number,
+    list: Array,
+  }
+  const data: any = []
+  for (let i = 0; i < limit; i++) {
+    data.push({
+      'id': Mock.mock('@guid'),
+      'name': Mock.mock('@name'),
+      'avatar': 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png'
+    })
+  }
+  obj.total = total
+  obj.list = data
+  obj.isNext = false
+  // obj.isNext = getQueryParameters(options).pos === '20' ? false: true
   return builder(obj)
 })
 const getLista = (() => {
@@ -68,7 +89,7 @@ const getListB = ((options: any) => {
   // let tips = type.sort(() => {
   //   return 0.5 - Math.random()
   // })
-  for (let i = 0; i < limit; i++) {
+  for (let i = 0; i < Number(limit); i++) {
     data.push({
       'id': Mock.mock('@id'),
       'name': Mock.mock('@name'),
@@ -113,3 +134,5 @@ Mock.mock(/\/list\/lista/, 'get', getLista)
 Mock.mock(/\/list\/listb/, 'get', getListB)
 Mock.mock(/\/list\/bar/, 'get', getBar)
 Mock.mock(/\/list\/line/, 'get', getLine)
+
+Mock.mock(/\/list\/listll/, 'get', getListll)

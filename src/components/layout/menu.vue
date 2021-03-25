@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!item.hidden">
+  <template v-if="item.meta && !item.meta.hidden">
     <template v-if="hasOneShowingChild(item.children,item) && (!data.onlyOneChild.children||data.onlyOneChild.noShowingChildren)">
       <a-menu-item :key="resolvePath(data.onlyOneChild.path)">
         <router-link :to="resolvePath(data.onlyOneChild.path)">
@@ -48,7 +48,7 @@ export default defineComponent({
     })
     const hasOneShowingChild = (children = [], parent: any) => {
       const showingChildren = children.length ? children.filter((item: any) => {
-        if (item.hidden) {
+        if (item.meta && item.meta.hidden) {
           return false
         } else {
           // 只有一个显示子元素时

@@ -32,7 +32,7 @@ export default defineComponent({
     next()
   },
   beforeRouteLeave: (to, from, next) => {
-    // console.log("准备离开路由模板", to, from)
+    console.log("准备离开路由模板", to, from)
     next()
   },
   setup() {

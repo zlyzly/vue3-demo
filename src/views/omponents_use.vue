@@ -91,6 +91,7 @@ export default defineComponent({
     Injectc,
     Slots
   },
+  
   setup() {
     const post = reactive({
       text: 0,

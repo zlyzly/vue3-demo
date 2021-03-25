@@ -59,7 +59,24 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import { getImgs } from '../api/lazyload'
+import { mapGetters } from 'vuex'
 export default defineComponent({
+  computed: {
+    ...mapGetters([ 'historyParams' ])
+  },
+  created() {
+    console.log('this.$store.getters', this.historyParams)
+    if (this.historyParams.History && this.historyParams.History.History) {
+      // this.pagination = this.historyParams.History.History.pagination
+    }
+    this.getLists()
+  },
+  beforeRouteLeave(to, from: any, next) {
+    console.log('${this.$route.name}', this.$route.name)
+    // this.$store.dispatch('history/ChangeParams', { name: `History/${from.name}`, history: { pagination: {} }}).then(() => {
+    next()
+    // })
+  },
   setup() {
     const lazyOptions = reactive({
       src: '../assets/gril.jpg',
@@ -92,7 +109,7 @@ export default defineComponent({
         list.total = res.data.total
       }).catch((err) => console.log(err))
     }
-    getLists()
+    
     return {
       lazyOptions,
       img,
@@ -128,7 +145,7 @@ export default defineComponent({
     }
   }
 }
-/deep/ .ant-col {
+:deep(.ant-col) {
   display: inline-block;
   padding: 20px 20px 0 0;
 }

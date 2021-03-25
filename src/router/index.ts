@@ -1,7 +1,7 @@
 // , statisticsRules, storeRules
 import { reviewRules, configurationRules } from '@/utils/rules'
 // , createWebHistory, RouteRecordRaw, createWebHashHistory
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 // import Layout from '@c/layout/index.vue'
 import {
   PieChartOutlined,
@@ -17,33 +17,32 @@ const configurationRoles = configurationRules.concat([{ id: 'admin' }]).map(item
 // console.log('configurationRoles: ', configurationRoles)
 // console.log('statisticsRoles: ', statisticsRoles)
 // console.log('storeRoles: ', storeRoles)
-export const constantRouterMap = [
+export const constantRouterMap:Array<RouteRecordRaw> = [
   {
     path: '/login',
     component: () => import('@v/login/index.vue'),
-    hidden: true
+    meta: { title: '登陆', icon: 'dashboard', hidden: true }
   },
 
   {
     path: '/404',
     component: () => import('@v/404.vue'),
-    hidden: true
+    meta: { title: '404', icon: 'dashboard', hidden: true }
   },
   {
     path: '/home',
     component: () => import('@v/Home.vue'),
-    hidden: true
+    meta: { title: 'Home', icon: 'dashboard', hidden: true }
   },
   {
     path: '/',
     component: Layout,
     redirect: '/welcome',
-    hidden: true,
     children: [{
       path: 'welcome',
       name: 'Welcome',
       component: () => import('@v/welcome/index.vue'),
-      meta: { title: '欢迎页', icon: 'dashboard' }
+      meta: { title: '欢迎页', icon: 'dashboard', hidden: true }
     }]
   }
 ]
@@ -52,7 +51,7 @@ export const constantRouterMap = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRouterMap = [
+export const asyncRouterMap:Array<RouteRecordRaw> = [
   // {
   //   path: '/review',
   //   name: 'Review',
@@ -69,18 +68,16 @@ export const asyncRouterMap = [
   //         {
   //           path: 'abouts',
   //           name: 'Abouts',
-  //           hidden: true,
   //           component: () => import('@v/404.vue'),
-  //           meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about' },
+  //           meta: { title: '新用户账户认证11', roles: ['admin', 101], activeMenu: '/review/about', hidden: true },
   //         }
   //       ]
   //     },
   //     {
   //       path: 'home',
   //       name: 'Homes',
-  //       hidden: true,
   //       component: () => import('@v/hello.vue'),
-  //       meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home' }
+  //       meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home', hidden: true }
   //     }
   //   ]
   // },
@@ -94,16 +91,14 @@ export const asyncRouterMap = [
   //     {
   //       path: 'gifts',
   //       name: 'Gifts',
-  //       // hidden: true,
   //       component: () => import('@v/watch_computed.vue'),
-  //       meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts' }
+  //       meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts', hidden: true}
   //     },
   //     {
   //       path: 'hello',
   //       name: 'Hello',
-  //       // hidden: true,
   //       component: () => import('@v/hello.vue'),
-  //       meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello' }
+  //       meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello', hidden: true }
   //     }
   //   ]
   // },
@@ -156,23 +151,20 @@ export const asyncRouterMap = [
           {
             path: 'nested_router',
             name: 'NestedRouter',
-            hidden: true,
             component: () => import('@v/router/router.vue'),
-            meta: { title: '多级路由', roles: ['admin', 209], activeMenu: '/config/router' }
+            meta: { title: '多级路由', roles: ['admin', 209], activeMenu: '/config/router', hidden: true }
           },
           {
             path: 'modal',
             name: 'Modal',
-            hidden: true,
             component: () => import('@v/router/router1.vue'),
-            meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router' }
+            meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router', hidden: true }
           },
           {
             path: 'canvas',
             name: 'Canvas',
-            hidden: true,
             component: () => import('@v/router/canvas.vue'),
-            meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router' }
+            meta: { title: '模态框', roles: ['admin', 209], activeMenu: '/config/router', hidden: true }
           }
         ]
       },
@@ -192,16 +184,14 @@ export const asyncRouterMap = [
           {
             path: 'antv-g2',
             name: 'AntvG2',
-            hidden: true,
             component: () => import('@v/echarts/antv-g2/index.vue'),
-            meta: { title: 'antv-g2', roles: ['admin', 215], activeMenu: '/config/echarts' }
+            meta: { title: 'antv-g2', roles: ['admin', 215], activeMenu: '/config/echarts', hidden: true }
           },
           {
             path: 'viser',
             name: 'Viser',
-            hidden: true,
             component: () => import('@v/echarts/viser/index.vue'),
-            meta: { title: 'viser', roles: ['admin', 215], activeMenu: '/config/echarts' }
+            meta: { title: 'viser', roles: ['admin', 215], activeMenu: '/config/echarts', hidden: true }
           }
         ]
       },
@@ -210,6 +200,30 @@ export const asyncRouterMap = [
         name: 'QuillEditor',
         component: () => import('@v/quillEditor/index.vue'),
         meta: { title: '编辑器vue-quill-editor', roles: ['admin', 219] }
+      },
+      {
+        path: 'tables',
+        name: 'Tables',
+        component: () => import('@v/table.vue'),
+        meta: { title: 'table', roles: ['admin', 219] }
+      },
+      {
+        path: 'history',
+        name: 'History',
+        component: () => import('@v/hello.vue'),
+        meta: { title: 'history', roles: ['admin', 219] }
+      },
+      {
+        path: 'table-ajax',
+        name: 'TableAjax',
+        component: () => import('@v/tables/table-ajax2.vue'),
+        meta: { title: 'table-ajax', roles: ['admin', 219] }
+      },
+      {
+        path: 'table-list4',
+        name: 'TableList4',
+        component: () => import('@v/tables/index4.vue'),
+        meta: { title: 'table-index4', roles: ['admin', 219] }
       }
     ]
   },

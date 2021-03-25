@@ -1,16 +1,24 @@
 <template>
   <div>
-    <h3>#表格组件使用</h3>
-    <br />
-    <!-- 在组件上使用 v-model -->
-    <!-- <table-list
+    <a-form layout="inline" :model="data.formState" @finish="serach">
+      <a-form-item>
+        <a-input v-model:value="data.formState.id" placeholder="id" />
+      </a-form-item>
+      <a-form-item>
+        <a-input v-model:value="data.formState.name" placeholder="name" />
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" html-type="submit"> 查询 </a-button>
+      </a-form-item>
+    </a-form>
+    <table-list
       data-index="id"
-      :loading="loading"
-      :columns="columns"
-      :list="list"
-      :pagination="pagination"
+      :loading="data.loading"
+      :columns="data.columns"
+      :list="data.list"
+      :pagination="data.pagination"
       @change="handleTableChange"
-    > 
+    >
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>
@@ -22,32 +30,23 @@
           >删除</a-button
         >
       </template>
-    </table-list> -->
-    <tables />
+    </table-list>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs, inject, onMounted, createVNode } from 'vue'
-// import TableList from '../components/TableList/index.vue'
+import TableList from '../components/TableList/index2.vue'
 import { getLists } from '../api/list'
-import Tables from './tables.vue'
 import { Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
-    // TableList,
-    Tables
+    TableList
   },
   setup() {
     console.log(inject('$message'))
     const columns = Object.freeze([
-      {
-        title: '序号',
-        align: 'center',
-        dataIndex: 'num',
-        customRender: ({ text, index }: any) => index + 1
-      },
       {
         title: 'id',
         dataIndex: 'id',
@@ -82,16 +81,23 @@ export default defineComponent({
       columns: columns,
       list: [],
       loading: false,
-      // pagination: false
+      // pagination: false,
       pagination: {
         current: 1,
         pageSize: 10,
-        total: 0
+        total: 0,
+        isNext: false
+      },
+      formState: {
+        name: '',
+        id: ''
       }
     })
     const params: object = reactive({
       pos: computed(() => (data.pagination.current - 1) * data.pagination.pageSize),
-      limit: computed(() => data.pagination.pageSize)
+      limit: computed(() => data.pagination.pageSize),
+      name: computed(() => data.formState.name),
+      id: computed(() => data.formState.id)
     })
     console.log({ ...toRefs(params) })
     let messages: any = {}
@@ -103,18 +109,25 @@ export default defineComponent({
       data.loading = true
       await getLists(params).then(res => {
         console.log(res)
-        data.loading = false
         data.list = res.data.list
-        data.pagination.total = res.data.total
+        // data.pagination.total = res.data.total || 0
+        // data.pagination.isNext = res.data.isNext || false
+
+        data.pagination.total = 0
+        if (data.pagination.current === 3) {
+          data.pagination.isNext = false
+        } else data.pagination.isNext = true
       }).catch(() => {
         messages.error('请求失败')
-        data.loading = false
-      })
+      }).finally(() => data.loading = false)
     }
-    getlist()
+    const serach = () => {
+      data.pagination.current = 1
+      getlist()
+    }
     const handleTableChange = (pagination) => {
-      console.log(pagination)
-      data.pagination = pagination
+      data.pagination.current = pagination.current
+      data.pagination.pageSize = pagination.pageSize
       getlist()
     }
     const handleDel = (val) => {
@@ -136,7 +149,8 @@ export default defineComponent({
         }
       })
     }
-    return { ...toRefs(data), getlist, handleTableChange, params, messages, handleDel }
+    serach()
+    return { data, getlist, handleTableChange, params, messages, handleDel, serach }
   }
 })
 </script>

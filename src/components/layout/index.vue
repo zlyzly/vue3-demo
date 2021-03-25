@@ -176,10 +176,10 @@ section.ant-layout {
   height: 100% !important;
 }
 .drawer {
-  /deep/ .ant-drawer-body {
+  :deep(.ant-drawer-body) {
     padding: 0 !important;
   }
-  /deep/ .ant-drawer-content {
+  :deep(.ant-drawer-content) {
     background: #001529;
   }
 }

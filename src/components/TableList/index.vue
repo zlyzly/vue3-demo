@@ -6,7 +6,7 @@
     :loading="loading"
     :columns="columns"
     :data-source="dataList"
-    :pagination="pagination"
+    :pagination="dataList.length? pagination: false"
     :rowKey="(row) => `$${row[dataIndex]}`"
     @change="handleTableChange"
   >

@@ -1,34 +1,28 @@
 <template>
-  <a-config-provider :locale="data.locale">
+  <a-config-provider :locale="locale">
     <router-view />
   </a-config-provider>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent } from 'vue'
 // import enUS from 'ant-design-vue/es/locale/en_US'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 // import moment from 'moment'
 // import 'moment/dist/locale/zh-cn'
 // moment.locale('en')
 export default defineComponent({
-  setup() {
-    // console.log(zhCN)
-    const data = reactive({
+  data() {
+    return {
       locale: zhCN
-    })
-    // // console.log(data)
-    // const isRouterAlive = ref(false)
-    // // 把 ref 数据通过 provide 提供的子组件使用
-    // const reload = async () => {
-    //   isRouterAlive.value = false
-    //   await nextTick(() => {
-    //     isRouterAlive.value = true
-    //   })
-    // }
-    // provide('reload', reload())
-    return { data }
-  }
+    }
+  },
+  // setup() {
+  //   const data = reactive({
+  //     locale: zhCN
+  //   })
+  //   return { data }
+  // }
 })
 </script>
 

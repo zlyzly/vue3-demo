@@ -42,7 +42,7 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-/deep/ .ant-col {
+:deep(.ant-col) {
   width: 100%;
   display: inline-block;
   padding: 20px 20px 0 0;

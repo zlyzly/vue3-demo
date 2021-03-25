@@ -59,7 +59,9 @@ app.directive('focus', {
   // 卸载绑定元素的父组件时调用
   unmounted() { }
 })
-
+import {
+  Menu
+} from 'ant-design-vue'
 // 注册
 app.directive('pin', {
   mounted(el, binding) {
@@ -72,7 +74,7 @@ const loadimage = require('./assets/loading.png')
 const errorimage = require('./assets/error.png')
 
 // 将应用程序的根组件挂载到指定的DOM元素上
-app.use(store).use(router).use(loadComponent).use(Viser).use(VueLazyloadNext, {
+app.use(store).use(router).use(Viser).use(loadComponent).use(VueLazyloadNext, {
   preLoad: 1.3,
   error: errorimage,
   loading: loadimage,

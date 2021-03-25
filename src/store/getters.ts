@@ -8,9 +8,7 @@ const getters = {
   roles: (state: any) => state.user.roles,
   permission_routes: (state: any) => state.permission.routers,
   addRouters: (state: any) => state.permission.addRouters,
-  historyParams: (state: any) => state.history.historyParams,
-  badges: (state: any) => state.app.badges,
-  // total_num: (state: any) => state.product.total_num
+  historyParams: state => state.history.historyParams
 }
 
 export default getters

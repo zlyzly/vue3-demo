@@ -23,7 +23,6 @@ export const builder: any = (data, msg, code = 200, headers) => {
   if (headers !== null && typeof headers === 'object' && Object.keys(headers).length > 0) {
     responseBody._headers = headers
   }
-  // console.log()
   return responseBody
 }
 
