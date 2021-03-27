@@ -61,7 +61,7 @@ export const asyncRouterMap:Array<RouteRecordRaw> = [
   //     {
   //       path: 'about',
   //       name: 'About',
-  //       component: () => import('@v/hello.vue'),
+  //       component: () => import('@v/parent-child/hello.vue'),
   //       meta: { title: '新用户账户认证', roles: ['admin', 101], activeMenu: '/review/about' },
   //       redirect: '/review/about/abouts',
   //       children: [
@@ -76,32 +76,32 @@ export const asyncRouterMap:Array<RouteRecordRaw> = [
   //     {
   //       path: 'home',
   //       name: 'Homes',
-  //       component: () => import('@v/hello.vue'),
+  //       component: () => import('@v/parent-child/hello.vue'),
   //       meta: { title: '用户编辑资料审核', roles: ['admin', 102], activeMenu: '/review/home', hidden: true }
   //     }
   //   ]
   // },
-  // {
-  //   path: '/configuration',
-  //   name: 'Configuration',
-  //   component: Layout,
-  //   meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
-  //   redirect: '/configuration/gifts',
-  //   children: [
-  //     {
-  //       path: 'gifts',
-  //       name: 'Gifts',
-  //       component: () => import('@v/watch_computed.vue'),
-  //       meta: { title: '礼物配置', roles: ['admin', 202], activeMenu: '/review/gifts', hidden: true}
-  //     },
-  //     {
-  //       path: 'hello',
-  //       name: 'Hello',
-  //       component: () => import('@v/hello.vue'),
-  //       meta: { title: '用户编辑资料审核', roles: ['admin', 203], activeMenu: '/review/hello', hidden: true }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/configuration',
+    name: 'Configuration',
+    component: Layout,
+    meta: { title: '综合配置', mainMenu: true, icon: MailOutlined, roles: configurationRoles },
+    redirect: '/configuration/gifts',
+    children: [
+      {
+        path: 'gifts',
+        name: 'Gifts',
+        component: () => import('@v/watch_computed.vue'),
+        meta: { title: '礼物配置', roles: ['admin', 201] }
+      },
+      {
+        path: 'hello',
+        name: 'Hello',
+        component: () => import('@v/parent-child/hello.vue'),
+        meta: { title: '用户编辑资料审核', roles: ['admin', 201] }
+      }
+    ]
+  },
   {
     path: '/config',
     name: 'Config',
@@ -210,7 +210,7 @@ export const asyncRouterMap:Array<RouteRecordRaw> = [
       {
         path: 'history',
         name: 'History',
-        component: () => import('@v/hello.vue'),
+        component: () => import('@v/parent-child/hello.vue'),
         meta: { title: 'history', roles: ['admin', 219] }
       },
       {
