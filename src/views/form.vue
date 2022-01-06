@@ -37,7 +37,7 @@
       </a-form-item>
     </a-form>
 
-    <!-- <a-form
+    <a-form
       name="custom-validation"
       ref="ruleForm"
       :model="forms"
@@ -56,7 +56,7 @@
         <a-input v-model:value="forms.checkPass" type="password" autocomplete="off" />
       </a-form-item>
       <a-form-item has-feedback label="Age" name="age">
-        <a-input-number v-model:value="forms.age" />
+        <a-input-number v-model:value="forms.age" :min="0"/>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" html-type="submit"> Submit </a-button>
@@ -64,7 +64,7 @@
           Reset
         </a-button>
       </a-form-item>
-    </a-form> -->
+    </a-form>
 
     <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="Activity name" v-bind="validateInfos.name">
@@ -152,11 +152,11 @@ export default defineComponent({
       // console.log(formInline)
     })
 
-    // let forms: Form = reactive({
-    //   pass: '',
-    //   checkPass: '',
-    //   age: 1,
-    // })
+    const forms: Form = reactive({
+      pass: '',
+      checkPass: '',
+      age: 1
+    })
     // const checkAge = async (rule: object, value: number) => {
     //   if (!value) {
     //     return Promise.reject('age必填')
@@ -286,8 +286,8 @@ export default defineComponent({
       resetFields,
       modelRef,
       onSubmit,
+      forms,
       onChange
-      // forms,
       // ruleForm,
       // checkAge,
       // validatePass2,

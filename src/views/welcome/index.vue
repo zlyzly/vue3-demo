@@ -4,6 +4,11 @@
     <!-- <a-config-provider :csp="{ nonce: 'YourNonceCode' }">
       <a-button>My Button</a-button>
     </a-config-provider> -->
+    <a-list size="large" bordered :data-source="data">
+      <template #renderItem="">
+        <a-list-item>11111</a-list-item>
+      </template>
+    </a-list>
   </div>
 </template>
 
@@ -21,6 +26,16 @@ export default defineComponent({
       },
       immediate: true
     }
+  },
+  setup() {
+    const data: string[] = [
+      'Racing car sprays burning fuel into crowd.',
+      'Japanese princess to wed commoner.',
+      // 'Australian walks 100km after outback crash.',
+      // 'Man charged over missing wedding girl.',
+      // 'Los Angeles battles huge wildfires.',
+    ]
+    return { data }
   }
 })
 </script>

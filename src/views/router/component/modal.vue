@@ -60,6 +60,7 @@ export default defineComponent({
   emits: ['handleOk', 'handleCancel'],
   setup(props, context) {
     console.log(props, props.info)
+    // const infos = props.info
     const handleCancel = () => {
       context.emit('handleCancel')
     }

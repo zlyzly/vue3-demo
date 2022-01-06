@@ -99,6 +99,18 @@ export const asyncRouterMap:Array<RouteRecordRaw> = [
         name: 'Hello',
         component: () => import('@v/parent-child/hello.vue'),
         meta: { title: '用户编辑资料审核', roles: ['admin', 201] }
+      },
+      {
+        path: 'draggable',
+        name: 'Draggable',
+        component: () => import('@v/data/index5.vue'),
+        meta: { title: '拖拽', roles: ['admin', 201] }
+      },
+      {
+        path: 'performance',
+        name: 'Performance',
+        component: () => import('@v/data/performance.vue'),
+        meta: { title: '性能测试', roles: ['admin', 201] }
       }
     ]
   },

@@ -69,6 +69,7 @@ export default defineComponent({
     onBeforeUpdate(() => { console.log('geolocation:onBeforeUpdate', geolocation) })
     onUpdated(() => { console.log('geolocation:onUpdated', geolocation) })
     onMounted(() => {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       addCount()
     })
     const addCount = () => {
